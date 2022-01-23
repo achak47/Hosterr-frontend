@@ -12,11 +12,10 @@ import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
+import ShareIcon from '@material-ui/icons/Share';
 
 
-
-const LandingPage = () => {
+const LandingPageAdmin = () => {
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
@@ -58,9 +57,9 @@ const LandingPage = () => {
                                     EN
                                 </button>
                                 <div className="btn" onClick={() => setOpen(true)}>
-                                    <AddCircleIcon className="icon" />
+                                    <ShareIcon className="icon" />
                                     <>
-                                        List your hostel
+                                        Invite Students
                                     </>
                                 </div>
                                 <div className="mobile-only">
@@ -78,17 +77,23 @@ const LandingPage = () => {
                         <Title>
                             <Fade bottom>
                                 <div className="title">
-                                    Get ready to get <br />
-                                    your hostel room.
+                                    You can manage <br />
+                                    everything, anywhere
                                 </div>
                             </Fade>
                             <Fade bottom>
                                 <div className="benifit mobile-only">Room customisation, on your schedule.</div>
                             </Fade>
-                            <span>Explore</span>
+                            <Fade bottom>
+                                <span>Hosterr provides you with the best platform to manage your hostel. <br /> 
+                                    You get all the information about students related to hostel on your finger tip. <br />
+                                    Get notification, if a student fails to meet your rules. <br />
+                                    Easy, Fast, Managed. Hosterr.
+                                </span>
+                            </Fade>
                             <div className="not-mobile">
                                 <Fade bottom>
-                                    <img className="img not-mobile" src="https://mazipan.github.io/login-page-css/undraw-login.1df4c833.svg" alt="" />
+                                    <img className="img not-mobile" src="https://media-exp1.licdn.com/dms/image/C4E22AQEKdAUqrX52Pg/feedshare-shrink_800/0/1642846816192?e=1645660800&v=beta&t=iXkZZ_xOXoZynYbixIloAIxKb6XxOn4IkD-ZCLu5oMo" alt="" />
                                 </Fade>
                             </div>
                         </Title>
@@ -109,12 +114,8 @@ const LandingPage = () => {
                                             <input type="email" className="input" placeholder="Email" />
                                             <input type="password" className="input" placeholder="Password" />
                                             <input type="number" className="input" placeholder="Phone Number" />
-                                            <div className="input dropdown-clone">
-                                                <>
-                                                    Jadavpur University
-                                                </>
-                                                <ArrowDropDownIcon />
-                                            </div>
+                                            <input type="text" className="input" placeholder="University Name" />
+                                            
 
                                             <p className="text not-mobile">
                                                 I also agree that Uber or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
@@ -127,9 +128,9 @@ const LandingPage = () => {
 
 
                                             <div className="together">
-                                                <button className="sub-btn">
-                                                    SignUp to Browse
-                                                </button>
+                                                <a href="/admin/dashboard/new-admin" className="sub-btn">
+                                                    SignUp as Host
+                                                </a>
 
                                                 <div className="login-opt not-mobile">
                                                     Already have an account?
@@ -174,9 +175,9 @@ const LandingPage = () => {
                                             </a>
 
                                             <div className="together">
-                                                <button className="sub-btn">
-                                                    SignIn to Browse
-                                                </button>
+                                                <a href="/admin/dashboard/new-admin" className="sub-btn">
+                                                    SignIn as Host
+                                                </a>
 
                                                 <div className="login-opt not-mobile">
                                                     Don't have an account?
@@ -288,40 +289,9 @@ const LandingPage = () => {
                                 </div>
                             </div>
                         </Fade>
-
-
-
-
-
-
                     </div>
 
                 </PageTwo>
-
-                <PageThree>
-                    <div className="pg3container">
-                        <div className="left content">
-                            <div>
-                                <Fade bottom>
-                                    <h1 className="red">Hosterr</h1>
-                                </Fade>
-                                <Fade bottom>
-                                    <h1>Admin</h1>
-                                </Fade>
-                                <Fade bottom>
-                                    <p>Top-to-bottom data and analytics. Easy to handle. Only on Hosterr.</p>
-                                </Fade>
-                                <Fade bottom>
-                                    <a href="/admin">Explore</a>
-                                </Fade>
-                            </div>
-                        </div>
-                        <div className="content">
-                            <img src="https://a0.muscache.com/im/pictures/11e10d64-867e-4dba-b0b4-896026a4f0e0.jpg?im_w=2560&im_q=highq" alt="" />
-                        </div>
-                    </div>
-
-                </PageThree>
 
                 <PageThreeFooter>
                     <div className="top">
@@ -407,7 +377,7 @@ const LandingPage = () => {
     )
 }
 
-export default LandingPage
+export default LandingPageAdmin
 
 const Container = styled.div`
     min-height: 100vh;
@@ -602,23 +572,22 @@ const Title = styled.div`
     }
     
     .benifit{
-        margin: 1rem 0 0.5rem 0;
         font-weight: 200;
     }
 
     span{
-        padding: 10px;
-        margin-top: 5vh;
+        padding: 8px 0;
+        margin-top: 0;
         font-weight: 200;
         font-size: 0.8rem;
-        border: 1px solid black;
-        display: none;
     }
 
     .img{
-        height: 370px;
-        width: 350px;
+        height: 250px;
+        /* width: 350px; */
         margin-top: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 20px 31px 0 rgb(0 0 0 / 51%), 0 1px 2px -1px rgb(0 0 0 / 78%);
     }
 
     @media only screen and (max-width: 600px){
@@ -657,6 +626,7 @@ const LoginForm = styled.div`
         border: none;
         outline: none;
         margin-bottom: 15px;
+        border-radius: 5px;
     }
 
     .input-type-2-container{
@@ -692,6 +662,9 @@ const LoginForm = styled.div`
         margin-top: 20px;
         cursor: pointer;
         display: inline;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        text-decoration: none;
     }
     
     .sub-btn:hover{
