@@ -17,16 +17,28 @@ import {
 const App = () => {
   return (
     <div>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/admin" element={<LandingPageAdmin/>} />
-          <Route path="/user/dashboard/home" element={<DashBoard/>} />
-          <Route path="/user/dashboard/room/details" element={<DashBoardRoomDetails/>} />
-          <Route path="/user/dashboard/room/change" element={<DashBoardRoomChange/>} />
-          <Route path="/admin/dashboard" element={<AdminDB/>} />
-          <Route path="/admin/dashboard/new-admin" element={<AdminDBnew/>} />
-          <Route path="/admin/dashboard/hostel/add" element={<AddHostel/>} />
-        </Routes>
+        {sessionStorage.getItem("id")?
+          <Routes>
+           <Route path="/" element={<LandingPage />} />
+           <Route path="/admin" element={<LandingPageAdmin/>} />
+           <Route path="/user/dashboard/home" element={<DashBoard/>} />
+           <Route path="/user/dashboard/room/details" element={<DashBoardRoomDetails/>} />
+           <Route path="/user/dashboard/room/change" element={<DashBoardRoomChange/>} />
+           <Route path="/admin/dashboard" element={<AdminDB/>} />
+           <Route path="/admin/dashboard/new-admin" element={<AdminDBnew/>} />
+           <Route path="/admin/dashboard/hostel/add" element={<AddHostel/>} />
+           </Routes>
+    : 
+    <Routes>
+    <Route path="/" element={<LandingPage />} />
+    <Route path="/admin" element={<LandingPageAdmin/>} />
+    <Route path="/user/dashboard/home" element={<LandingPage />} />
+    <Route path="/user/dashboard/room/details" element={<LandingPage />} />
+    <Route path="/user/dashboard/room/change" element={<LandingPage />} />
+    <Route path="/admin/dashboard" element={<LandingPageAdmin/>} />
+    <Route path="/admin/dashboard/new-admin" element={<LandingPageAdmin/>} />
+    <Route path="/admin/dashboard/hostel/add" element={<LandingPageAdmin/>} />
+        </Routes>}
       {/* <LandingPage/> */}
       {/* <LandingPageAdmin/> */}
       {/* <DashBoard/> */}

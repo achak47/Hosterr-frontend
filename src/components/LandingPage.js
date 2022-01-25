@@ -13,14 +13,43 @@ import Fade from 'react-reveal/Fade';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 
 const LandingPage = () => {
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
-
+    const[firstname,setFirstname] = useState("") ;
+    const[lastname,setLastname] = useState("") ;
+    const[email,setEmail] = useState("") ;
+    const[password,setPassword] = useState("") ;
+    const[phone,setPhone] = useState("") ;
+    const[univ,setUniv] = useState("Jadavpur University") ;
+    const onSignin = ()=>{
+        console.log(firstname,lastname,email,password,phone,univ) ;
+        axios.post("http://localhost:8000/register",{
+            "name": firstname + lastname ,
+            "email":email ,
+            "password":password ,
+            "phone":phone ,
+            "college":univ
+        }).then(res =>{
+            if(res.status == 200){
+                alert(res.data) ;
+                setSignUp(false)
+            }
+        })
+        .catch((err) => alert(err));
+    }
+    const onlogin = ()=>{
+        axios.post("http://localhost:8000/login",{"email":email,"password":password}).then(res =>{
+          if(res.status == 200){
+            alert(res.data) ;
+            window.location.href = "/user/dashboard/home"  ;  
+          }
+        }).catch((err)=> alert(err))
+    }
     return (
         <>
             {
@@ -103,13 +132,13 @@ const LandingPage = () => {
                                     <Fade>
                                         <div className="container">
                                             <div className="input-type-2-container">
-                                                <input type="text" className="input input-type-2" placeholder="First Name" />
-                                                <input type="text" className="input input-type-2" placeholder="Last Name" />
+                                                <input type="text" className="input input-type-2" placeholder="First Name" onChange={(e)=>setFirstname(e.target.value)} />
+                                                <input type="text" className="input input-type-2" placeholder="Last Name" onChange={(e)=>setLastname(e.target.value)}/>
                                             </div>
-                                            <input type="email" className="input" placeholder="Email" />
-                                            <input type="password" className="input" placeholder="Password" />
-                                            <input type="number" className="input" placeholder="Phone Number" />
-                                            <div className="input dropdown-clone">
+                                            <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+                                            <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
+                                            <input type="number" className="input" placeholder="Phone Number" onChange={(e)=>setPhone(e.target.value)} />
+                                            <div className="input dropdown-clone" onChange={(e)=>setUniv(e.target.value)} >
                                                 <>
                                                     Jadavpur University
                                                 </>
@@ -127,7 +156,7 @@ const LandingPage = () => {
 
 
                                             <div className="together">
-                                                <button className="sub-btn">
+                                                <button className="sub-btn" onClick={onSignin}>
                                                     SignUp to Browse
                                                 </button>
 
@@ -148,8 +177,8 @@ const LandingPage = () => {
 
                                     <Fade>
                                         <div className="container">
-                                            <input type="email" className="input" placeholder="Email" />
-                                            <input type="password" className="input" placeholder="Password" />
+                                            <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+                                            <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
                                             <div className="input dropdown-clone">
                                                 <>
                                                     Jadavpur University
@@ -174,8 +203,8 @@ const LandingPage = () => {
                                             </a>
 
                                             <div className="together">
-                                                <button className="sub-btn">
-                                                    SignIn to Browse
+                                                <button className="sub-btn" onClick={onlogin}>
+                                                    Log In to Browse
                                                 </button>
 
                                                 <div className="login-opt not-mobile">

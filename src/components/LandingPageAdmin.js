@@ -13,13 +13,65 @@ import Fade from 'react-reveal/Fade';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShareIcon from '@material-ui/icons/Share';
+import axios from 'axios';
 
 
 const LandingPageAdmin = () => {
+    if(sessionStorage.getItem("id")){
+        window.location.href = "/admin/dashboard/new-admin"  ;   
+    }
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
+    const[firstname,setFirstname] = useState("") ;
+    const[lastname,setLastname] = useState("") ;
+    const[email,setEmail] = useState("") ;
+    const[password,setPassword] = useState("") ;
+    const[phone,setPhone] = useState("") ;
+    const[univ,setUniv] = useState("") ;
+    const[file,setFile] = useState(null) ;
+    const onSignin = ()=>{
+        console.log(firstname,lastname,email,password,phone,univ,file) ;
+        //setSignUp(false) ;
+        const formData = new FormData();
+        formData.append("name", firstname + lastname);
+        formData.append("email",email) ;
+        formData.append("password",password) ;
+        formData.append("phone",phone) ;
+        formData.append("college",univ) ;
+        formData.append("file",file) ;
 
+        axios.post("http://localhost:8000/admin/register", formData).then(res =>{
+            if(res.status == 200){
+                alert('Registered Succesfully !!!') ;
+                window.location.href = "/admin/dashboard/new-admin"  ;
+            }
+        })
+        .catch((err) => alert(err));
+        /*
+        fetch('http://localhost:8000/admin/register', {
+            method: 'post',
+            headers: { 'content-type': 'application/json' },
+            body: formData
+        }).then(response =>{ console.log(response); return response.json() })
+            .then(user => {
+               console.log(user) ;
+            })
+            */
+    }
+    const onlogin = ()=>{
+        axios.post("http://localhost:8000/admin/login",{"email":email,"password":password}).then(res =>{
+          if(res.status == 200){
+            const {id, name, email, institute} = res.data ;
+            sessionStorage.setItem("id", id);
+            sessionStorage.setItem("name", name);
+            sessionStorage.setItem("email", email);
+            sessionStorage.setItem("institute", institute);
+            console.log(sessionStorage.getItem("id")) ;
+            window.location.href = "/admin/dashboard/new-admin"  ;  
+          }
+        }).catch((err)=> alert(err))
+    }
     return (
         <>
             {
@@ -108,33 +160,34 @@ const LandingPageAdmin = () => {
                                     <Fade>
                                         <div className="container">
                                             <div className="input-type-2-container">
-                                                <input type="text" className="input input-type-2" placeholder="First Name" />
-                                                <input type="text" className="input input-type-2" placeholder="Last Name" />
+                                                <input type="text" className="input input-type-2" placeholder="First Name" onChange={(e)=>setFirstname(e.target.value)}/>
+                                                <input type="text" className="input input-type-2" placeholder="Last Name" onChange={(e)=>setLastname(e.target.value)} />
                                             </div>
-                                            <input type="email" className="input" placeholder="Email" />
-                                            <input type="password" className="input" placeholder="Password" />
-                                            <input type="number" className="input" placeholder="Phone Number" />
-                                            <input type="text" className="input" placeholder="University Name" />
-                                            
-
+                                            <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+                                            <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
+                                            <input type="number" className="input" placeholder="Phone Number" onChange={(e)=>setPhone(e.target.value)} />
+                                            <input type="text" className="input" placeholder="University Name" onChange={(e)=>setUniv(e.target.value)}/>
+                                            <input type="file" className="input" placeholder="Validation doc" onChange={(e)=>setFile(e.target.files[0])}/>
                                             <p className="text not-mobile">
-                                                I also agree that Uber or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
+                                                I also agree that Hosterr or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
                                             </p>
-
+                                            
                                             <div className="login-opt mobile-only">
                                                 Already have an account?
-                                                <a onClick={() => setSignUp(false)} className="login-opt-link">Login</a>
+                                                <a className="login-opt-link">Login</a>
                                             </div>
 
-
                                             <div className="together">
-                                                <a href="/admin/dashboard/new-admin" className="sub-btn">
+                                              { /* <a href="/admin/dashboard/new-admin" className="sub-btn">
                                                     SignUp as Host
                                                 </a>
+                                                */
+                                               }
+                                               <button onClick={onSignin} className="sub-btn" >SignUp as Host</button>
 
                                                 <div className="login-opt not-mobile">
                                                     Already have an account?
-                                                    <a onClick={() => setSignUp(false)} className="login-opt-link">Login</a>
+                                                    <a className="login-opt-link" onClick={()=>setSignUp(false)} >Login</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -149,8 +202,8 @@ const LandingPageAdmin = () => {
 
                                     <Fade>
                                         <div className="container">
-                                            <input type="email" className="input" placeholder="Email" />
-                                            <input type="password" className="input" placeholder="Password" />
+                                            <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
+                                            <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
                                             <div className="input dropdown-clone">
                                                 <>
                                                     Jadavpur University
@@ -159,15 +212,15 @@ const LandingPageAdmin = () => {
                                             </div>
 
                                             <p className="text not-mobile">
-                                                By proceeding, I agree to Uber's Terms of Use and acknowledge that I have read the Privacy Policy.
-                                                I also agree that Uber or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
+                                                By proceeding, I agree to Hosterr's Terms of Use and acknowledge that I have read the Privacy Policy.
+                                                I also agree that Hosterr or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
                                             </p>
                                             <p className="text mobile-only">
-                                                By proceeding, I agree to Uber's Terms of Use and acknowledge that I have read the Privacy Policy.
+                                                By proceeding, I agree to Hosterr's Terms of Use and acknowledge that I have read the Privacy Policy.
                                             </p>
                                             <div className="login-opt mobile-only" style={{margin: "0px"}}>
                                                 But incase you don't have an account?
-                                                <a onClick={() => setSignUp(true)} className="login-opt-link">Login</a>
+                                                <a className="login-opt-link">Login</a>
                                             </div>
                                             <br />
                                             <a href="/" className="forgot-password">
@@ -175,13 +228,13 @@ const LandingPageAdmin = () => {
                                             </a>
 
                                             <div className="together">
-                                                <a href="/admin/dashboard/new-admin" className="sub-btn">
-                                                    SignIn as Host
-                                                </a>
+                                                <button className="sub-btn" onClick={onlogin}>
+                                                    LogIn as Host
+                                                </button>
 
                                                 <div className="login-opt not-mobile">
                                                     Don't have an account?
-                                                    <a onClick={() => setSignUp(true)} className="login-opt-link">Sign Up</a>
+                                                    <a className="login-opt-link" onClick={()=>setSignUp(true)}>Sign Up</a>
                                                 </div>
                                             </div>
                                         </div>
