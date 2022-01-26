@@ -13,6 +13,7 @@ import Fade from 'react-reveal/Fade';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShareIcon from '@material-ui/icons/Share';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -62,16 +63,17 @@ const LandingPageAdmin = () => {
     const onlogin = ()=>{
         axios.post("http://localhost:8000/admin/login",{"email":email,"password":password}).then(res =>{
           if(res.status == 200){
-            const {id, name, email, institute} = res.data ;
+            const {id, name, email, college} = res.data ;
             sessionStorage.setItem("id", id);
             sessionStorage.setItem("name", name);
             sessionStorage.setItem("email", email);
-            sessionStorage.setItem("institute", institute);
+            sessionStorage.setItem("institute", college);
             console.log(sessionStorage.getItem("id")) ;
             window.location.href = "/admin/dashboard/new-admin"  ;  
           }
         }).catch((err)=> alert(err))
     }
+
     return (
         <>
             {
@@ -137,7 +139,7 @@ const LandingPageAdmin = () => {
                                 <div className="benifit mobile-only">Room customisation, on your schedule.</div>
                             </Fade>
                             <Fade bottom>
-                                <span>Hosterr provides you with the best platform to manage your hostel. <br /> 
+                                <span className="not-mobile">Hosterr provides you with the best platform to manage your hostel. <br /> 
                                     You get all the information about students related to hostel on your finger tip. <br />
                                     Get notification, if a student fails to meet your rules. <br />
                                     Easy, Fast, Managed. Hosterr.
@@ -160,34 +162,30 @@ const LandingPageAdmin = () => {
                                     <Fade>
                                         <div className="container">
                                             <div className="input-type-2-container">
-                                                <input type="text" className="input input-type-2" placeholder="First Name" onChange={(e)=>setFirstname(e.target.value)}/>
+                                                <input type="text" className="input input-type-2" placeholder="First Name" onChange={(e)=>setFirstname(e.target.value)} />
                                                 <input type="text" className="input input-type-2" placeholder="Last Name" onChange={(e)=>setLastname(e.target.value)} />
                                             </div>
                                             <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
                                             <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
                                             <input type="number" className="input" placeholder="Phone Number" onChange={(e)=>setPhone(e.target.value)} />
-                                            <input type="text" className="input" placeholder="University Name" onChange={(e)=>setUniv(e.target.value)}/>
+                                            <input type="text" className="input" placeholder="University Name" onChange={(e)=>setUniv(e.target.value)} />
                                             <input type="file" className="input" placeholder="Validation doc" onChange={(e)=>setFile(e.target.files[0])}/>
                                             <p className="text not-mobile">
                                                 I also agree that Hosterr or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
                                             </p>
-                                            
+
                                             <div className="login-opt mobile-only">
                                                 Already have an account?
-                                                <a className="login-opt-link">Login</a>
+                                                <a onClick={() => setSignUp(false)} className="login-opt-link">Login</a>
                                             </div>
 
+
                                             <div className="together">
-                                              { /* <a href="/admin/dashboard/new-admin" className="sub-btn">
-                                                    SignUp as Host
-                                                </a>
-                                                */
-                                               }
-                                               <button onClick={onSignin} className="sub-btn" >SignUp as Host</button>
+                                            <button onClick={onSignin} className="sub-btn" >SignUp as Host</button>
 
                                                 <div className="login-opt not-mobile">
                                                     Already have an account?
-                                                    <a className="login-opt-link" onClick={()=>setSignUp(false)} >Login</a>
+                                                    <a onClick={() => setSignUp(false)} className="login-opt-link">Login</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -220,7 +218,7 @@ const LandingPageAdmin = () => {
                                             </p>
                                             <div className="login-opt mobile-only" style={{margin: "0px"}}>
                                                 But incase you don't have an account?
-                                                <a className="login-opt-link">Login</a>
+                                                <a onClick={() => setSignUp(true)} className="login-opt-link">Login</a>
                                             </div>
                                             <br />
                                             <a href="/" className="forgot-password">
@@ -234,7 +232,7 @@ const LandingPageAdmin = () => {
 
                                                 <div className="login-opt not-mobile">
                                                     Don't have an account?
-                                                    <a className="login-opt-link" onClick={()=>setSignUp(true)}>Sign Up</a>
+                                                    <a onClick={() => setSignUp(true)} className="login-opt-link">Sign Up</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -436,16 +434,13 @@ const Container = styled.div`
     min-height: 100vh;
     width: 100vw;
     overflow: hidden;
-
     .together{
         display: flex;
         align-items: center;
     }
-
     a{
         color: cornflowerblue;
     }
-
     .mobile-only{
         visibility: hidden;
     }
@@ -462,7 +457,6 @@ const Container = styled.div`
             /* overflow: hidden; */
         }
     }
-
 `
 
 const PageOne = styled.div`
@@ -489,13 +483,11 @@ const PageOneHeader = styled.div`
             font-weight: 700;
             text-decoration: none;
         }
-
         .icon-one{
             fill: white;
             font-size: 1.2rem;
             margin-right: 6px;
         }
-
         .lang{
             display: flex;
             align-items: center;
@@ -509,7 +501,6 @@ const PageOneHeader = styled.div`
             padding: 8px 15px;
             border-radius: 15px;
         }
-
         .lang:hover{
             background-color: #a1a6dd;
             transition-duration: 250ms;
@@ -523,10 +514,8 @@ const PageOneHeader = styled.div`
             cursor: pointer;
             border-radius: 20px;
             font-weight: 500;
-
             display: flex;
             align-items: center;
-
             .icon{
                 fill: #333;
                 margin-right: 5px;
@@ -534,8 +523,6 @@ const PageOneHeader = styled.div`
             }
         }
     }
-
-
     .two{
         height: 42px;
         background-color: #f3f5f7;
@@ -543,12 +530,10 @@ const PageOneHeader = styled.div`
         align-items: center;
         justify-content: center;
         font-size: 0.7rem;
-
         .two-link{
             margin-left: 5px;
         }
     }
-
     @media only screen and (max-width: 600px) {
         .one{
             height: 54px;
@@ -560,24 +545,19 @@ const PageOneHeader = styled.div`
                 font-weight: 700;
                 text-decoration: none;
             }
-
             
             .lang{
                 visibility: hidden;
             }
-
             .btn{
                 visibility: hidden;
                 
             }
-
             .m-icon{
                 fill: white;
                 font-size: 2rem;
             }
         }
-
-
         .two{
             height: 42px;
             background-color: #f3f5f7;
@@ -585,7 +565,6 @@ const PageOneHeader = styled.div`
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
-
             .two-link{
                 margin-left: 5px;
             }
@@ -599,11 +578,9 @@ const PageOneContainer = styled.div`
     justify-content: space-around;
     align-items: center;
     padding: 2rem;
-
     a{
         cursor: pointer;
     }
-
     @media only screen and (max-width: 600px){
         flex-direction: column;
         justify-content: flex-start;
@@ -617,7 +594,6 @@ const Title = styled.div`
     display: flex;
     flex-direction: column;
     /* padding: 0 10%;     */
-
     .title{
         font-size: 2.5rem;
         font-weight: 500;
@@ -626,15 +602,16 @@ const Title = styled.div`
     
     .benifit{
         font-weight: 200;
+        @media only screen and (max-width: 600px){
+            margin-top: 10px;
+        }
     }
-
     span{
         padding: 8px 0;
         margin-top: 0;
         font-weight: 200;
         font-size: 0.8rem;
     }
-
     .img{
         height: 250px;
         /* width: 350px; */
@@ -642,7 +619,6 @@ const Title = styled.div`
         border-radius: 10px;
         box-shadow: 0 20px 31px 0 rgb(0 0 0 / 51%), 0 1px 2px -1px rgb(0 0 0 / 78%);
     }
-
     @media only screen and (max-width: 600px){
         .title{
             font-size: 2.15rem;
@@ -650,11 +626,9 @@ const Title = styled.div`
             letter-spacing: 0.05rem;
             line-height: 2.15rem;
         }
-
         img{
             height: 0px;
             width: 0px;
-
         }
     }
 `
@@ -663,13 +637,11 @@ const LoginForm = styled.div`
     .container{
         width: 460px;
     }
-
     .title{
         font-size: 1.35rem;
         font-weight: 500;
         margin-bottom: 1rem;
     }
-
     .input{
         width: 100%;
         display: block;
@@ -681,30 +653,25 @@ const LoginForm = styled.div`
         margin-bottom: 15px;
         border-radius: 5px;
     }
-
     .input-type-2-container{
         display: flex;
         justify-content: space-between;
     }
-
     .input-type-2{
         width: 220px;
         
     }
-
     .dropdown-clone{
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
     }
-
     .text{
         font-size: 0.75rem;
         font-weight: 200;
         color: grey;
     }
-
     
     
     .sub-btn{
@@ -724,21 +691,18 @@ const LoginForm = styled.div`
         background-color: #7c83d3;
         transition-duration: 250ms;
     }
-
     .login-opt{
         font-size: 0.75rem;
         font-weight: 200;
         color: grey;
         margin: 15px 0 0 15px;
     }
-
     .login-opt-link{
         font-weight: 300;
         margin-left: 5px;
         text-decoration: none;
         letter-spacing: 0.05rem;
     }
-
     .forgot-password{
         font-weight: 300;
         margin-left: 5px;
@@ -752,13 +716,11 @@ const LoginForm = styled.div`
             width: 100%;
             overflow: hidden;
         }
-
         .title{
             font-size: 1.35rem;
             font-weight: 500;
             margin: 1rem 0;
         }
-
         .input{
             /* width: 100%; */
             /* display: block; */
@@ -766,29 +728,24 @@ const LoginForm = styled.div`
             font-size: 0.85rem;
             margin-bottom: 10px;
         }
-
         .input-type-2-container{
             justify-content: space-between;
         }
-
         .input-type-2{
             width: 49%;
             
         }
-
         .dropdown-clone{
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
         }
-
         .text{
             font-size: 0.75rem;
             font-weight: 200;
             color: grey;
         }
-
         
         
         .sub-btn{
@@ -800,19 +757,16 @@ const LoginForm = styled.div`
             border-radius: 5px;
         }
         
-
         .login-opt{
             color: grey;
             margin: 15px 0 0 0;
         }
-
         .login-opt-link{
             font-weight: 300;
             margin-left: 5px;
             text-decoration: none;
             letter-spacing: 0.05rem;
         }
-
         .forgot-password{
             font-weight: 300;
             margin-left: 5px;
@@ -835,13 +789,10 @@ const PageOneFooter = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
-
-
     p{
         font-size: 0.7rem;
         width: 70%;
     }
-
     .btn{
         padding: 8px 15px;
         border: none;
@@ -851,19 +802,14 @@ const PageOneFooter = styled.div`
         font-size: 0.65rem;
         display: inline;
     }
-
     .accept-btn{
         margin-right: 10px;
     }
-
     .reject-btn{
-
     }
-
     @media only screen and (max-width: 600px){
         display: none;
     }
-
 `
 
 const DancerDownIcon = styled.div`
@@ -873,8 +819,6 @@ const DancerDownIcon = styled.div`
     display: grid;
     place-items: center;
     animation: animateDown infinite 1.5s;
-
-
     @keyframes animateDown{
         0%, 20%, 50%, 80%, 100%{
             transform: translateY(0);
@@ -886,7 +830,6 @@ const DancerDownIcon = styled.div`
             transform: translateY(3p);
         }
     }
-
     @media only screen and (max-width: 600px){
         bottom: 10px;
     }
@@ -899,7 +842,6 @@ const PageTwo = styled.div`
     position: relative;
     background-color: #f7f7f77d;
     padding: 60px 2rem;
-
     .title{
         font-size: 1.5rem;
         font-weight: 600;
@@ -910,7 +852,6 @@ const PageTwo = styled.div`
         border-bottom: 1px solid black;
         margin-bottom: 30px;
     }
-
     .container-box{
         height: 912px;
         display: flex;
@@ -921,32 +862,27 @@ const PageTwo = styled.div`
     .container-item{
         height: 304px;
         width: 950px;
-
         display: flex;
         margin: 0 auto;
         justify-content: center;
-
         .how_it_works_item_left1 {
             width: 99px;
             background-image: url('https://www.housy.de/images/circle_1_landlord.svg');
             background-repeat: no-repeat;
             background-position: -4px 0;
         }
-
         .how_it_works_item_left2 {
             width: 99px;
             background-image: url('https://www.housy.de/images/circle_2_landlord.svg');
             background-repeat: no-repeat;
             background-position: -4px 0;
         }
-
         .how_it_works_item_left3 {
             width: 99px;
             background-image: url('https://www.housy.de/images/circle_3_landlord.svg');
             background-repeat: no-repeat;
             background-position: -4px 0;
         }
-
         .how_it_works_item_left1 div {
             margin: 0 auto;
             width: 0;
@@ -955,7 +891,6 @@ const PageTwo = styled.div`
             margin-top: 96px;
             border-left: 1px solid #4393f9;
         }
-
         .how_it_works_item_left2 div {
             margin: 0 auto;
             width: 0;
@@ -973,55 +908,46 @@ const PageTwo = styled.div`
             border: 1px solid rgba(151, 151, 151, 0.29);
             border-radius: 6px;
             margin-bottom: 45px;
-
-
             .how_it_works_item_right_left1 {
                 min-width: 323px;
                 background-image: url('https://www.housy.de/images/how_it_works_item_img.svg');
                 background-repeat: no-repeat;
                 background-position: center;
             }
-
             .how_it_works_item_right_left2 {
                 min-width: 323px;
                 background-image: url('https://www.housy.de/images/man-1.svg');
                 background-repeat: no-repeat;
                 background-position: center;
             }
-
             .how_it_works_item_right_left3 {
                 min-width: 323px;
                 background-image: url('https://www.housy.de/images/how_it_works_item_img_3.svg');
                 background-repeat: no-repeat;
                 background-position: center;
             }
-
             .how_it_works_item_right_right {
                 width: 100%;
                 padding: 0 30px 0 0;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-
                 .rr_titie{
                     font-size: 1.25rem;
                     font-weight: 500;
                 }
-
                 .rr_desc{
                     font-size: 0.75rem;
                     font-weight: 200;
                     color: grey;
                     margin: 20px 0;
                 }
-
                 .rr_remark{
                     font-size: 0.85rem;
                     font-weight: 500;
                 }
             }
         }
-
         .how_it_works_item_right:before {
             content: "";
             position: absolute;
@@ -1037,9 +963,6 @@ const PageTwo = styled.div`
             border-right: none;
         }
     }   
-
-
-
     @media only screen and (max-width: 600px){
         /* min-height: 100vh;
         width: 100vw;
@@ -1047,7 +970,6 @@ const PageTwo = styled.div`
         position: relative;
         background-color: #f7f7f77d;
         padding: 60px 2rem; */
-
         .title{
             /* font-size: 1.5rem; */
             /* font-weight: 600; */
@@ -1055,7 +977,6 @@ const PageTwo = styled.div`
             /* text-align: center; */
             width: 100%;
         }
-
         .container-box{
             height: auto;
             /* display: flex; */
@@ -1067,34 +988,29 @@ const PageTwo = styled.div`
         .container-item{
             height: 80%;
             width: 100%;
-
             /* display: flex; */
             flex-direction: column;
             margin: 0 auto;
             /* justify-content: center; */
             align-items: center;
-
             .how_it_works_item_left1 {
                 width: 99px;
                 /* background-image: url('https://www.housy.de/images/circle_1_landlord.svg'); */
                 /* background-repeat: no-repeat; */
                 background-position: -4px 0;
             }
-
             .how_it_works_item_left2 {
                 width: 99px;
                 background-image: url('https://www.housy.de/images/circle_2_landlord.svg');
                 background-repeat: no-repeat;
                 background-position: -4px 0;
             }
-
             .how_it_works_item_left3 {
                 width: 99px;
                 background-image: url('https://www.housy.de/images/circle_3_landlord.svg');
                 background-repeat: no-repeat;
                 background-position: -4px 0;
             }
-
             .how_it_works_item_left1 div {
                 margin: 0 auto;
                 width: 0;
@@ -1103,7 +1019,6 @@ const PageTwo = styled.div`
                 margin-top: 96px;
                 border-left: 1px solid #4393f9;
             }
-
             .how_it_works_item_left2 div {
                 margin: 0 auto;
                 width: 0;
@@ -1127,8 +1042,6 @@ const PageTwo = styled.div`
                 padding: 10px;
                 text-align: center;
                 margin-bottom: 10px;
-
-
                 .how_it_works_item_right_left1 {
                     min-height: 134px;
                     min-width: 100%;
@@ -1136,7 +1049,6 @@ const PageTwo = styled.div`
                     margin-bottom: 30px;
                     background-size: contain;
                 }
-
                 .how_it_works_item_right_left2 {
                     min-height: 134px;
                     min-width: 100%;
@@ -1144,7 +1056,6 @@ const PageTwo = styled.div`
                     margin-bottom: 30px;
                     background-size: contain;
                 }
-
                 .how_it_works_item_right_left3 {
                     min-height: 134px;
                     min-width: 100%;
@@ -1152,20 +1063,15 @@ const PageTwo = styled.div`
                     margin-bottom: 30px;
                     background-size: contain;
                 }
-
                 .how_it_works_item_right_right {
                     padding: 10px;
                 }
-
             }
-
             
-
             .how_it_works_item_right:before {
                 display: none;
             }
         }
-
     }
 `
 
@@ -1175,7 +1081,6 @@ const PageThree = styled.div`
     display: grid;
     place-items: center;
     padding: 20px 0;
-
     .pg3container{
         height: 90%;
         width: 90%;
@@ -1183,7 +1088,6 @@ const PageThree = styled.div`
         background-color: #f7f7f7;
         display: flex;
         overflow: hidden;
-
         .left{
             padding: 1rem;
             display: flex;
@@ -1191,32 +1095,25 @@ const PageThree = styled.div`
             justify-content: center;
             padding: 0 3rem;
         }
-
         .content{
             width: 50%;
             overflow: hidden;
-
             h1{
                 font-size: 5rem;
                 display: inline;
             }
-
             .red{
                 color: #6e8ab5;
             }
-
-
             img{
                 width: 100%;
             }
-
             p{
                 font-size: 1rem;
                 font-weight: 200;
                 width: 90%;
                 margin-bottom: 2rem;
             }
-
             a{
                 font-weight: 200;
                 padding: 10px 20px;
@@ -1227,15 +1124,12 @@ const PageThree = styled.div`
             }
         }
     }
-
-
     @media only screen and (max-width: 600px){
         /* min-height: 100vh; */
         /* width: 100vw; */
         /* display: grid; */
         /* place-items: center; */
         /* padding: 20px 0; */
-
         .pg3container{
             /* height: 90%; */
             /* width: 90%; */
@@ -1245,7 +1139,6 @@ const PageThree = styled.div`
             flex-direction: column;
             /* overflow: hidden; */
             align-items: center;
-
             .left{
                 padding: 1rem;
                 display: flex;
@@ -1253,32 +1146,25 @@ const PageThree = styled.div`
                 justify-content: center;
                 padding: 0 3rem;
             }
-
             .content{
                 width: 90%;
                 overflow: visible;
-
                 h1{
                     font-size: 2.5rem;
                     display: inline;
                 }
-
                 .red{
                     color: #6e8ab5;
                 }
-
-
                 img{
                     width: 100%;
                 }
-
                 p{
                     font-size: 1rem;
                     font-weight: 200;
                     width: 90%;
                     margin-bottom: 2rem;
                 }
-
                 a{
                     font-weight: 200;
                     padding: 10px 20px;
@@ -1290,7 +1176,6 @@ const PageThree = styled.div`
             }
         }
     }
-
 `
 
 
@@ -1304,8 +1189,6 @@ const PageThreeFooter = styled.div`
     /* margin-bottom: 60px; */
     display: flex;
     flex-direction: column;
-
-
     .top{
         width: 100vw;
         height: 100px;
@@ -1321,7 +1204,6 @@ const PageThreeFooter = styled.div`
             margin: 0 20px;
             font-size: 0.8rem;
         }
-
         input{
             padding: 15px;
             background-color: #333;
@@ -1332,7 +1214,6 @@ const PageThreeFooter = styled.div`
             border-radius: 5px;
             font-size: 0.8rem;
         }
-
         .social-icons {
             display: flex;
             justify-content: space-between;
@@ -1340,7 +1221,6 @@ const PageThreeFooter = styled.div`
             align-items: center;
             margin-left: 5%;
         }
-
         .social-icon{
             display: flex;
             justify-content: center;
@@ -1352,26 +1232,21 @@ const PageThreeFooter = styled.div`
             margin-left: 10px;
             cursor: pointer;
         }
-
         .social-icon:hover{
             border: solid 2px white;
             transition-duration: 250ms;
         }
     }
-
     .middle{
         display: flex;
         justify-content: space-between;
         padding: 1rem 5rem; 
         margin-top: 50px;
-
         .left{
             display: flex;
             justify-content: space-between;
-
             .left-content{
                 margin-right: 80px;
-
                 .title{
                     color: white;
                     text-transform: uppercase;
@@ -1379,13 +1254,11 @@ const PageThreeFooter = styled.div`
                     font-weight: 600;
                     letter-spacing: 0.1rem;
                 }
-
                 .points{
                     margin: 1rem 0;
                     display: flex;
                     flex-direction: column;
                 }
-
                 .link{
                     font-size: 13px;
                     color: rgba(255, 255, 255, 0.3);
@@ -1393,28 +1266,24 @@ const PageThreeFooter = styled.div`
                     font-weight: 500;
                     margin-bottom: 1rem;
                 }
-
                 .link:hover{
                     color: #ffffff99;
                     transition-duration: 250ms;
                 }
             }
         }
-
         .right{
             h1{
                 font-size: 4rem;
                 color: white;
                 text-align: right;
             }
-
             span{
                 color: white;
                 font-weight: 100;
             }
         }
     }
-
     .bottom{
         height: 60px;
         font-size: 0.75rem;
@@ -1427,8 +1296,6 @@ const PageThreeFooter = styled.div`
         bottom: 0;
         width: 100vw;
     }
-
-
     @media only screen and (max-width: 600px){
         height: 480px;
         padding-top: 36px;
@@ -1436,8 +1303,6 @@ const PageThreeFooter = styled.div`
         flex-direction: column;
         padding-bottom: 120px;
         justify-content: space-between;
-
-
         .top{
             width: 100%;
             height: 150px;
@@ -1450,7 +1315,6 @@ const PageThreeFooter = styled.div`
                 margin-bottom: 5px;
                 font-size: 0.7rem;
             }
-
             input{
                 padding: 15px;
                 width: 90%;
@@ -1459,49 +1323,38 @@ const PageThreeFooter = styled.div`
                 border-radius: 5px;
                 font-size: 0.8rem;
             }
-
             .social-icons {
                 margin-left: 0%;
             }
-
         }
-
         .middle{
             padding: 0; 
             margin-top: 30px;
             text-align: center;
-
             .left{
                 display: none;
             }
-
             .right{
                 display: grid;
                 place-items: center;
                 width: 80%;
                 margin: auto;
-
                 h1{
                     font-size: 3rem;
                     text-align: right;
                 }
-
                 span{
                     font-size: 0.9rem;
                 }
             }
         }
-
         .bottom{
             height: 60px;
             font-size: 0.6rem;
             font-weight: 100;
             background-color: #333;
         }
-
-
     }
-
 `
 
 const CustomModal = styled.div`
@@ -1510,13 +1363,11 @@ const CustomModal = styled.div`
     position: fixed;
     top: 0;
     z-index: 100;
-
     .touch-outside{
         height: 100vh;
         width: 100vw;
         background-color: #00000087;
     }    
-
     .container{
         height: auto;
         width: 50vw;
@@ -1526,7 +1377,6 @@ const CustomModal = styled.div`
         top: 35vh;
         left: 25vw;
         padding: 1rem;
-
         .desc{
             font-size: 0.9rem;
             color: grey;
@@ -1537,7 +1387,6 @@ const CustomModal = styled.div`
             width: 70%;
         }
     }
-
     .modalHeader{
         width: 100%;
         display: flex;
@@ -1546,4 +1395,51 @@ const CustomModal = styled.div`
         border-bottom: 1px solid #ddcccc;
         padding: 0.6rem 0;
     }
+`
+
+
+
+const SideBar = styled.div`
+/* index.css */
+    position: fixed;
+`
+
+const SbComponentOne = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+        a{
+            text-decoration: none;
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15rem;
+            margin-bottom: 0.75rem;
+            width: 130%;
+            font-size: 0.95rem;
+            text-align: center;
+            
+            &:hover{
+                background-color: white;
+                color: #333;
+                transition-duration: 0.3s;
+            }
+        }
+`
+
+const JoinNow = styled.div`
+    cursor: pointer;
+    margin-top: 5rem;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+`
+
+const RemoveSideBar = styled.div`
+position: absolute;
+top: 1rem;
+right: 1rem;
 `

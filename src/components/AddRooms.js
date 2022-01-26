@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
@@ -18,7 +18,7 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
-
+import axios from 'axios';
 
 const AddRooms = () => {
     const [open, setOpen] = useState(false);
@@ -27,13 +27,23 @@ const AddRooms = () => {
     const [roomno,setRoomno] = useState(null) ;
     const [fees,setFees] = useState(null) ;
     const [roomtype,setRoomtype] = useState(1) ;
+    const [hostels,setHostels] = useState(null) ;
+    useEffect(()=>{
+      axios.post("http://localhost:8000/admin/hostels/all",{
+         user: sessionStorage.getItem("id") ,
+         institute: sessionStorage.getItem("institute")
+      }).then(res=>{
+          console.log(res.data) ;
+          setHostels(res.data) ;
+      })
+    },[])
     const onaddroom = ()=>{
         console.log(hostelname,roomno,fees,roomtype) ; 
         axios.post("http://localhost:8000/admin/add/room",{
             user:sessionStorage.getItem("id") ,
-            roomType:roomtype,
+            roomType:2,
             fees:fees,
-            roomno:roomno,
+            roomno:5,
             hostelname:hostelname
         }).then(res=>{
           alert('Room added Succesfully !!!') ;
@@ -155,11 +165,15 @@ const AddRooms = () => {
                                         <input type="text" className="detail" placeholder="Room No." onChange={(e)=>setRoomno(e.target.value)}/>
                                         {/* <input type="text" className="detail" placeholder="Existing Hostel Type"/> */}
                                         <div className="custom-select">
+                                            {hostels?(
                                             <select onChange={(e)=>setHostelName(e.target.value)}>
-                                                <option value="0">Hostel Name</option>
-                                                <option value="1">Give hostel name 1 </option>
-                                                <option value="2">Give hostel name 2 </option>
-                                            </select>
+                                                <option value="none" selected disabled hidden>Select an Option</option>
+                                                {
+                                                    hostels.map(item => <option value={item.name}>{item.name} </option>)
+                                                }
+                                            </select>)
+                                            :<select onChange={(e)=>setHostelName(e.target.value)}></select>
+                                            }
                                         </div>
                                     </div>
                                     <input type="number" className="detail" placeholder="No. of Students" onChange={(e)=>setRoomtype(e.target.value)}/>
