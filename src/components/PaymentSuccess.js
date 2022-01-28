@@ -14,10 +14,10 @@ const PaymentSuccess = () => {
                     <img src="https://www.cntraveller.in/wp-content/themes/cntraveller/images/check-circle.gif" alt="" />
                     <h1>Payment Successful</h1>
                 </div>
-                <h3 className="amt-paid">Thank you! Your payment of Rs. 3000 has been recieved.</h3>
-                <div className="id">Transaction ID : 12345</div>
+                <h3 className="amt-paid">Thank you! Your payment of Rs.{sessionStorage.getItem("amount")} has been recieved.</h3>
+                <div className="id"></div>
                 <div className="redirected">Please wait! You are being redirected.</div>
-                <div className="desc">Please contact us at 9306197822 or to care@hosterr.com for any query.</div>
+                <div className="desc">Please contact us at 9306197822 or to hosteer177@gmail.com for any query.</div>
             </Main>
             
         </Container>

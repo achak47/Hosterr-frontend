@@ -21,11 +21,13 @@ const PaymentGateway = () => {
                 <input type="text" className="input" placeholder="Email ID"/>
 
                 <div className="detail">Card Details</div>
+                <StripeContainer/>
+                {/*
                 <input type="text" className="input" placeholder="Card Number"/>
                 <input type="text" className="three-input" placeholder="Expiry Date MM/YY"/>
                 <input type="text" className="one-input" placeholder="CVV"/>
+                */}
 
-                <button className="btn">Proceed to Pay</button>
 
                 <div className="desc">By clicking continue, i am agree with <a>Terms & Policy</a> </div>
 
