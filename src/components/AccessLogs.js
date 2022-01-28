@@ -18,36 +18,25 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
-import axios from 'axios'
+import axios from 'axios';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
-const AddRooms = () => {
-    const [open, setOpen] = useState(false) ;
-    const [sideBar, setSideBar] = useState(false) ;
-    const [hostelname,setHostelName] = useState(null) ;
-    const [roomno,setRoomno] = useState(null) ;
-    const [fees,setFees] = useState(null) ;
-    const [roomType,setRoomtype] = useState(1) ;
-    const [hostels,setHostels] = useState(null) ;
+const AccessLogs = () => {
+    const [open, setOpen] = useState(false);
+    const [sideBar, setSideBar] = useState(false);
+    const [showAccomodation, setShowAccomodation] = useState(false);
+    const [applications, setApplications] = useState([]) ;
+    const [student,setStudent] = useState({}) ;
     const user = sessionStorage ;
     useEffect(()=>{
-      axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
-          console.log(res.data) ;
-          setHostels(res.data)  ;
-      })
+        axios.post("http://localhost:8000/admin/occupied/rooms/details",{
+            user
+        }).then(res =>{ 
+            console.log(res.data)
+            setApplications(res.data) ;
+        })
+        .then(err => console.log(err)) ;
     },[])
-    const onaddroom = ()=>{
-        console.log(hostelname,roomno,fees,roomType) ; 
-        axios.post("http://localhost:8000/admin/add/room",{
-            user,
-            roomType,
-            fees,
-            roomno,
-            hostelname
-        }).then(res=>{
-          alert('Room added Succesfully !!!') ;
-        }).catch(err=>alert(err)) ;
-     }
-
 
     return (
         <>
@@ -122,7 +111,7 @@ const AddRooms = () => {
                             <AddIcon className="left-icon" />
                             Add Hostel
                         </Link>
-                        <Link to="/admin/dashboard/room/add" className="left-item active">
+                        <Link to="/admin/dashboard/room/add" className="left-item">
                             <AddIcon className="left-icon" />
                             Add Rooms
                         </Link>
@@ -138,7 +127,7 @@ const AddRooms = () => {
                             <EmailIcon className="left-icon" />
                             Indox
                         </Link>
-                        <Link to="/admin/dashboard/accesslogs" className="left-item">
+                        <Link to="/admin/dashboard/accesslogs" className="left-item active">
                             <SupervisorAccountIcon className="left-icon" />
                             Accommodation Details
                         </Link>
@@ -151,76 +140,139 @@ const AddRooms = () => {
                         <div className="head not-mobile">
                             <h2>Admin Dashboard</h2>
                             <div className="left-links">
-                                <p>Dashboard > Home</p>
+                                <p>Dashboard > Accommodation Details</p>
                                 <button>
                                     <ChatBubbleIcon className="icon" />
                                     View Inbox
                                 </button>
                             </div>
                         </div>
+
+                        {/* code */}
                         <div className="general">
-                            <div className="grand-card">
-                                <div className="card-top">
-                                    <p>Add Rooms</p>
-                                    <MoreVertIcon className="icon" />
-                                </div>
-                                <div className="details">
-                                    <div className="two-details">
-                                        <input type="text" className="detail" placeholder="Room No." onChange={(e)=>setRoomno(e.target.value)}/>
-                                        {/* <input type="text" className="detail" placeholder="Existing Hostel Type"/> */}
-                                        <div className="custom-select">
-                                            {hostels?(
-                                            <select onChange={(e)=>setHostelName(e.target.value)}>
-                                                <option value="none" selected disabled hidden>Select an Option</option>
-                                                {
-                                                    hostels.map(item => <option value={item.name}>{item.name} </option>)
-                                                }
-                                            </select>)
-                                            :<select onChange={(e)=>setHostelName(e.target.value)}></select>
-                                            }
+                            {
+                                showAccomodation? (
+                                    <div className="grand-card">
+                                        <div className="card-top">
+                                            <a onClick={() => setShowAccomodation(false)}>
+                                                <ArrowBackIosIcon className="icon-link" />
+                                                <>
+                                                    All Accomodations
+                                                </>
+                                            </a>
+                                            <MoreVertIcon className="icon" />
                                         </div>
+                                        <div className="details2">
+                                            <div className="detail">
+                                                <p className="cat">1. Room No. :</p>
+                                                <p className="res"> {student.hostel.roomno}</p>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">2. Hostel Name :</p>
+                                                <p className="res"> {student.hostel.hostelId.name}</p>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">3. Gender : </p>
+                                                <p className="res">{student.gender == "Boys" ?(<span>Male</span>):(<span>Female</span>)}</p>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">4. Residents :</p>
+                                                <a href="/" className="res">Candidate1, Candidate2, Candidate3</a>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">6. Fees Pending : </p>
+                                                <p className="res">Yes</p>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">6. Roll : </p>
+                                                <p className="res">{student.roll}</p>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">7. Hostel Type : </p>
+                                                <p className="res"> {student.gender}</p>
+                                            </div>
+                                            <div className="detail">
+                                                <p className="cat">8. Phone : </p>
+                                                <p className="res"> {student.phone}</p>
+                                            </div>
+                                        </div>
+                                        <div className="btns-new">
+                                            <button className="btn">Message All</button>
+                                            <button className="btn red-bg">Edit Details</button>
+                                        </div>
+                                        <div className="desc">*You can click on the names of the students to visit their profiles.</div>
                                     </div>
-                                    <input type="number" className="detail" placeholder="No. of Students" onChange={(e)=>setRoomtype(e.target.value)}/>
-                                    <input type="number" className="detail" placeholder="Fees per Head" onChange={(e)=>setFees(e.target.value)}/>
-                                    {/* <input type="text" className="detail" placeholder="Room No."/>
-                                    <div className="two-details">
-                                        <input type="number" className="detail" placeholder="Student per Room"/>
-                                        <input type="number" className="detail" placeholder="Fees per Month"/>
-                                    </div> */}
-                                    {/* <div className="two-details">
-                                        <input type="number" className="detail" placeholder="Room Number Start"/>
-                                        <input type="number" className="detail" placeholder="Room Number End"/>
-                                    </div> */}
-                                    {/* <textarea name="" id="" className="detail" placeholder="Reason for change"></textarea> */}
-                                </div>
-                                <button className="submit-btn" onClick={onaddroom}>
-                                    Add Room
-                                </button>
-                                {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
-                            </div>
+                                ):(
+                                    <div className="grand-card">
+                                        <div className="card-top">
+                                            <p>Accomodation Details</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        { applications.length>0?(
+                                            <div className="details">
+                                              <div className="detail detail-header">
+                                                <div className="room-no">Room No.</div>
+                                                <div className="hostel-name">Hostel Name</div>
+                                                <div className="gender">Gender</div>
+                                                <div className="fees">Fees</div>
+                                                <div className="resident">Residents</div>
+                                            </div>
+                                            {
+                                            applications.map(item=>
+                                            <div className="detail">
+                                                <div className="room-no">{item.hostel.roomno}</div>
+                                                <div className="hostel-name">{item.hostel.hostelId.name}</div>
+                                                <div className="gender">{item.gender}</div>
+                                                <div className="fees">{item.hostel.fees}</div>
+                                                <a className="resident" onClick={()=>{setStudent(item) ; setShowAccomodation(true)}}>
+                                                    <>View Detailed</>
+                                                    <OpenInNewIcon className="icon" /></a>
+                                            </div>)
+                                            }
+                                            {/*
+                                            <div className="detail detail-header">
+                                                <div className="room-no">Room No.</div>
+                                                <div className="hostel-name">Hostel Name</div>
+                                                <div className="gender">Gender</div>
+                                                <div className="fees">Fees</div>
+                                                <div className="resident">Residents</div>
+                                            </div>
+                                            <div className="detail">
+                                                <div className="room-no">32</div>
+                                                <div className="hostel-name">Block 5 - Engg Dept</div>
+                                                <div className="gender">Female</div>
+                                                <div className="fees">Given</div>
+                                                <a className="resident"  onClick={() => setShowAccomodation(true)}>
+                                                    <>View Profile</>
+                                                <OpenInNewIcon className="icon"/></a>
+                                            </div>
+                                            */}
+                                        </div>):(<div>No more pending Applications to show</div>)}
+                                    </div>
+                                )
+                            }
                             <div className="two-cards">
-                            <div className="card">
+                                <div className="card">
                                     <div className="card-top">
-                                        <p>Total Rooms</p>
+                                        <p>Total Accommodations</p>
                                         <MoreVertIcon className="icon"/>
                                     </div>
                                     <div className="card-mid">
-                                        <h1>0</h1>
-                                        <p>Rooms both genders combined</p>
+                                        <h1>97</h1>
+                                        <p>students accommodated</p>
                                     </div>
-                                    <div className="desc">This data can be changed when new hostels are built.
-                                    <a> Show Room Details</a></div>
+                                    <div className="desc">This is basically the count of students who have hostel rooms.</div>
                                 </div>
                                 <div className="card">
                                     <div className="card-top">
-                                        <p>Share Link</p>
-                                        <MoreVertIcon className="icon" />
+                                        <p>Fees Pending</p>
+                                        <MoreVertIcon className="icon"/>
                                     </div>
                                     <div className="card-mid">
-                                        <img src="https://cdn1.iconfinder.com/data/icons/web-design-and-development-50/64/110-512.png" alt="" />
+                                        <h1>8</h1>
+                                        <p>students with pending fees</p>
                                     </div>
-                                    <div className="desc">Ask students to join their hostel with a flex in hand, faster and easier.
-                                        <a> Share</a></div>
+                                    <div className="desc">This is the count of students who has not deposited the fees till date.</div>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +301,7 @@ const AddRooms = () => {
     )
 }
 
-export default AddRooms
+export default AccessLogs
 
 const Container = styled.div`
     min-height: 100vh;
@@ -262,23 +314,19 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         flex: 1;
-
         @media only screen and (max-width: 600px){
             justify-content: flex-start;
             flex-direction: column;
         }
     }
-
     .together{
         display: flex;
         align-items: center;
     }
-
     a{
         color: cornflowerblue;
         cursor: pointer;
     }
-
     .mobile-only{
         visibility: hidden;
     }
@@ -314,13 +362,11 @@ const PageOneHeader = styled.div`
             font-weight: 700;
             text-decoration: none;
         }
-
         .icon-one{
             fill: white;
             font-size: 1.2rem;
             margin-right: 6px;
         }
-
         .lang{
             display: flex;
             align-items: center;
@@ -334,7 +380,6 @@ const PageOneHeader = styled.div`
             padding: 8px 15px;
             border-radius: 15px;
         }
-
         .lang:hover{
             background-color: #a1a6dd;
             transition-duration: 250ms;
@@ -348,10 +393,8 @@ const PageOneHeader = styled.div`
             cursor: pointer;
             border-radius: 20px;
             font-weight: 500;
-
             display: flex;
             align-items: center;
-
             .icon{
                 fill: #333;
                 margin-right: 5px;
@@ -359,8 +402,6 @@ const PageOneHeader = styled.div`
             }
         }
     }
-
-
     .two{
         height: 42px;
         background-color: #f3f5f7;
@@ -368,14 +409,11 @@ const PageOneHeader = styled.div`
         align-items: center;
         justify-content: center;
         font-size: 0.7rem;
-
         border-bottom: 1px solid #ebdfdf;
-
         .two-link{
             margin-left: 5px;
         }
     }
-
     @media only screen and (max-width: 600px) {
         .one{
             height: 54px;
@@ -387,7 +425,6 @@ const PageOneHeader = styled.div`
                 font-weight: 700;
                 text-decoration: none;
             }
-
             .admin{
                 font-size: 0.55rem;
                 margin-left: 5px;
@@ -399,19 +436,15 @@ const PageOneHeader = styled.div`
             .lang{
                 visibility: hidden;
             }
-
             .btn{
                 visibility: hidden;
                 
             }
-
             .m-icon{
                 fill: white;
                 font-size: 2rem;
             }
         }
-
-
         .two{
             height: 42px;
             background-color: #f3f5f7;
@@ -419,7 +452,6 @@ const PageOneHeader = styled.div`
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
-
             .two-link{
                 margin-left: 5px;
             }
@@ -433,7 +465,6 @@ const Left = styled.div`
     background-color: #333;
     display: flex;
     flex-direction: column;
-
     .left-header{
         width: 100%;
         display: flex;
@@ -446,7 +477,6 @@ const Left = styled.div`
         background-color: #585353;
         padding: 10px;
         margin-bottom: 25px;
-
         div{
             display: flex;
             align-items: center;
@@ -456,14 +486,12 @@ const Left = styled.div`
             text-transform: uppercase;
             letter-spacing: 0.15rem;
         }
-
         .left-icon{
             fill: white;
             margin-right: 10px;
             font-size: 2rem;
         }
     }
-
     .left-item{
         display: flex;
         align-items: center;
@@ -479,25 +507,21 @@ const Left = styled.div`
         letter-spacing: 0.1rem;
         color: grey;
         text-decoration: none;
-
         .left-icon{
             fill: grey;
             font-size: 1.25rem;
             margin: -4px 10px 0 0;
         }
     }
-
     
     .left-item:hover{
         background-color: #0000006b;
         transition-duration: 250ms;
         color: white;
-
         .left-icon{
             fill: white;
         }
     }
-
     .active{
         background-color: #b9aaaa69;
         color: white;
@@ -506,38 +530,30 @@ const Left = styled.div`
             fill: white;
         }
     }
-
     .active:hover{
         background-color: #b9aaaa69;
     }
-
-
-
     @media only screen and (max-width: 600px){
         width: 100%;
         background-color: #333;
         display: flex;
         flex-direction: column;
         
-
         .left-header{
             font-size: 1rem;
             padding: 10px;
             margin-bottom: 0;
             justify-content: space-between;
             background-color: #5c63a9;
-
             .left-icon{
                 fill: white;
                 margin-right: 10px;
                 font-size: 1.4rem;
             }
-
             .left-icon-mob{
                 fill: white;
                 font-size: 2rem;
             }
-
             div{
                 color: white;
                 display: flex;
@@ -545,22 +561,18 @@ const Left = styled.div`
                 font-size: 1rem;
             }
         }
-
         .left-item{
             display: none;
         }
-
         
         .left-item:hover{
             background-color: #0000006b;
             transition-duration: 250ms;
             color: white;
-
             .left-icon{
                 fill: white;
             }
         }
-
         .active{
             background-color: #b9aaaa69;
             color: white;
@@ -569,19 +581,15 @@ const Left = styled.div`
                 fill: white;
             }
         }
-
         .active:hover{
             background-color: #b9aaaa69;
         }
-
     }
-
 `
 
 const Right = styled.div`
     flex: 1;
     background-color: #edf1f5;
-
     .head{
         padding: 16px 24px;
         box-shadow: 1px 0 20px rgb(0 0 0 / 8%);
@@ -589,23 +597,19 @@ const Right = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         h2{
             font-weight: 400;
             font-size: 1.25rem;
         }
-
         .left-links{
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             p{
                 font-size: 0.8rem;
                 color: grey;
                 margin-right: 15px;
             }
-
             button{
                 display: flex;
                 align-items: center;
@@ -624,15 +628,12 @@ const Right = styled.div`
             }
         }
     }
-
     .general{
         padding: 1.2rem;
         padding-right: 0;
-
         display: flex;
         justify-content: space-between;
         /* align-items: center; */
-
         .grand-card{
     position: relative;
     height: auto;
@@ -642,40 +643,119 @@ const Right = styled.div`
     border-radius: 10px;
     margin-right: 1%;
     padding: 1rem;
-
     .card-top{
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         p{
             font-size: 1rem;
         }
-
         .icon{
             cursor: pointer;
         }
+        a{
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            
+            .icon-link{
+                font-size: 1.2rem;
+            }
+        }
     }
-
     .details{
         margin-top: 30px;
-
         .detail{
-            border: none;
-            background-color: rgb(238, 238, 238);
             width: 100%;
-            padding: 0.75rem 1rem;
+            background-color: #f5e8e8;
+            padding: 0.5rem;
+            border-radius: 5px; 
+            margin-bottom: 5px;  
             font-size: 0.8rem;
-            border: none;
-            outline: none;
-            margin-bottom: 5px;
-            border-radius: 5px;
+            font-weight: 300;
+
+            display: flex;
+            align-items: center;
+
+            div{
+                overflow: hidden;
+            }
+            
+            .room-no{
+                width: 15%;
+                border-right: 1px solid #d1b9b9;
+                display: flex;
+                justify-content: center;
+            }       
+            
+            .hostel-name{
+                width: 35%;
+                border-right: 1px solid #d1b9b9;
+                display: flex;
+                justify-content: center;
+            }
+
+            .gender{
+                width: 15%;
+                border-right: 1px solid #d1b9b9;
+                display: flex;
+                justify-content: center;
+            }
+
+            .fees{
+                width: 15%;
+                border-right: 1px solid #d1b9b9;
+                display: flex;
+                justify-content: center;
+            }
+
+            .resident{
+                width: 20%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .icon{
+                    fill: cornflowerblue;
+                    font-size: 1rem;
+                    margin-left: 2px;
+                }
+            }
+            
+            /*code here - desktop */
+        }
+
+        .detail-header{
+            background-color: #585353;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+
+
+            .room-no{
+                color: white;
+                border-right: 1px solid #977777;
+            }
+            .hostel-name{
+                color: white;
+                border-right: 1px solid #977777;
+            }
+            .gender{
+                color: white;
+                border-right: 1px solid #977777;
+            }
+            .fees{
+                color: white;
+                border-right: 1px solid #977777;
+            }
+            .resident{
+                color: white;
+            }
         }
 
         .two-details{
             display: flex;
             justify-content: space-between;
-
             .detail{
                 width: 49.5%;
             }
@@ -688,7 +768,6 @@ const Right = styled.div`
                 display: grid;
                 place-items: center;
                 padding: 10px;
-
                 select{
                     border: none;
                     background-color: rgb(238, 238, 238);
@@ -701,12 +780,56 @@ const Right = styled.div`
                 }
             }
         }
-
         textarea{
             width: 100%;
             height: 200px;
         }
     }
+
+    .btns-new{
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            
+            .btn{
+                padding: 8px 10px;
+                cursor: pointer;
+                border-radius: 5px;
+                margin-right: 5px;
+                border: none;
+                font-size: 0.8rem;
+                background-color: #7690bf;
+                color: white;
+            }
+
+            .red-bg{
+                background-color: #d16969;
+            }
+        }
+
+    .details2{
+        margin-top: 30px;
+
+        .detail{
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+
+            .cat{
+                font-weight: 600;
+            }
+
+            .res{
+                font-weight: 200;
+                margin-left: 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        
+    }
+
 
     .submit-btn{
         border: none;
@@ -717,15 +840,13 @@ const Right = styled.div`
         border-radius: 5px;
         cursor: pointer;
     }
-
     .desc{
-        font-size: 0.6rem;
+        font-size: 0.7rem;
         position: absolute;
         bottom: 5px;
         color: grey;
     }
 }
-
         .two-cards{
             height: 520px;
             width: 25%;
@@ -733,7 +854,6 @@ const Right = styled.div`
             flex-direction: column;
             justify-content: space-between;
             padding-right: 10px;
-
             .card{
                 width: 100%;
                 height: 250px;
@@ -761,7 +881,6 @@ const Right = styled.div`
                     }
     
                 }
-
                 .card-mid{
                     text-align: center;
                     h1{
@@ -773,12 +892,10 @@ const Right = styled.div`
                         color: orange;
                         font-size: 0.8rem;
                     }
-
                     img{
                         height: 7rem;
                     }
                 }
-
                 .desc{
                     font-size: 0.7rem;
                     color: grey;
@@ -786,16 +903,10 @@ const Right = styled.div`
                 }
             }
         }
-
-
         
     }
-
-
-
     @media only screen and (max-width: 600px){
         flex: 1;
-
         .head{
             padding: 16px 24px;
             box-shadow: 1px 0 20px rgb(0 0 0 / 8%);
@@ -803,23 +914,19 @@ const Right = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             h2{
                 font-weight: 400;
                 font-size: 1.25rem;
             }
-
             .left-links{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
                 p{
                     font-size: 0.8rem;
                     color: grey;
                     margin-right: 15px;
                 }
-
                 button{
                     display: flex;
                     align-items: center;
@@ -838,17 +945,13 @@ const Right = styled.div`
                 }
             }
         }
-
         .general{
         padding: 0.6rem 0.5rem;
-
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
-
         
-
         .grand-card{
     position: relative;
     height: auto;
@@ -859,24 +962,19 @@ const Right = styled.div`
     margin-right: 0;
     padding: 0.8rem;
     padding-bottom: 60px;
-
     .card-top{
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         p{
             font-size: 1rem;
         }
-
         .icon{
             cursor: pointer;
         }
     }
-
     .details{
         margin-top: 30px;
-
         .detail{
             border: none;
             background-color: rgb(238, 238, 238);
@@ -888,16 +986,13 @@ const Right = styled.div`
             margin-bottom: 5px;
             border-radius: 5px;
         }
-
         .two-details{
             display: flex;
             justify-content: space-between;
             flex-direction: column;
-
             .detail{
                 width: 100%;
             }
-
             .custom-select{
                 width: 100%;
                 margin-bottom: 5px;
@@ -906,7 +1001,6 @@ const Right = styled.div`
                 display: grid;
                 place-items: center;
                 padding: 10px;
-
                 select{
                     border: none;
                     background-color: rgb(238, 238, 238);
@@ -918,15 +1012,12 @@ const Right = styled.div`
                     cursor: pointer;
                 }
             }
-
         }
-
         textarea{
             width: 100%;
             height: 200px;
         }
     }
-
     .submit-btn{
         border: none;
         background-color: cornflowerblue;
@@ -937,7 +1028,6 @@ const Right = styled.div`
         cursor: pointer;
         width: 100%;
     }
-
     .desc{
         font-size: 0.6rem;
         position: absolute;
@@ -946,7 +1036,6 @@ const Right = styled.div`
         max-width: 90vw;
     }
 }
-
         .two-cards{
             height: auto;
             width: 100%;
@@ -954,7 +1043,6 @@ const Right = styled.div`
             flex-direction: column;
             justify-content: space-between;
             padding: 0;
-
             .card{
                 width: 100%;
                 height: 250px;
@@ -983,7 +1071,6 @@ const Right = styled.div`
                     }
     
                 }
-
                 .card-mid{
                     text-align: center;
                     h1{
@@ -995,12 +1082,10 @@ const Right = styled.div`
                         color: orange;
                         font-size: 0.8rem;
                     }
-
                     img{
                         height: 7rem;
                     }
                 }
-
                 .desc{
                     font-size: 0.7rem;
                     color: grey;
@@ -1009,7 +1094,6 @@ const Right = styled.div`
             }
         }
     }
-
     }
 `
 
@@ -1019,13 +1103,11 @@ const CustomModal = styled.div`
     position: fixed;
     top: 0;
     z-index: 100;
-
     .touch-outside{
         height: 100vh;
         width: 100vw;
         background-color: #00000087;
     }    
-
     .container{
         height: auto;
         width: 50vw;
@@ -1035,7 +1117,6 @@ const CustomModal = styled.div`
         top: 35vh;
         left: 25vw;
         padding: 1rem;
-
         .desc{
             font-size: 0.9rem;
             color: grey;
@@ -1046,7 +1127,6 @@ const CustomModal = styled.div`
             width: 70%;
         }
     }
-
     .modalHeader{
         width: 100%;
         display: flex;
@@ -1067,7 +1147,6 @@ const SbComponentOne = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
         a{
             text-decoration: none;
             color: white;

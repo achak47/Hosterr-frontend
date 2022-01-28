@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
@@ -18,17 +18,37 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
+import axios from 'axios';
 
-
-const AddHostel = () => {
+const AddRooms = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [name,setName] = useState(null) ;
-    const [address,setAddress] = useState(null) ;
-    const [gender,setGender] = useState(null) ;
-    const onadd = ()=>{
-       console.log(name,address,gender) ; 
-    }
+    const [hostelname,setHostelName] = useState(null) ;
+    const [roomno,setRoomno] = useState(null) ;
+    const [fees,setFees] = useState(null) ;
+    const [roomtype,setRoomtype] = useState(1) ;
+    const [hostels,setHostels] = useState(null) ;
+    useEffect(()=>{
+      axios.post("http://localhost:8000/admin/hostels/all",{
+         user: sessionStorage.getItem("id") ,
+         institute: sessionStorage.getItem("institute")
+      }).then(res=>{
+          console.log(res.data) ;
+          setHostels(res.data) ;
+      })
+    },[])
+    const onaddroom = ()=>{
+        console.log(hostelname,roomno,fees,roomtype) ; 
+        axios.post("http://localhost:8000/admin/add/room",{
+            user:sessionStorage.getItem("id") ,
+            roomType:roomtype,
+            fees:fees,
+            roomno:roomno,
+            hostelname:hostelname
+        }).then(res=>{
+          alert('Room added Succesfully !!!') ;
+        }).catch(err=>alert(err)) ;
+     }
     return (
         <>
             {
@@ -102,11 +122,11 @@ const AddHostel = () => {
                             <VpnKeyIcon className="left-icon"/>
                             Change Password
                         </div> */}
-                        <Link to="/admin/dashboard/hostel/add" className="left-item active">
+                        <Link to="/admin/dashboard/hostel/add" className="left-item">
                             <AddIcon className="left-icon" />
                             Add Hostel
                         </Link>
-                        <Link to="/admin/dashboard/room/add" className="left-item">
+                        <Link to="/admin/dashboard/room/add" className="left-item active">
                             <AddIcon className="left-icon" />
                             Add Rooms
                         </Link>
@@ -137,22 +157,27 @@ const AddHostel = () => {
                         <div className="general">
                             <div className="grand-card">
                                 <div className="card-top">
-                                    <p>Add Hostel</p>
+                                    <p>Add Rooms</p>
                                     <MoreVertIcon className="icon" />
                                 </div>
                                 <div className="details">
                                     <div className="two-details">
-                                        <input type="text" className="detail" placeholder="Hostel Name" onChange={(e)=>setName(e.target.value)}/>
+                                        <input type="text" className="detail" placeholder="Room No." onChange={(e)=>setRoomno(e.target.value)}/>
                                         {/* <input type="text" className="detail" placeholder="Existing Hostel Type"/> */}
                                         <div className="custom-select">
-                                            <select onChange={(e)=>setGender(e.target.value)}>
-                                                <option value="0">Hostel Type</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                            </select>
+                                            {hostels?(
+                                            <select onChange={(e)=>setHostelName(e.target.value)}>
+                                                <option value="none" selected disabled hidden>Select an Option</option>
+                                                {
+                                                    hostels.map(item => <option value={item.name}>{item.name} </option>)
+                                                }
+                                            </select>)
+                                            :<select onChange={(e)=>setHostelName(e.target.value)}></select>
+                                            }
                                         </div>
                                     </div>
-                                    <input type="text" className="detail" placeholder="Address" onChange={(e)=>setAddress(e.target.value)}/>
+                                    <input type="number" className="detail" placeholder="No. of Students" onChange={(e)=>setRoomtype(e.target.value)}/>
+                                    <input type="number" className="detail" placeholder="Fees per Head" onChange={(e)=>setFees(e.target.value)}/>
                                     {/* <input type="text" className="detail" placeholder="Room No."/>
                                     <div className="two-details">
                                         <input type="number" className="detail" placeholder="Student per Room"/>
@@ -164,8 +189,8 @@ const AddHostel = () => {
                                     </div> */}
                                     {/* <textarea name="" id="" className="detail" placeholder="Reason for change"></textarea> */}
                                 </div>
-                                <button className="submit-btn" onClick={onadd}>
-                                    Add Hostel
+                                <button className="submit-btn" onClick={onaddroom}>
+                                    Add Room
                                 </button>
                                 {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
                             </div>
@@ -218,7 +243,7 @@ const AddHostel = () => {
     )
 }
 
-export default AddHostel
+export default AddRooms
 
 const Container = styled.div`
     min-height: 100vh;
@@ -968,3 +993,4 @@ const RemoveSideBar = styled.div`
 position: absolute;
 top: 1rem;
 right: 1rem;
+`

@@ -42,9 +42,9 @@ const LandingPageAdmin = () => {
         formData.append("college",univ) ;
         formData.append("file",file) ;
 
-        axios.post("http://localhost:8000/admin/register", formData).then(res =>{
+        axios.post("https://hosterr.herokuapp.com/admin/register", formData).then(res =>{
             if(res.status == 200){
-                alert('Registered Succesfully !!!') ;
+                alert(res.data) ;
                 window.location.href = "/admin/dashboard/new-admin"  ;
             }
         })
@@ -63,11 +63,13 @@ const LandingPageAdmin = () => {
     const onlogin = ()=>{
         axios.post("http://localhost:8000/admin/login",{"email":email,"password":password}).then(res =>{
           if(res.status == 200){
-            const {id, name, email, college} = res.data ;
+            const {id, name, email, college,institute} = res.data ;
+            console.log(res.data) ;
             sessionStorage.setItem("id", id);
             sessionStorage.setItem("name", name);
             sessionStorage.setItem("email", email);
-            sessionStorage.setItem("institute", college);
+            sessionStorage.setItem("institute", institute);
+            sessionStorage.setItem("college", college);
             console.log(sessionStorage.getItem("id")) ;
             window.location.href = "/admin/dashboard/new-admin"  ;  
           }
@@ -1443,3 +1445,39 @@ position: absolute;
 top: 1rem;
 right: 1rem;
 `
+
+/*
+_id
+:
+61e80ad33145ca313ccf317b
+name
+:
+"adfdsf"
+email
+:
+"rishikeshcrever@gmail.com"
+password
+:
+"$2a$10$g.K2yBte9ULxWjK9vxmrNeRnGGt/A9bEkb2hlsjXPubzZQZsD5Dn2"
+phone
+:
+"999999"
+college
+:
+"JU"
+verified
+:
+false
+createdAt
+:
+2022-01-19T12:57:55.487+00:00
+updatedAt
+:
+2022-01-19T14:49:30.987+00:00
+__v
+:
+0
+institute
+:
+61e824fad82c74bdd72e1c47
+*/

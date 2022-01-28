@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import TranslateIcon from '@material-ui/icons/Translate';
@@ -9,46 +9,38 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import HomeIcon from '@material-ui/icons/Home';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import EmailIcon from '@material-ui/icons/Email';
-import AddIcon from '@material-ui/icons/Add';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import RoomIcon from '@material-ui/icons/Room';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import CachedIcon from '@material-ui/icons/Cached';
+import EmojiFoodBeverageIcon from '@material-ui/icons/EmojiFoodBeverage';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
-import axios from 'axios'
+import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import axios from 'axios' ;
 
-const AddRooms = () => {
-    const [open, setOpen] = useState(false) ;
-    const [sideBar, setSideBar] = useState(false) ;
-    const [hostelname,setHostelName] = useState(null) ;
-    const [roomno,setRoomno] = useState(null) ;
-    const [fees,setFees] = useState(null) ;
-    const [roomType,setRoomtype] = useState(1) ;
-    const [hostels,setHostels] = useState(null) ;
+const UserGuestHouse = () => {
+    const [open, setOpen] = useState(false);
+    const [sideBar, setSideBar] = useState(false);
+    const [arrival_date,setArrival] = useState(null) ;
+    const [departure_date,setDeparture] = useState(null) ;
+    const [phone,setPhone] = useState(null) ;
     const user = sessionStorage ;
-    useEffect(()=>{
-      axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
-          console.log(res.data) ;
-          setHostels(res.data)  ;
-      })
-    },[])
-    const onaddroom = ()=>{
-        console.log(hostelname,roomno,fees,roomType) ; 
-        axios.post("http://localhost:8000/admin/add/room",{
-            user,
-            roomType,
-            fees,
-            roomno,
-            hostelname
-        }).then(res=>{
-          alert('Room added Succesfully !!!') ;
-        }).catch(err=>alert(err)) ;
-     }
-
-
+    const onSubmit = ()=>{
+      console.log(arrival_date) ;
+      axios.post("http://localhost:8000/getGuestHouse",{
+          user,
+          arrival_date ,
+          departure_date
+      }).then(res=>{
+          alert(res.data.message) ;
+      }).catch(err => console.log(err)) ;
+    }
     return (
         <>
             {
@@ -73,13 +65,13 @@ const AddRooms = () => {
                 )
             }
             <Container>
-                <PageOneHeader>
+            <PageOneHeader>
                     <div className="one">
                         <a href="/" className="title">
                             Hosterr
                         </a>
                         <div className="admin mobile-only">
-                            Admin
+                            Student
                         </div>
                         <div className="together">
                             <button className="lang" onClick={() => setOpen(true)}>
@@ -110,118 +102,96 @@ const AddRooms = () => {
                                 <MenuIcon className="left-icon-mob" />
                             </div>
                         </div>
-                        <Link to="/admin/dashboard/new-admin" className="left-item">
+                        <Link to="/user/dashboard/home" className="left-item">
                             <HomeIcon className="left-icon" />
                             Home
                         </Link>
-                        <Link to="/admin/dashboard/applications" className="left-item">
-                            <AssignmentIcon className="left-icon" />
-                            applications
+                        <Link to="/user/dashboard/room/details" className="left-item">
+                            <RoomIcon className="left-icon" />
+                            Room details
                         </Link>
-                        <Link to="/admin/dashboard/hostel/add" className="left-item">
-                            <AddIcon className="left-icon" />
-                            Add Hostel
+                        <Link to="/user/dashboard/room/change" className="left-item">
+                            <CachedIcon className="left-icon" />
+                            Room Change
                         </Link>
-                        <Link to="/admin/dashboard/room/add" className="left-item active">
-                            <AddIcon className="left-icon" />
-                            Add Rooms
+                        <Link to="/user/dashboard/canteen" className="left-item">
+                            <EmojiFoodBeverageIcon className="left-icon" />
+                            Hostel Canteen
                         </Link>
-                        <Link to="/admin/dashboard/guest-room/add" className="left-item">
-                            <AddIcon className="left-icon" />
-                            Add Guest House
+                        <Link to="/user/dashboard/guest-house/req" className="left-item active">
+                            <AirlineSeatIndividualSuiteIcon className="left-icon" />
+                            Guest House
                         </Link>
-                        <Link to="/admin/dashboard/canteen/add" className="left-item">
-                            <AddIcon className="left-icon" />
-                            Add Canteen
-                        </Link>
-                        <Link to="/admin/dashboard/inbox" className="left-item">
-                            <EmailIcon className="left-icon" />
-                            Indox
-                        </Link>
-                        <Link to="/admin/dashboard/accesslogs" className="left-item">
+                        <Link to="/user/dashboard/contact-admin" className="left-item">
                             <SupervisorAccountIcon className="left-icon" />
-                            Accommodation Details
+                            Contact Admin
                         </Link>
-                        <Link to="/admin/dashboard/profile" className="left-item">
+                        <Link to="/user/dashboard/profile" className="left-item">
                             <AccountCircleIcon className="left-icon" />
                             My profile
                         </Link>
                     </Left>
                     <Right>
                         <div className="head not-mobile">
-                            <h2>Admin Dashboard</h2>
+                            <h2>Student Dashboard</h2>
                             <div className="left-links">
                                 <p>Dashboard > Home</p>
                                 <button>
                                     <ChatBubbleIcon className="icon" />
-                                    View Inbox
+                                    Talk to Admin
                                 </button>
                             </div>
                         </div>
                         <div className="general">
                             <div className="grand-card">
                                 <div className="card-top">
-                                    <p>Add Rooms</p>
+                                    <p>Book Guest House</p>
                                     <MoreVertIcon className="icon" />
                                 </div>
                                 <div className="details">
+                                    <input type="text" className="detail" placeholder="Reserve by name - main lodger"/>
                                     <div className="two-details">
-                                        <input type="text" className="detail" placeholder="Room No." onChange={(e)=>setRoomno(e.target.value)}/>
-                                        {/* <input type="text" className="detail" placeholder="Existing Hostel Type"/> */}
-                                        <div className="custom-select">
-                                            {hostels?(
-                                            <select onChange={(e)=>setHostelName(e.target.value)}>
-                                                <option value="none" selected disabled hidden>Select an Option</option>
-                                                {
-                                                    hostels.map(item => <option value={item.name}>{item.name} </option>)
-                                                }
-                                            </select>)
-                                            :<select onChange={(e)=>setHostelName(e.target.value)}></select>
-                                            }
+                                        {/* <input type="text" className="detail" placeholder="Room No."/> */}
+                                        <div className="time-select">
+                                            <p>Check in date</p>
+                                            <input className="taketime" type="date" onChange={(e)=>setArrival(e.target.value)}/>
+                                        </div>
+                                        <div className="time-select">
+                                            <p>Check out date</p>
+                                            <input className="taketime" type="date" onChange={(e)=>setDeparture(e.target.value)}/>
                                         </div>
                                     </div>
-                                    <input type="number" className="detail" placeholder="No. of Students" onChange={(e)=>setRoomtype(e.target.value)}/>
-                                    <input type="number" className="detail" placeholder="Fees per Head" onChange={(e)=>setFees(e.target.value)}/>
-                                    {/* <input type="text" className="detail" placeholder="Room No."/>
-                                    <div className="two-details">
-                                        <input type="number" className="detail" placeholder="Student per Room"/>
-                                        <input type="number" className="detail" placeholder="Fees per Month"/>
-                                    </div> */}
-                                    {/* <div className="two-details">
-                                        <input type="number" className="detail" placeholder="Room Number Start"/>
-                                        <input type="number" className="detail" placeholder="Room Number End"/>
-                                    </div> */}
-                                    {/* <textarea name="" id="" className="detail" placeholder="Reason for change"></textarea> */}
+                                    <div className="error">*Click on the <b>calender symbol</b> for easy filling.</div>
+                                    <input type="number" className="detail" placeholder="Main lodger Contact Number" onChange={(e)=>setPhone(e.target.value)}/>
                                 </div>
-                                <button className="submit-btn" onClick={onaddroom}>
-                                    Add Room
+                                <button className="submit-btn" onClick={onSubmit}>
+                                    Book Guest House
                                 </button>
                                 {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
                             </div>
                             <div className="two-cards">
                             <div className="card">
-                                    <div className="card-top">
-                                        <p>Total Rooms</p>
-                                        <MoreVertIcon className="icon"/>
+                                        <div className="card-top">
+                                            <p>Profile Status</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <h1>78</h1>
+                                            <p>Percentage of your profile is complete</p>
+                                        </div>
+                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
                                     </div>
-                                    <div className="card-mid">
-                                        <h1>0</h1>
-                                        <p>Rooms both genders combined</p>
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Contact Hostel Admin</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                        </div>
+                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                            <a> Contact Now</a></div>
                                     </div>
-                                    <div className="desc">This data can be changed when new hostels are built.
-                                    <a> Show Room Details</a></div>
-                                </div>
-                                <div className="card">
-                                    <div className="card-top">
-                                        <p>Share Link</p>
-                                        <MoreVertIcon className="icon" />
-                                    </div>
-                                    <div className="card-mid">
-                                        <img src="https://cdn1.iconfinder.com/data/icons/web-design-and-development-50/64/110-512.png" alt="" />
-                                    </div>
-                                    <div className="desc">Ask students to join their hostel with a flex in hand, faster and easier.
-                                        <a> Share</a></div>
-                                </div>
                             </div>
                         </div>
                                 
@@ -230,16 +200,14 @@ const AddRooms = () => {
             </Container>
 
             <SideBar className={`${sideBar ? 'sidebar show-sidebar' : 'sidebar'}`}>
-                <SbComponentOne>
-                    <Link to="/admin/dashboard/new-admin">Home</Link>
-                    <Link to="/admin/dashboard/applications">Applications</Link>
-                    <Link to="/admin/dashboard/hostel/add">Add Hostel</Link>
-                    <Link to="/admin/dashboard/room/add">Add Rooms</Link>
-                    <Link to="/admin/dashboard/guest-room/add">Add Guest House</Link>
-                    <Link to="/admin/dashboard/canteen/add">Add Canteen</Link>
-                    <Link to="/admin/dashboard/inbox">Inbox</Link>
-                    <Link to="/admin/dashboard/accesslogs">Accommodation Details</Link>
-                    <Link to="/admin/dashboard/profile">My Profile</Link>
+            <SbComponentOne>
+                    <Link to="/user/dashboard/home">Home</Link>
+                    <Link to="/user/dashboard/room/details">Room Details</Link>
+                    <Link to="/user/dashboard/room/change">Room Change</Link>
+                    <Link to="/user/dashboard/contact-admin">Contact Admin</Link>
+                    <Link to="/user/dashboard/canteen">Canteen</Link>
+                    <Link to="/user/dashboard/guest-house/req">Guest House</Link>
+                    <Link to="/user/dashboard/profile">My profile</Link>
                 </SbComponentOne>
                 <RemoveSideBar onClick={(e) => setSideBar(false)}>
                     <ClearIcon style={{ cursor: "pointer", fontSize: '1.5rem', fill: 'white' }} />
@@ -249,7 +217,7 @@ const AddRooms = () => {
     )
 }
 
-export default AddRooms
+export default UserGuestHouse
 
 const Container = styled.div`
     min-height: 100vh;
@@ -257,6 +225,12 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    .error{
+        font-size: 0.7rem;
+        margin: 0 0 10px 2px;
+        color: black;
+    }
     
     .main{
         display: flex;
@@ -679,6 +653,36 @@ const Right = styled.div`
             .detail{
                 width: 49.5%;
             }
+
+            .time-select{
+                width: 49.5%;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                background-color: rgb(238, 238, 238);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px;
+
+                p{
+                    padding: 5px;
+                    font-size: 0.7rem;
+                    color: black;
+                }
+
+                .taketime{
+                        width: 50%;
+                        font-size: 0.8rem;
+                        background-color: #e1d7d7;
+                        border: none;
+                        outline: none;
+                        display: flex;
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+            }
+
             
             .custom-select{
                 width: 49.5%;
@@ -688,6 +692,8 @@ const Right = styled.div`
                 display: grid;
                 place-items: center;
                 padding: 10px;
+
+                
 
                 select{
                     border: none;
@@ -895,6 +901,10 @@ const Right = styled.div`
             flex-direction: column;
 
             .detail{
+                width: 100%;
+            }
+
+            .time-select{
                 width: 100%;
             }
 

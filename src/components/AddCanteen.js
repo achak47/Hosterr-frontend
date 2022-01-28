@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import TranslateIcon from '@material-ui/icons/Translate';
@@ -18,37 +18,29 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
-import axios from 'axios'
+import axios from 'axios';
 
-const AddRooms = () => {
-    const [open, setOpen] = useState(false) ;
-    const [sideBar, setSideBar] = useState(false) ;
-    const [hostelname,setHostelName] = useState(null) ;
-    const [roomno,setRoomno] = useState(null) ;
-    const [fees,setFees] = useState(null) ;
-    const [roomType,setRoomtype] = useState(1) ;
-    const [hostels,setHostels] = useState(null) ;
+
+const AddCanteen = () => {
+    const [open, setOpen] = useState(false);
+    const [sideBar, setSideBar] = useState(false);
+    const [name,setName] = useState(null) ;
+    const [start,setStart] = useState(null) ;
+    const [end,setEnd] = useState(null) ;
+    const [phone,setPhone] = useState(null) ;
     const user = sessionStorage ;
-    useEffect(()=>{
-      axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
-          console.log(res.data) ;
-          setHostels(res.data)  ;
-      })
-    },[])
-    const onaddroom = ()=>{
-        console.log(hostelname,roomno,fees,roomType) ; 
-        axios.post("http://localhost:8000/admin/add/room",{
+    const onadd = ()=>{
+        console.log(typeof(start)) ;
+        axios.post("http://localhost:8000/admin/add/canteen",{
             user,
-            roomType,
-            fees,
-            roomno,
-            hostelname
-        }).then(res=>{
-          alert('Room added Succesfully !!!') ;
-        }).catch(err=>alert(err)) ;
-     }
-
-
+            name,
+            start,
+            end,
+            phone
+        }).then(res =>{
+            alert(res.data) ;
+        }).catch(err=>console.log(err)) ;
+    }
     return (
         <>
             {
@@ -122,7 +114,7 @@ const AddRooms = () => {
                             <AddIcon className="left-icon" />
                             Add Hostel
                         </Link>
-                        <Link to="/admin/dashboard/room/add" className="left-item active">
+                        <Link to="/admin/dashboard/room/add" className="left-item">
                             <AddIcon className="left-icon" />
                             Add Rooms
                         </Link>
@@ -130,7 +122,7 @@ const AddRooms = () => {
                             <AddIcon className="left-icon" />
                             Add Guest House
                         </Link>
-                        <Link to="/admin/dashboard/canteen/add" className="left-item">
+                        <Link to="/admin/dashboard/canteen/add" className="left-item active">
                             <AddIcon className="left-icon" />
                             Add Canteen
                         </Link>
@@ -151,7 +143,7 @@ const AddRooms = () => {
                         <div className="head not-mobile">
                             <h2>Admin Dashboard</h2>
                             <div className="left-links">
-                                <p>Dashboard > Home</p>
+                                <p>Dashboard > Add Canteen</p>
                                 <button>
                                     <ChatBubbleIcon className="icon" />
                                     View Inbox
@@ -161,27 +153,24 @@ const AddRooms = () => {
                         <div className="general">
                             <div className="grand-card">
                                 <div className="card-top">
-                                    <p>Add Rooms</p>
+                                    <p>Add Canteen</p>
                                     <MoreVertIcon className="icon" />
                                 </div>
                                 <div className="details">
+                                    <input type="text" className="detail" placeholder="Canteen Name" onChange={(e)=>setName(e.target.value)}/>
                                     <div className="two-details">
-                                        <input type="text" className="detail" placeholder="Room No." onChange={(e)=>setRoomno(e.target.value)}/>
-                                        {/* <input type="text" className="detail" placeholder="Existing Hostel Type"/> */}
-                                        <div className="custom-select">
-                                            {hostels?(
-                                            <select onChange={(e)=>setHostelName(e.target.value)}>
-                                                <option value="none" selected disabled hidden>Select an Option</option>
-                                                {
-                                                    hostels.map(item => <option value={item.name}>{item.name} </option>)
-                                                }
-                                            </select>)
-                                            :<select onChange={(e)=>setHostelName(e.target.value)}></select>
-                                            }
+                                        {/* <input type="text" className="detail" placeholder="Room No."/> */}
+                                        <div className="time-select">
+                                            <p>Opening Time</p>
+                                            <input className="taketime" type="time" onChange={(e)=>setStart(e.target.value)}/>
+                                        </div>
+                                        <div className="time-select">
+                                            <p>Closing Time</p>
+                                            <input className="taketime" type="time" onChange={(e)=>setEnd(e.target.value)}/>
                                         </div>
                                     </div>
-                                    <input type="number" className="detail" placeholder="No. of Students" onChange={(e)=>setRoomtype(e.target.value)}/>
-                                    <input type="number" className="detail" placeholder="Fees per Head" onChange={(e)=>setFees(e.target.value)}/>
+                                    <div className="error">*Click on the <b>clock symbol</b> for easy filling.</div>
+                                    <input type="number" className="detail" placeholder="Canteen Contact Number" onChange={(e)=>setPhone(e.target.value)}/>
                                     {/* <input type="text" className="detail" placeholder="Room No."/>
                                     <div className="two-details">
                                         <input type="number" className="detail" placeholder="Student per Room"/>
@@ -193,23 +182,22 @@ const AddRooms = () => {
                                     </div> */}
                                     {/* <textarea name="" id="" className="detail" placeholder="Reason for change"></textarea> */}
                                 </div>
-                                <button className="submit-btn" onClick={onaddroom}>
-                                    Add Room
+                                <button className="submit-btn" onClick={onadd}>
+                                    Add Canteen 
                                 </button>
                                 {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
                             </div>
                             <div className="two-cards">
                             <div className="card">
                                     <div className="card-top">
-                                        <p>Total Rooms</p>
+                                        <p>Total Canteens</p>
                                         <MoreVertIcon className="icon"/>
                                     </div>
                                     <div className="card-mid">
                                         <h1>0</h1>
-                                        <p>Rooms both genders combined</p>
+                                        <p>all over the campus</p>
                                     </div>
-                                    <div className="desc">This data can be changed when new hostels are built.
-                                    <a> Show Room Details</a></div>
+                                    <div className="desc">This data will be changed as you keep adding new canteens.</div>
                                 </div>
                                 <div className="card">
                                     <div className="card-top">
@@ -249,7 +237,7 @@ const AddRooms = () => {
     )
 }
 
-export default AddRooms
+export default AddCanteen
 
 const Container = styled.div`
     min-height: 100vh;
@@ -257,6 +245,12 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    .error{
+        font-size: 0.7rem;
+        margin: 0 0 10px 2px;
+        color: black;
+    }
     
     .main{
         display: flex;
@@ -679,6 +673,35 @@ const Right = styled.div`
             .detail{
                 width: 49.5%;
             }
+
+            .time-select{
+                width: 49.5%;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                background-color: rgb(238, 238, 238);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px;
+
+                p{
+                    padding: 5px;
+                    font-size: 0.7rem;
+                    color: black;
+                }
+
+                .taketime{
+                        width: 40%;
+                        background-color: #e1d7d7;
+                        border: none;
+                        outline: none;
+                        display: flex;
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+            }
+
             
             .custom-select{
                 width: 49.5%;
@@ -688,6 +711,8 @@ const Right = styled.div`
                 display: grid;
                 place-items: center;
                 padding: 10px;
+
+                
 
                 select{
                     border: none;
@@ -895,6 +920,10 @@ const Right = styled.div`
             flex-direction: column;
 
             .detail{
+                width: 100%;
+            }
+
+            .time-select{
                 width: 100%;
             }
 

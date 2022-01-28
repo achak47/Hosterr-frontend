@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
@@ -21,13 +21,46 @@ import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
-
+import axios from 'axios' ;
 
 const DashBoard = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-
-
+    const [amount,setAmount] = useState(0) ;
+    useEffect(()=>{
+      axios.post("http://localhost:8000/application/status/user",{
+          "email": sessionStorage.getItem("email") ,
+          "user": sessionStorage.getItem("id")
+      }).then(res=>{
+          sessionStorage.setItem("Application",res.data.status) ;
+      }).catch(err => console.log(err)) ;
+    },[])
+    const onsubmit = ()=>{
+        console.log(sessionStorage.getItem("iscomplete")) ;
+      if(sessionStorage.getItem("iscomplete") == "false"){
+          alert('Complete your profile first !!!') ;
+          window.location.href = "/user/dashboard/profile"  ;  
+          return ;
+      }
+      axios.post("http://localhost:8000/application",{
+        user:sessionStorage.getItem("id"),
+        disability_status : false ,
+        email: sessionStorage.getItem("email"),
+        gender: sessionStorage.getItem("gender")
+      }).then(res =>{
+       alert(res.data.message) ;
+       window.location.href = "/user/dashboard/home"  ; 
+      }).catch(err => alert(err))
+    }
+    useEffect(()=>{
+      axios.post("http://localhost:8000/pay/detail",{
+          user: sessionStorage
+      }).then(res=>{
+         console.log(res.data) ;
+         setAmount(res.data) ;
+         sessionStorage.setItem("amount",res.data[0]) ;
+      }).catch(err=> console.log(err.message))
+    },[])
     return (
         <>
             {
@@ -82,19 +115,19 @@ const DashBoard = () => {
                     <Left>
                         <div className="left-header">
                             <div>
-                                <DashboardIcon className="left-icon"/>
+                                <DashboardIcon className="left-icon" />
                                 Dashboard
                             </div>
                             <div className="mobile-only" onClick={() => setSideBar(true)}>
-                                <MenuIcon className="left-icon-mob"/>
+                                <MenuIcon className="left-icon-mob" />
                             </div>
                         </div>
                         <Link to="/user/dashboard/home" className="left-item active">
-                            <HomeIcon className="left-icon"/>
+                            <HomeIcon className="left-icon" />
                             Home
                         </Link>
                         <Link to="/user/dashboard/room/details" className="left-item">
-                            <RoomIcon className="left-icon"/>
+                            <RoomIcon className="left-icon" />
                             Room details
                         </Link>
                         {/* <div className="left-item">
@@ -102,27 +135,23 @@ const DashBoard = () => {
                             Change Password
                         </div> */}
                         <Link to="/user/dashboard/room/change" className="left-item">
-                            <CachedIcon className="left-icon"/>
+                            <CachedIcon className="left-icon" />
                             Room Change
                         </Link>
                         <Link to="/user/dashboard" className="left-item">
-                            <EmojiFoodBeverageIcon className="left-icon"/>
+                            <EmojiFoodBeverageIcon className="left-icon" />
                             Hostel Canteen
                         </Link>
                         <Link to="/user/dashboard" className="left-item">
-                            <SupervisorAccountIcon className="left-icon"/>
+                            <SupervisorAccountIcon className="left-icon" />
                             Contact Admin
                         </Link>
                         <Link to="/user/dashboard" className="left-item">
-                            <LocalLaundryServiceIcon className="left-icon"/>
+                            <LocalLaundryServiceIcon className="left-icon" />
                             Room Service
                         </Link>
-                        <Link to="/user/dashboard" className="left-item">
-                            <MonetizationOnIcon className="left-icon"/>
-                            All Payments
-                        </Link>
-                        <Link to="/user/dashboard" className="left-item">
-                            <AccountCircleIcon className="left-icon"/>
+                        <Link to="/user/dashboard/profile" className="left-item">
+                            <AccountCircleIcon className="left-icon" />
                             My profile
                         </Link>
                     </Left>
@@ -132,70 +161,130 @@ const DashBoard = () => {
                             <div className="left-links">
                                 <p>Dashboard > Home</p>
                                 <button>
-                                    <ChatBubbleIcon className="icon"/>
+                                    <ChatBubbleIcon className="icon" />
                                     Talk to Admin
                                 </button>
                             </div>
                         </div>
-                        <div className="general">
-                            <div className="card">
-                                <div className="card-top">
-                                    <p>Due Payments</p>
-                                    <MoreVertIcon className="icon"/>
+                        {
+                            sessionStorage.getItem("Application") == "Not Applied" ? (
+                                <div className="general2">
+                                    <div className="grand-card">
+                                        <div className="card-top">
+                                            <p>Apply for Hostel</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="details">
+                                            <div className="two-details">
+                                                <input type="text" className="detail" placeholder="Your Name" />
+                                                <div className="custom-select">
+                                                    <select>
+                                                        <option value="">Year of passout</option>
+                                                        <option value="21">2021</option>
+                                                        <option value="22">2022</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="text" className="detail" placeholder="Gender" />
+                                            <input type="text" className="detail" placeholder="Your local address" />
+                                            <input type="text" className="detail" placeholder="Are you a physically challenged candidate ?" />
+                                        </div>
+                                        <button className="submit-btn" onClick={onsubmit}>
+                                            Submit Request
+                                        </button>
+                                        <div className="desc">*you will get a mail and also an alert on the site on updates regarding your room, within 7 days.</div>
+                                    </div>
+                                    <div className="two-cards">
+                                        <div className="card">
+                                            <div className="card-top">
+                                                <p>Profile Status</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                <h1>78</h1>
+                                                <p>Percentage of your profile is complete</p>
+                                            </div>
+                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-top">
+                                                <p>Contact Hostel Admin</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                            </div>
+                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                                <a> Contact Now</a></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="card-mid">
-                                    <h1>3</h1>
-                                    <p>Payments due over 4600 INR.</p>
+                            ) : (
+                                <div className="general">
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Due Payments</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <h1>{amount[1]}</h1><span>month(s)</span>
+                                            <p>Payments due over {amount[0]} INR.</p>
+                                        </div>
+                                        <div className="desc">No last date for this semester but it suggested to pay as soon as possible.
+                                            <a href="/payment-gateway"> Pay now</a></div>
+                                    </div>
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Room Service</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <h1>7</h1>
+                                            <p>Left for this semester</p>
+                                        </div>
+                                        <div className="desc">
+                                            Service available daily once 
+                                            <a href="/user/dashboard/contact-admin"> Request Increase</a></div>
+                                    </div>
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Room Change</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <h1>1</h1>
+                                            <p>Left for this semester</p>
+                                        </div>
+                                        <div className="desc">You can apply for the room change only once in this semester </div>
+                                    </div>
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Profile Status</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73%</h1>):(<h1>100%</h1>)}
+                                            <p>Percentage of your profile is complete</p>
+                                        </div>
+                                        <div className="desc">Pls complete your profile fully </div>
+                                    </div>
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Contact Hostel Admin</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                        </div>
+                                        <div className="desc">You can contact your Hostel admin anytime for any query
+                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
+                                    </div>
                                 </div>
-                                <div className="desc">No last date for this semester but it suggested to pay as soon as possible.
-                                <a> Pay now</a></div>
-                            </div>
-                            <div className="card">
-                                <div className="card-top">
-                                    <p>Room Service</p>
-                                    <MoreVertIcon className="icon"/>
-                                </div>
-                                <div className="card-mid">
-                                    <h1>7</h1>
-                                    <p>Left for this semester</p>
-                                </div>
-                                <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                <a> Request Increase</a></div>
-                            </div>
-                            <div className="card">
-                                <div className="card-top">
-                                    <p>Room Change</p>
-                                    <MoreVertIcon className="icon"/>
-                                </div>
-                                <div className="card-mid">
-                                    <h1>1</h1>
-                                    <p>Left for this semester</p>
-                                </div>
-                                <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
-                            </div>
-                            <div className="card">
-                                <div className="card-top">
-                                    <p>Profile Status</p>
-                                    <MoreVertIcon className="icon"/>
-                                </div>
-                                <div className="card-mid">
-                                    <h1>78</h1>
-                                    <p>Percentage of your profile is complete</p>
-                                </div>
-                                <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
-                            </div>
-                            <div className="card">
-                                <div className="card-top">
-                                    <p>Contact Hostel Admin</p>
-                                    <MoreVertIcon className="icon"/>
-                                </div>
-                                <div className="card-mid">
-                                    <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
-                                </div>
-                                <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque. 
-                                <a> Contact Now</a></div>
-                            </div>
-                        </div>
+
+                            )
+                            // code
+                        }
+
                     </Right>
                 </div>
             </Container>
@@ -232,19 +321,23 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         flex: 1;
+
         @media only screen and (max-width: 600px){
             justify-content: flex-start;
             flex-direction: column;
         }
     }
+
     .together{
         display: flex;
         align-items: center;
     }
+
     a{
         color: cornflowerblue;
         cursor: pointer;
     }
+
     .mobile-only{
         visibility: hidden;
     }
@@ -280,11 +373,13 @@ const PageOneHeader = styled.div`
             font-weight: 700;
             text-decoration: none;
         }
+
         .icon-one{
             fill: white;
             font-size: 1.2rem;
             margin-right: 6px;
         }
+
         .lang{
             display: flex;
             align-items: center;
@@ -298,6 +393,7 @@ const PageOneHeader = styled.div`
             padding: 8px 15px;
             border-radius: 15px;
         }
+
         .lang:hover{
             background-color: #a1a6dd;
             transition-duration: 250ms;
@@ -311,8 +407,10 @@ const PageOneHeader = styled.div`
             cursor: pointer;
             border-radius: 20px;
             font-weight: 500;
+
             display: flex;
             align-items: center;
+
             .icon{
                 fill: #333;
                 margin-right: 5px;
@@ -320,6 +418,8 @@ const PageOneHeader = styled.div`
             }
         }
     }
+
+
     .two{
         height: 42px;
         background-color: #f3f5f7;
@@ -327,11 +427,14 @@ const PageOneHeader = styled.div`
         align-items: center;
         justify-content: center;
         font-size: 0.7rem;
+
         border-bottom: 1px solid #ebdfdf;
+
         .two-link{
             margin-left: 5px;
         }
     }
+
     @media only screen and (max-width: 600px) {
         .one{
             height: 54px;
@@ -343,6 +446,7 @@ const PageOneHeader = styled.div`
                 font-weight: 700;
                 text-decoration: none;
             }
+
             .admin{
                 font-size: 0.55rem;
                 margin-left: 5px;
@@ -354,15 +458,19 @@ const PageOneHeader = styled.div`
             .lang{
                 visibility: hidden;
             }
+
             .btn{
                 visibility: hidden;
                 
             }
+
             .m-icon{
                 fill: white;
                 font-size: 2rem;
             }
         }
+
+
         .two{
             height: 42px;
             background-color: #f3f5f7;
@@ -370,6 +478,7 @@ const PageOneHeader = styled.div`
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
+
             .two-link{
                 margin-left: 5px;
             }
@@ -383,6 +492,7 @@ const Left = styled.div`
     background-color: #333;
     display: flex;
     flex-direction: column;
+
     .left-header{
         width: 100%;
         display: flex;
@@ -395,6 +505,7 @@ const Left = styled.div`
         background-color: #585353;
         padding: 10px;
         margin-bottom: 25px;
+
         div{
             display: flex;
             align-items: center;
@@ -404,12 +515,14 @@ const Left = styled.div`
             text-transform: uppercase;
             letter-spacing: 0.15rem;
         }
+
         .left-icon{
             fill: white;
             margin-right: 10px;
             font-size: 2rem;
         }
     }
+
     .left-item{
         display: flex;
         align-items: center;
@@ -425,21 +538,25 @@ const Left = styled.div`
         letter-spacing: 0.1rem;
         color: grey;
         text-decoration: none;
+
         .left-icon{
             fill: grey;
             font-size: 1.25rem;
             margin: -4px 10px 0 0;
         }
     }
+
     
     .left-item:hover{
         background-color: #0000006b;
         transition-duration: 250ms;
         color: white;
+
         .left-icon{
             fill: white;
         }
     }
+
     .active{
         background-color: #b9aaaa69;
         color: white;
@@ -448,30 +565,38 @@ const Left = styled.div`
             fill: white;
         }
     }
+
     .active:hover{
         background-color: #b9aaaa69;
     }
+
+
+
     @media only screen and (max-width: 600px){
         width: 100%;
         background-color: #333;
         display: flex;
         flex-direction: column;
         
+
         .left-header{
             font-size: 1rem;
             padding: 10px;
             margin-bottom: 0;
             justify-content: space-between;
             background-color: #5c63a9;
+
             .left-icon{
                 fill: white;
                 margin-right: 10px;
                 font-size: 1.4rem;
             }
+
             .left-icon-mob{
                 fill: white;
                 font-size: 2rem;
             }
+
             div{
                 color: white;
                 display: flex;
@@ -479,18 +604,22 @@ const Left = styled.div`
                 font-size: 1rem;
             }
         }
+
         .left-item{
             display: none;
         }
+
         
         .left-item:hover{
             background-color: #0000006b;
             transition-duration: 250ms;
             color: white;
+
             .left-icon{
                 fill: white;
             }
         }
+
         .active{
             background-color: #b9aaaa69;
             color: white;
@@ -499,15 +628,19 @@ const Left = styled.div`
                 fill: white;
             }
         }
+
         .active:hover{
             background-color: #b9aaaa69;
         }
+
     }
+
 `
 
 const Right = styled.div`
     flex: 1;
     background-color: #edf1f5;
+
     .head{
         padding: 16px 24px;
         box-shadow: 1px 0 20px rgb(0 0 0 / 8%);
@@ -515,19 +648,23 @@ const Right = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         h2{
             font-weight: 400;
             font-size: 1.25rem;
         }
+
         .left-links{
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             p{
                 font-size: 0.8rem;
                 color: grey;
                 margin-right: 15px;
             }
+
             button{
                 display: flex;
                 align-items: center;
@@ -546,12 +683,15 @@ const Right = styled.div`
             }
         }
     }
+
     .general{
         padding: 1.2rem;
         padding-right: 0;
+
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
+
         .card{
             width: 32%;
             height: 250px;
@@ -564,17 +704,22 @@ const Right = styled.div`
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
             .card-top{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
                 p{
                     font-size: 1rem;
                 }
+
                 .icon{
                     cursor: pointer;
                 }
+
             }
+
             .card-mid{
                 text-align: center;
                 h1{
@@ -586,10 +731,12 @@ const Right = styled.div`
                     color: orange;
                     font-size: 0.8rem;
                 }
+
                 img{
                     height: 7rem;
                 }
             }
+
             .desc{
                 font-size: 0.7rem;
                 color: grey;
@@ -597,8 +744,178 @@ const Right = styled.div`
             }
         }
     }
+
+    .general2{
+        padding: 1.2rem;
+        padding-right: 0;
+
+        display: flex;
+        justify-content: space-between;
+        /* align-items: center; */
+
+        .grand-card{
+    position: relative;
+    height: 512px;
+    width: 74%;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    border-radius: 10px;
+    margin-right: 1%;
+    padding: 1rem;
+
+    .card-top{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p{
+            font-size: 1rem;
+        }
+
+        .icon{
+            cursor: pointer;
+        }
+    }
+
+    .details{
+        margin-top: 30px;
+
+        .detail{
+            border: none;
+            background-color: rgb(238, 238, 238);
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            border: none;
+            outline: none;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .two-details{
+            display: flex;
+            justify-content: space-between;
+
+            .detail{
+                width: 49.5%;
+            }
+
+        }
+
+        .custom-select{
+                width: 49.5%;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                background-color: rgb(238, 238, 238);
+                display: grid;
+                place-items: center;
+                padding: 10px;
+                select{
+                    border: none;
+                    background-color: rgb(238, 238, 238);
+                    width: 100%;
+                    font-size: 0.8rem;
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+            }
+
+        textarea{
+            width: 100%;
+            height: 200px;
+        }
+    }
+
+    .submit-btn{
+        border: none;
+        background-color: cornflowerblue;
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .desc{
+        font-size: 0.6rem;
+        position: absolute;
+        bottom: 5px;
+        color: grey;
+    }
+}
+
+        .two-cards{
+            height: 520px;
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-right: 10px;
+
+            .card{
+                width: 100%;
+                height: 250px;
+                background-color: white;
+                box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+                border-radius: 10px;
+                margin-bottom: 10px;
+                margin-right: 1%;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+    
+                .card-top{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+    
+                    p{
+                        font-size: 1rem;
+                    }
+    
+                    .icon{
+                        cursor: pointer;
+                    }
+    
+                }
+
+                .card-mid{
+                    text-align: center;
+                    h1{
+                        color: orange;
+                        font-size: 5rem;
+                        line-height: 5rem;
+                    }
+                    p{
+                        color: orange;
+                        font-size: 0.8rem;
+                    }
+
+                    img{
+                        height: 7rem;
+                    }
+                }
+
+                .desc{
+                    font-size: 0.7rem;
+                    color: grey;
+                    text-align: center;
+                }
+            }
+        }
+
+
+        
+    }
+
+
+
     @media only screen and (max-width: 600px){
         flex: 1;
+
         .head{
             padding: 16px 24px;
             box-shadow: 1px 0 20px rgb(0 0 0 / 8%);
@@ -606,19 +923,23 @@ const Right = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             h2{
                 font-weight: 400;
                 font-size: 1.25rem;
             }
+
             .left-links{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
                 p{
                     font-size: 0.8rem;
                     color: grey;
                     margin-right: 15px;
                 }
+
                 button{
                     display: flex;
                     align-items: center;
@@ -637,11 +958,13 @@ const Right = styled.div`
                 }
             }
         }
+
         .general{
             padding: 0.5rem;
             display: flex;
             justify-content: flex-start;
             margin: 5px 0 15px 0;
+
             .card{
                 width: 100%;
                 height: 270px;
@@ -652,17 +975,22 @@ const Right = styled.div`
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+
                 .card-top{
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+
                     p{
                         font-size: 1rem;
                     }
+
                     .icon{
                         cursor: pointer;
                     }
+
                 }
+
                 .card-mid{
                     text-align: center;
                     h1{
@@ -674,10 +1002,12 @@ const Right = styled.div`
                         color: orange;
                         font-size: 0.8rem;
                     }
+
                     img{
                         height: 7rem;
                     }
                 }
+
                 .desc{
                     font-size: 0.7rem;
                     color: grey;
@@ -685,6 +1015,180 @@ const Right = styled.div`
                 }
             }
         }
+
+
+        .general2{
+        padding: 0.6rem 0.5rem;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+
+        
+
+        .grand-card{
+    position: relative;
+    height: auto;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+    border-radius: 10px;
+    margin-right: 0;
+    padding: 0.8rem;
+    padding-bottom: 60px;
+
+    .card-top{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p{
+            font-size: 1rem;
+        }
+
+        .icon{
+            cursor: pointer;
+        }
+    }
+
+    .details{
+        margin-top: 30px;
+
+
+        .detail{
+            border: none;
+            background-color: rgb(238, 238, 238);
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            border: none;
+            outline: none;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .two-details{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+
+            .detail{
+                width: 100%;
+
+            }
+
+        }
+
+        .custom-select{
+                width: 100%;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                background-color: rgb(238, 238, 238);
+                display: grid;
+                place-items: center;
+                padding: 10px;
+                select{
+                    border: none;
+                    background-color: rgb(238, 238, 238);
+                    width: 100%;
+                    font-size: 0.8rem;
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+            }
+
+        textarea{
+            width: 100%;
+            height: 200px;
+        }
+    }
+
+    .submit-btn{
+        border: none;
+        background-color: cornflowerblue;
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .desc{
+        font-size: 0.6rem;
+        position: absolute;
+        bottom: 5px;
+        color: grey;
+        max-width: 90vw;
+    }
+}
+
+        .two-cards{
+            height: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+
+            .card{
+                width: 100%;
+                height: 250px;
+                background-color: white;
+                box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+                border-radius: 10px;
+                margin-top: 10px;
+                margin-bottom: 0;
+                margin-right: 0;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+    
+                .card-top{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+    
+                    p{
+                        font-size: 1rem;
+                    }
+    
+                    .icon{
+                        cursor: pointer;
+                    }
+    
+                }
+
+                .card-mid{
+                    text-align: center;
+                    h1{
+                        color: orange;
+                        font-size: 5rem;
+                        line-height: 5rem;
+                    }
+                    p{
+                        color: orange;
+                        font-size: 0.8rem;
+                    }
+
+                    img{
+                        height: 7rem;
+                    }
+                }
+
+                .desc{
+                    font-size: 0.7rem;
+                    color: grey;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
     }
 `
 
@@ -694,11 +1198,13 @@ const CustomModal = styled.div`
     position: fixed;
     top: 0;
     z-index: 100;
+
     .touch-outside{
         height: 100vh;
         width: 100vw;
         background-color: #00000087;
     }    
+
     .container{
         height: auto;
         width: 50vw;
@@ -708,6 +1214,7 @@ const CustomModal = styled.div`
         top: 35vh;
         left: 25vw;
         padding: 1rem;
+
         .desc{
             font-size: 0.9rem;
             color: grey;
@@ -718,6 +1225,7 @@ const CustomModal = styled.div`
             width: 70%;
         }
     }
+
     .modalHeader{
         width: 100%;
         display: flex;
@@ -738,6 +1246,7 @@ const SbComponentOne = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
         a{
             text-decoration: none;
             color: white;

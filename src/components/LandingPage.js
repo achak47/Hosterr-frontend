@@ -14,9 +14,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import ExploreIcon from '@material-ui/icons/Explore';
+import ClearIcon from '@material-ui/icons/Clear';
+import logo from './logo.png'
 
 const LandingPage = () => {
+    if(sessionStorage.getItem("id")){
+        window.location.href = "/admin/dashboard/new-admin"  ;   
+    }
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
@@ -25,7 +30,8 @@ const LandingPage = () => {
     const[email,setEmail] = useState("") ;
     const[password,setPassword] = useState("") ;
     const[phone,setPhone] = useState("") ;
-    const[univ,setUniv] = useState("Jadavpur University") ;
+    const[univ,setUniv] = useState("JU") ;
+    const [showChat, setShowChat] = useState(false);
     const onSignin = ()=>{
         console.log(firstname,lastname,email,password,phone,univ) ;
         axios.post("http://localhost:8000/register",{
@@ -45,8 +51,19 @@ const LandingPage = () => {
     const onlogin = ()=>{
         axios.post("http://localhost:8000/login",{"email":email,"password":password}).then(res =>{
           if(res.status == 200){
-            alert(res.data) ;
-            window.location.href = "/user/dashboard/home"  ;  
+            const {id, name, email, institute, iscomplete} = res.data ;
+            sessionStorage.setItem("id", id);
+            sessionStorage.setItem("name", name);
+            sessionStorage.setItem("email", email);
+            sessionStorage.setItem("institute", institute);
+            sessionStorage.setItem("iscomplete",iscomplete) ;
+            axios.post("http://localhost:8000/application/status/user",{
+                "email": sessionStorage.getItem("email") ,
+                "user": sessionStorage.getItem("id")
+            }).then(res=>{
+                sessionStorage.setItem("Application",res.data.status) ;
+                window.location.href = "/user/dashboard/home"  ;  
+            })
           }
         }).catch((err)=> alert(err))
     }
@@ -73,10 +90,31 @@ const LandingPage = () => {
                     <></>
                 )
             }
+             {
+                showChat ? (
+                    <ChatContainer>
+                        <div className="top">
+                            <div className="tgher">
+                                <img src={logo} alt="" />
+                                <h1>Hosterr</h1>
+                            </div>
+                            <ClearIcon className="icon" onClick={() => setShowChat(false)}/>
+                        </div>
+                        <div className="powered-by">
+                            Hosterr Services, powered by Dialogflow.
+                        </div>
+                        <iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/96b4e058-f359-41ce-b76c-d7e50eeb442b"></iframe>
+                    </ChatContainer>
+                ):(
+                    <ChatInitaiter onClick={() => setShowChat(true)}>
+                            <img src="https://www.jing.fm/clipimg/full/120-1205146_chat-icon-png-image-circle.png" alt="" />
+                    </ChatInitaiter>
+                )
+            }
             <Container>
 
                 <PageOne>
-                    <PageOneHeader>
+                <PageOneHeader>
                         <div className="one">
                             <a href="/" className="title">
                                 Hosterr
@@ -86,12 +124,12 @@ const LandingPage = () => {
                                     <TranslateIcon className="icon-one" />
                                     EN
                                 </button>
-                                <div className="btn" onClick={() => setOpen(true)}>
-                                    <AddCircleIcon className="icon" />
+                                <Link to="/admin" className="btn" onClick={() => setOpen(true)}>
+                                    <ExploreIcon className="icon" />
                                     <>
-                                        List your hostel
+                                        Explore as Admin
                                     </>
-                                </div>
+                                </Link>
                                 <div className="mobile-only">
                                     <MenuIcon className="m-icon" />
                                 </div>
@@ -1550,3 +1588,112 @@ const CustomModal = styled.div`
         padding: 0.6rem 0;
     }
 `
+const ChatContainer = styled.div`
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    height: 70vh;
+    width: 360px;
+    background-color: white;
+    border: 1px solid #ddcccc;
+    border-radius: 20px;
+    z-index: 10;
+    overflow: hidden;
+
+    iframe{
+        height: 100%;
+        width: 100%;
+        border: none;
+    }
+
+    .top{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        background-color: #1c2e4e;
+        z-index: 11;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 3px 10px;
+
+        .tgher{
+            display: flex;
+            align-items: center;
+
+            img{
+                height: 2.6rem;
+            }
+        }
+
+        h1{
+            font-size: 1.8rem;
+            color: #b1c6dd;
+        }
+
+        .icon{
+            fill: white;
+            font-size: 1.75rem;
+            cursor: pointer;
+        }
+    }
+
+    .powered-by{
+        position: absolute;
+        top: 80px;
+        width: 100%;
+        height: 30px;
+        background-color: #fff3f3;
+        z-index: 11;
+        font-size: 0.7rem;
+        padding: calc(15px - 0.35rem);
+        color: grey;
+    }
+`
+
+const ChatInitaiter = styled.div`
+    height: 60px;
+    width: 60px;
+    position: fixed;
+    bottom: 70px;
+    right: 10px;
+    border-radius: 50%;
+    background-color: #f6f6f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    
+    img{
+        height: 50%;
+        cursor: pointer;
+    }
+`
+{/*
+ <div className="input-type-2-container">
+                                            <div className="custom-select">
+                                            <select onChange={(e)=>setGender(e.target.value)}>
+                                                <option value="">Gender</option>
+                                                <option value="Boys">Male</option>
+                                                <option value="Girls">Female</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div className="custom-select">
+                                            <select onChange={(e)=>setYear(e.target.value)}>
+                                                <option value="">Year of study</option>
+                                                <option value="UG 1">UG 1</option>
+                                                <option value="UG 2">UG 2</option>
+                                                <option value="UG 3">UG 3</option>
+                                                <option value="UG 4">UG 4</option>
+                                                <option value="PG 1">PG 1</option>
+                                                <option value="PG 2">PG 2</option>
+                                                <option value="PHD">PHD</option>
+                                            </select>
+                                        </div>
+                            
+                                            </div>
+*/}

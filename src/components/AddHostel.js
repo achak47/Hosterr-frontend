@@ -31,12 +31,13 @@ const AddHostel = () => {
             alert("Please select a Hostel Type !") ;
             return ;
         }
+       const user = sessionStorage ;
        console.log(name,address,gender) ; 
        axios.post('http://localhost:8000/admin/add/hostel',{
-        user:sessionStorage.getItem("id") ,
-        gender:gender,
-        name:name,
-        address:address
+        user ,
+        gender,
+        name,
+        address
        }).then(resp=>{
           if(resp.status == 200){
               alert("Hostel Added Succesfully !!!") ;
@@ -108,14 +109,10 @@ const AddHostel = () => {
                             <HomeIcon className="left-icon" />
                             Home
                         </Link>
-                        <Link to="/" className="left-item">
+                        <Link to="/admin/dashboard/applications" className="left-item">
                             <AssignmentIcon className="left-icon" />
                             applications
                         </Link>
-                        {/* <div className="left-item">
-                            <VpnKeyIcon className="left-icon"/>
-                            Change Password
-                        </div> */}
                         <Link to="/admin/dashboard/hostel/add" className="left-item active">
                             <AddIcon className="left-icon" />
                             Add Hostel
@@ -124,15 +121,23 @@ const AddHostel = () => {
                             <AddIcon className="left-icon" />
                             Add Rooms
                         </Link>
-                        <Link to="/" className="left-item">
+                        <Link to="/admin/dashboard/guest-room/add" className="left-item">
+                            <AddIcon className="left-icon" />
+                            Add Guest House
+                        </Link>
+                        <Link to="/admin/dashboard/canteen/add" className="left-item">
+                            <AddIcon className="left-icon" />
+                            Add Canteen
+                        </Link>
+                        <Link to="/admin/dashboard/inbox" className="left-item">
                             <EmailIcon className="left-icon" />
                             Indox
                         </Link>
-                        <Link to="/" className="left-item">
+                        <Link to="/admin/dashboard/accesslogs" className="left-item">
                             <SupervisorAccountIcon className="left-icon" />
-                            Access logs
+                            Accommodation Details
                         </Link>
-                        <Link to="/" className="left-item">
+                        <Link to="/admin/dashboard/profile" className="left-item">
                             <AccountCircleIcon className="left-icon" />
                             My profile
                         </Link>
@@ -220,8 +225,10 @@ const AddHostel = () => {
                     <Link to="/admin/dashboard/applications">Applications</Link>
                     <Link to="/admin/dashboard/hostel/add">Add Hostel</Link>
                     <Link to="/admin/dashboard/room/add">Add Rooms</Link>
+                    <Link to="/admin/dashboard/guest-room/add">Add Guest House</Link>
+                    <Link to="/admin/dashboard/canteen/add">Add Canteen</Link>
                     <Link to="/admin/dashboard/inbox">Inbox</Link>
-                    <Link to="/admin/dashboard/hostel/details">Hostel Details</Link>
+                    <Link to="/admin/dashboard/accesslogs">Accommodation Details</Link>
                     <Link to="/admin/dashboard/profile">My Profile</Link>
                 </SbComponentOne>
                 <RemoveSideBar onClick={(e) => setSideBar(false)}>
