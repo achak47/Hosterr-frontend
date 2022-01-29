@@ -38,7 +38,11 @@ const UserGuestHouse = () => {
           arrival_date ,
           departure_date
       }).then(res=>{
-          alert(res.data.message) ;
+          //alert(res.data.message) ;
+          alert("Your booking is almost complete , just finish the payment to complete your booking") ;
+          const amount = res.data.amount ;
+          sessionStorage.setItem("guesthouseamount",amount) ;
+          window.location.href = "/guesthouse/payment"
       }).catch(err => console.log(err)) ;
     }
     return (
