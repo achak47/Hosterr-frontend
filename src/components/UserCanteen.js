@@ -131,14 +131,16 @@ const UserCanteen = () => {
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
                                 <p>Dashboard > Canteen</p>
-                                <button>
+                                <Link to="/user/dashboard/contact-admin" className="left-item">
+                                <button href="/user/dashboard/contact-admin">
                                     <ChatBubbleIcon className="icon" />
                                     Talk to Admin
                                 </button>
+                                </Link>
                             </div>
                         </div>
                         <div className="general">
-                            {
+                            { canteen.length>0?(
                                 canteen.map(item=>
                                     <div className="card">
                                     <div className="card-top">
@@ -153,6 +155,7 @@ const UserCanteen = () => {
                                       <br />  Contact : <a> {item.phone}</a></div>
                                 </div>
                                     )
+                            ):(<div>No canteens added yet by your Admin </div>)
                             }
                             {/* code */}
                         </div>

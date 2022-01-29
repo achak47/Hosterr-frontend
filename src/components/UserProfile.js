@@ -12,6 +12,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import RoomIcon from '@material-ui/icons/Room';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import CachedIcon from '@material-ui/icons/Cached';
+import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
 import EmojiFoodBeverageIcon from '@material-ui/icons/EmojiFoodBeverage';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
@@ -48,6 +49,10 @@ const UserProfile = () => {
             sessionStorage.setItem("gender",gender) ;
             sessionStorage.setItem("iscomplete",true) ;
         })
+    }
+    const onSignout =()=>{
+        sessionStorage.clear();
+        window.location.href = "/"
     }
     return (
         <>
@@ -126,23 +131,19 @@ const UserProfile = () => {
                             <CachedIcon className="left-icon" />
                             Room Change
                         </Link>
-                        <Link to="/user/dashboard" className="left-item">
+                        <Link to="/user/dashboard/canteen" className="left-item">
                             <EmojiFoodBeverageIcon className="left-icon" />
                             Hostel Canteen
                         </Link>
-                        <Link to="/user/dashboard" className="left-item">
+                        <Link to="/user/dashboard/guest-house/req" className="left-item">
+                            <AirlineSeatIndividualSuiteIcon className="left-icon" />
+                            Guest House
+                        </Link>
+                        <Link to="/user/dashboard/contact-admin" className="left-item">
                             <SupervisorAccountIcon className="left-icon" />
                             Contact Admin
                         </Link>
-                        <Link to="/user/dashboard" className="left-item">
-                            <LocalLaundryServiceIcon className="left-icon" />
-                            Room Service
-                        </Link>
-                        <Link to="/user/dashboard" className="left-item">
-                            <MonetizationOnIcon className="left-icon" />
-                            All Payments
-                        </Link>
-                        <Link to="/user/dashboard/myprofile" className="left-item active">
+                        <Link to="/user/dashboard/profile" className="left-item active">
                             <AccountCircleIcon className="left-icon" />
                             My profile
                         </Link>
@@ -184,7 +185,7 @@ const UserProfile = () => {
                             <button className="submit-btn">
                                 Confirm Changes
                             </button>
-                            <button className="submit-btn red">
+                            <button className="submit-btn red" onClick={onSignout}>
                                 Sign Out
                             </button>
                         <div className="two-cards">

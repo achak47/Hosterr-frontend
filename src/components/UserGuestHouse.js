@@ -136,10 +136,12 @@ const UserGuestHouse = () => {
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
                                 <p>Dashboard > Home</p>
-                                <button>
+                                <Link to="/user/dashboard/contact-admin" className="left-item">
+                                <button href="/user/dashboard/contact-admin">
                                     <ChatBubbleIcon className="icon" />
                                     Talk to Admin
                                 </button>
+                                </Link>
                             </div>
                         </div>
                         <div className="general">
@@ -189,8 +191,8 @@ const UserGuestHouse = () => {
                                         <div className="card-mid">
                                             <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                            <a> Contact Now</a></div>
+                                        <div className="desc">You can contact your Hostel admin anytime for any query
+                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
                                     </div>
                             </div>
                         </div>

@@ -10,6 +10,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import HomeIcon from '@material-ui/icons/Home';
 import RoomIcon from '@material-ui/icons/Room';
+import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import CachedIcon from '@material-ui/icons/Cached';
 import EmojiFoodBeverageIcon from '@material-ui/icons/EmojiFoodBeverage';
@@ -138,18 +139,24 @@ const DashBoard = () => {
                             <CachedIcon className="left-icon" />
                             Room Change
                         </Link>
-                        <Link to="/user/dashboard" className="left-item">
+                        <Link to="/user/dashboard/canteen" className="left-item">
                             <EmojiFoodBeverageIcon className="left-icon" />
                             Hostel Canteen
                         </Link>
-                        <Link to="/user/dashboard" className="left-item">
+                        <Link to="/user/dashboard/guest-house/req" className="left-item">
+                            <AirlineSeatIndividualSuiteIcon className="left-icon" />
+                            Guest House
+                        </Link>
+                        <Link to="/user/dashboard/contact-admin" className="left-item">
                             <SupervisorAccountIcon className="left-icon" />
                             Contact Admin
                         </Link>
+                        {/*
                         <Link to="/user/dashboard" className="left-item">
                             <LocalLaundryServiceIcon className="left-icon" />
                             Room Service
                         </Link>
+                        */}
                         <Link to="/user/dashboard/profile" className="left-item">
                             <AccountCircleIcon className="left-icon" />
                             My profile
@@ -160,10 +167,12 @@ const DashBoard = () => {
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
                                 <p>Dashboard > Home</p>
-                                <button>
+                                <Link to="/user/dashboard/contact-admin" className="left-item">
+                                <button href="/user/dashboard/contact-admin">
                                     <ChatBubbleIcon className="icon" />
                                     Talk to Admin
                                 </button>
+                                </Link>
                             </div>
                         </div>
                         {
@@ -195,28 +204,28 @@ const DashBoard = () => {
                                         <div className="desc">*you will get a mail and also an alert on the site on updates regarding your room, within 7 days.</div>
                                     </div>
                                     <div className="two-cards">
-                                        <div className="card">
-                                            <div className="card-top">
-                                                <p>Profile Status</p>
-                                                <MoreVertIcon className="icon" />
-                                            </div>
-                                            <div className="card-mid">
-                                                <h1>78</h1>
-                                                <p>Percentage of your profile is complete</p>
-                                            </div>
-                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
+                                    <div className="card">
+                                        <div className="card-top">
+                                            <p>Profile Status</p>
+                                            <MoreVertIcon className="icon" />
                                         </div>
-                                        <div className="card">
-                                            <div className="card-top">
-                                                <p>Contact Hostel Admin</p>
-                                                <MoreVertIcon className="icon" />
-                                            </div>
-                                            <div className="card-mid">
-                                                <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
-                                            </div>
-                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                                <a> Contact Now</a></div>
+                                        <div className="card-mid">
+                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73%</h1>):(<h1>100%</h1>)}
+                                            <p>Percentage of your profile is complete</p>
                                         </div>
+                                        <div className="desc">Pls complete your profile fully </div>
+                                    </div>
+                                        <div className="card">
+                                        <div className="card-top">
+                                            <p>Contact Hostel Admin</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                        </div>
+                                        <div className="desc">You can contact your Hostel admin anytime for any query
+                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
+                                    </div>
                                     </div>
                                 </div>
                             ) : (

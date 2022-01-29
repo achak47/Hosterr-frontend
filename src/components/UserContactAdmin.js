@@ -155,31 +155,21 @@ const UserContactAdmin = () => {
                                 <button className="submit-btn" onClick={onSend}>
                                     Send to Admin
                                 </button>
-                                <div className="desc">*Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas consectetur incidunt, dolorem tempora nisi culpa. Repellendus odit, mollitia autem iusto alias molestiae molestias id assumenda temporibus quis consectetur nesciunt natus. </div>
+                                <div className="desc">*Pls don't disturb your admin for unnecessary things </div>
                             </div>
                             <div className="two-cards">
-                                <div className="card">
+                            <div className="card">
                                         <div className="card-top">
                                             <p>Profile Status</p>
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>78</h1>
-                                            <p>Percentage profile is complete</p>
+                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73%</h1>):(<h1>100%</h1>)}
+                                            <p>Percentage of your profile is complete</p>
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet adipisicing elit. Ullam, atque.</div>
+                                        <div className="desc">Pls complete your profile fully </div>
                                     </div>
-                                <div className="card">
-                                    <div className="card-top">
-                                        <p>Contact Hostel Admin</p>
-                                        <MoreVertIcon className="icon" />
-                                    </div>
-                                    <div className="card-mid">
-                                        <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
-                                    </div>
-                                    <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                        <a> Contact Now</a></div>
-                                </div>
+                               
                             </div>
                         </div>
                     </Right>

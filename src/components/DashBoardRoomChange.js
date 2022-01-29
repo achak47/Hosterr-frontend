@@ -175,16 +175,16 @@ const DashBoardRoomChange = () => {
                                     <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
                                 </div>
                                 <div className="card">
-                                    <div className="card-top">
-                                        <p>Contact Hostel Admin</p>
-                                        <MoreVertIcon className="icon" />
+                                        <div className="card-top">
+                                            <p>Contact Hostel Admin</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                        </div>
+                                        <div className="desc">You can contact your Hostel admin anytime for any query
+                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
                                     </div>
-                                    <div className="card-mid">
-                                        <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
-                                    </div>
-                                    <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                        <a> Contact Now</a></div>
-                                </div>
                             </div>
                         </div>
                     </Right>
