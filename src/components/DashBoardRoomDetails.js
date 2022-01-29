@@ -153,6 +153,10 @@ const DashBoardRoomDetails = () => {
                                 </div>
                                 {Object.keys(hosteldetails).length > 0 ? (
                                     <div className="details">
+                                         <div className="detail">
+                                            <p className="cat">College :</p>
+                                            <p className="res"> <b>Jadavpur University</b></p>
+                                        </div>
                                         <div className="detail">
                                             <p className="cat">1. Room No. :</p>
                                             <p className="res"> {hosteldetails.hostel.roomno}</p>
