@@ -27,6 +27,7 @@ const Inbox = () => {
     const [showInbox, setShowInbox] = useState(false);
     const [queries, setQueries] = useState([]) ;
     const [student,setStudent] = useState({}) ;
+    const [reply,setReply] = useState("") ;
     const user = sessionStorage ;
     useEffect(()=>{
         axios.post("http://localhost:8000/admin/findQueries",{
@@ -37,6 +38,17 @@ const Inbox = () => {
         })
         .then(err => console.log(err)) ;
     },[])
+    const onSend = ()=>{
+        console.log(reply) ;
+        axios.post("http://localhost:8000/admin/query/",{
+            user:sessionStorage ,
+            content: reply ,
+            query_id : student._id
+        }).then(res=>{
+            alert("Reply added Succesfully !!!") ;
+            window.location.href = "/admin/dashboard/inbox" ;
+        })
+    }
     return (
         <>
             {
@@ -102,9 +114,9 @@ const Inbox = () => {
                             <HomeIcon className="left-icon" />
                             Home
                         </Link>
-                        <Link to="/admin/dashboard/queries" className="left-item">
+                        <Link to="/admin/dashboard/applications" className="left-item">
                             <AssignmentIcon className="left-icon" />
-                            queries
+                            Applications
                         </Link>
                         <Link to="/admin/dashboard/hostel/add" className="left-item">
                             <AddIcon className="left-icon" />
@@ -171,12 +183,12 @@ const Inbox = () => {
                                                 <p className="res">{student.message}</p>
                                             </div>
                                             <div className="reply">
-                                            <textarea name="" id="" className="detail" placeholder="Reply to the Inbox, write here..."></textarea>
+                                            <textarea name="" id="" className="detail" placeholder="Reply to the Inbox, write here..." onChange={(e)=>setReply(e.target.value)}></textarea>
                                             </div>
                                         </div>
                                         <div className="btns-new">
-                                            <button className="btn">Send Reply</button>
-                                            <button className="btn red-bg">Cancel</button>
+                                            <button className="btn" onClick={onSend}>Send Reply</button>
+                                            <button className="btn red-bg" onClick={() => setShowInbox(false)}>Cancel</button>
                                         </div>
                                         <div className="desc">*It is always advised to check the candiates profile to verify that it is not a fake profile.</div>
                                     </div>
@@ -195,6 +207,7 @@ const Inbox = () => {
                                                 
                                             </div>
                                             {
+                                                queries.length>0?(
                                                 queries.map((item,index)=>
                                                     <div className="detail">
                                                     <div className="room-no">{index+1}</div>
@@ -202,8 +215,7 @@ const Inbox = () => {
                                                     <a className="resident" onClick={() =>{setShowInbox(true) ; setStudent(item) }}>
                                                         <>View Detailed</>
                                                         <OpenInNewIcon className="icon" /></a>
-                                                </div>
-                                                    )
+                                                </div>)):(<div>No current Messages</div>)
                                             }
                                         </div>
                                     </div>

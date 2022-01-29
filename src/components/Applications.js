@@ -302,7 +302,7 @@ const Applications = () => {
                                         <MoreVertIcon className="icon" />
                                     </div>
                                     <div className="card-mid">
-                                        <h1>3</h1>
+                                        <h1>{applications.length}</h1>
                                         <p>Applications Pending</p>
                                     </div>
                                     <div className="desc">These are the number of applications you have not addressed!</div>

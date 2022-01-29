@@ -192,7 +192,7 @@ const UserGuestHouse = () => {
                                             <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
                                         </div>
                                         <div className="desc">You can contact your Hostel admin anytime for any query
-                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
+                                            <Link to="/user/dashboard/contact-admin"> Contact Now</Link></div>
                                     </div>
                             </div>
                         </div>

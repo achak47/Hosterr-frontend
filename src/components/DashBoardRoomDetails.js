@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
@@ -21,12 +21,28 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
+import axios from 'axios';
+import Dashboard from '@material-ui/icons/Dashboard';
 
 
 const DashBoardRoomDetails = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-
+    const [hosteldetails,setHostel] =  useState({}) ;
+    const [admin,setAdmin] = useState("") ;
+    const user = sessionStorage ;
+    let date = new Date() ;
+    let day = date.getDate();
+    console.log(day) ;
+    useEffect(()=>{
+       axios.post("http://localhost:8000/hostel/getdetails",{
+          user
+       }).then(res=>{
+           console.log(res.data) ;
+           setHostel(res.data[0]) ;
+           setAdmin(res.data[1]) ;
+       }).catch(err => console.log(err)) ;
+    },[])
 
     return (
         <>
@@ -135,57 +151,87 @@ const DashBoardRoomDetails = () => {
                                     <p>Room Details</p>
                                     <MoreVertIcon className="icon" />
                                 </div>
-                                <div className="details">
+                                {Object.keys(hosteldetails).length>0?(
+                                        <div className="details">
+                                        <div className="detail">
+                                            <p className="cat">1. Room No. :</p>
+                                            <p className="res"> {hosteldetails.hostel.roomno}</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">2. Room Type : </p>
+                                            <p className="res">Normal</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">3. Belongs to PWD student : </p>
+                                            <p className="res">No</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">4. Room owner(s) : </p>
+                                            <p className="res">{admin}</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">5. Fees (PM) : </p>
+                                            <p className="res">{hosteldetails.hostel.fees}</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">6. Staying From : </p>
+                                            <p className="res">14 February, 2020</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">8. Due Payment : </p>
+                                            <p className="res">{!sessionStorage.getItem("amount")?(<span>0</span>):(<span>{sessionStorage.getItem("amount")}</span>)}</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">9. Total Room Services : </p>
+                                            <p className="res">{31-day} left out of 31</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">10. Room Change: </p>
+                                            <p className="res">Allowed</p>
+                                        </div>
+    
+                                    </div>
+                                ):(
+                                    <div className="details">
                                     <div className="detail">
                                         <p className="cat">1. Room No. :</p>
-                                        <p className="res"> 78 - Type B, Block 2</p>
+                                        <p className="res"> --</p>
                                     </div>
                                     <div className="detail">
                                         <p className="cat">2. Room Type : </p>
-                                        <p className="res">Dual - Male (AC)</p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
                                         <p className="cat">3. Belongs to PWD student : </p>
-                                        <p className="res">No</p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
                                         <p className="cat">4. Room owner(s) : </p>
-                                        <p className="res">Tom Riddle, Atanu Nayak</p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
                                         <p className="cat">5. Fees (PM) : </p>
-                                        <p className="res">3000 INR.</p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
-                                        <p className="cat">6. Food Status : </p>
-                                        <p className="res">With food (NON-VEG)</p>
+                                        <p className="cat">6. Staying From : </p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
-                                        <p className="cat">7. Staying From : </p>
-                                        <p className="res">14 February, 2020</p>
+                                        <p className="cat">7. Due Payment : </p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
-                                        <p className="cat">8. Due Payment : </p>
-                                        <p className="res">4600 INR, including all other payments - Not given since Oct, 2021</p>
+                                        <p className="cat">8. Total Room Services : </p>
+                                        <p className="res">--</p>
                                     </div>
                                     <div className="detail">
-                                        <p className="cat">9. Total Room Services : </p>
-                                        <p className="res">12 out of 15 already taken for this semester.</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">10. Room Change: </p>
-                                        <p className="res">Allowed</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">11. Electric Bill : </p>
-                                        <p className="res">800 INR - Not given since Oct, 2021</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">12. Empty by : </p>
-                                        <p className="res">31st March 2022</p>
+                                        <p className="cat">9. Room Change: </p>
+                                        <p className="res">--</p>
                                     </div>
 
                                 </div>
+                                )}
                             </div>
                             <div className="two-cards">
                                 <div className="card">

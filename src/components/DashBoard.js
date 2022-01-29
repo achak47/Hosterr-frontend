@@ -27,7 +27,7 @@ import axios from 'axios' ;
 const DashBoard = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [amount,setAmount] = useState(0) ;
+    const [amount,setAmount] = useState([0,0]) ;
     useEffect(()=>{
       axios.post("http://localhost:8000/application/status/user",{
           "email": sessionStorage.getItem("email") ,
@@ -237,7 +237,7 @@ const DashBoard = () => {
                                         </div>
                                         <div className="card-mid">
                                             <h1>{amount[1]}</h1><span>month(s)</span>
-                                            <p>Payments due over {amount[0]} INR.</p>
+                                           {amount[1]==0?( <p>Payments due over {amount[0]} INR.</p>):( <p>All payments up to date</p>)}
                                         </div>
                                         <div className="desc">No last date for this semester but it suggested to pay as soon as possible.
                                             <a href="/payment-gateway"> Pay now</a></div>
@@ -286,7 +286,7 @@ const DashBoard = () => {
                                             <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
                                         </div>
                                         <div className="desc">You can contact your Hostel admin anytime for any query
-                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
+                                            <a href="/user/dashboard/contact-admin"> Contact Now</a></div>
                                     </div>
                                 </div>
 

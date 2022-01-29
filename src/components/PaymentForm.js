@@ -8,7 +8,7 @@ const CARD_OPTIONS = {
     style: {
         base: {
             iconColor: "#c4f0ff",
-            color: "#0000",
+            color: "#333",
             fontWeight: 500,
             fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
             fontSize: "16px",
@@ -48,7 +48,7 @@ export default function PaymentForm() {
                 stripeToken: result.token.id
             }).then(res=>{
                 console.log(res.data) ;
-                window.location.href = "/payment-gateway/success"
+                //window.location.href = "/payment-gateway/success"
             }).catch(err => console.log(err)) ;
         }
     }

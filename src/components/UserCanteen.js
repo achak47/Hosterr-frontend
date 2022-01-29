@@ -27,12 +27,17 @@ import axios from 'axios' ;
 const UserCanteen = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [canteen,setCanteen] = useState([])
+    const [opencanteen,setCanteenopen] = useState([])
+    const [closedcanteen,setCanteenclose] = useState([])
     const user = sessionStorage ;
     useEffect(()=>{
        axios.post("http://localhost:8000/canteens",{
         user
-       }).then(res=>{console.log(res.data);setCanteen(res.data)})
+       }).then(res=>{
+           console.log(res.data);
+           setCanteenopen(res.data.canteens_open)
+           setCanteenclose(res.data.canteens_closed)
+        })
        .catch(err=> console.log(err)) ;
     },[])
 
@@ -140,8 +145,8 @@ const UserCanteen = () => {
                             </div>
                         </div>
                         <div className="general">
-                            { canteen.length>0?(
-                                canteen.map(item=>
+                            { opencanteen.length>0?(
+                                opencanteen.map(item=>
                                     <div className="card">
                                     <div className="card-top">
                                         <p>{item.name}</p>
@@ -155,8 +160,28 @@ const UserCanteen = () => {
                                       <br />  Contact : <a> {item.phone}</a></div>
                                 </div>
                                     )
-                            ):(<div>No canteens added yet by your Admin </div>)
+                            ):(<div>No canteens open now </div>)
                             }
+                            <div>
+                            {
+                                closedcanteen.length>0?(
+                                    closedcanteen.map(item=>
+                                        <div className="card rjt-card">
+                                        <div className="card-top">
+                                            <p>{item.name}</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <img src="https://abskitchen.co.in/onlineorder/img/defLogo.png?1537453188" alt="" />
+                                        </div>
+                                        <div className="status">Currently Open</div>
+                                        <div className="desc">This canteen can provide to with food anyday, in specific hours - <b>{item.start}hrs to {item.end} hrs</b>.
+                                          <br />  Contact : <a> {item.phone}</a></div>
+                                    </div>
+                                        )
+                                ):(<div></div>)
+                            }
+                            </div>
                             {/* code */}
                         </div>
                     </Right>
