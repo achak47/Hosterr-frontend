@@ -260,7 +260,8 @@ const DashBoardRoomDetails = () => {
                                     <img src="https://cdn0.iconfinder.com/data/icons/health-icons-rounded/110/Hospital-512.png" alt="" />
                                     <div className="text">
                                         <div className="top">Find Hospital</div>
-                                        <a href="/" className="link">View Nearest Hospital</a>
+                                        <a target="_blank" href="https://www.google.com/search?sxsrf=APq-WBu4Sv9DQWdFOuamXAkgHF93Inw2hg:1643470281884&q=hospitals+near+jadavpur+university&npsic=0&rflfq=1&rldoc=1&rllag=22492365,88372589,248&tbm=lcl&sxsrf=APq-WBu4Sv9DQWdFOuamXAkgHF93Inw2hg:1643470281884&sa=X&ved=2ahUKEwj50ebyo9f1AhViUWwGHRZXBMIQtgN6BAgDEFk&biw=1280&bih=609&dpr=1.5#rlfi=hd:;si:;mv:[[22.5106710890496,88.40387816453921],[22.47458893433815,88.33006377244936],null,[22.49263118777861,88.36697096849429],14]
+" className="link" >View Nearest Hospital</a>
                                     </div>
                                 </div>
                                 <div className="card">
