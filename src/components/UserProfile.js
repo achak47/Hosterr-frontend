@@ -152,7 +152,7 @@ const UserProfile = () => {
                         <div className="head not-mobile">
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
-                                <p>Dashboard > Room Change</p>
+                                <p>Dashboard Room Change</p>
                                 <button>
                                     <AddCircleIcon className="icon" />
                                     Create New
@@ -170,12 +170,14 @@ const UserProfile = () => {
                                         </div>
                                         <div className="details">
                                             <div className="two-details">
-                                                <input type="text" className="detail" placeholder="Year of Study" />
-                                                <input type="text" className="detail" placeholder="Gender" />
+                                                <input type="text" className="detail" placeholder="Year of Study" onChange={(e) => setYear(e.target.value)}/>
+                                                <input type="text" className="detail" placeholder="Gender" onChange={(e) => setGender(e.target.value)}/>
                                             </div>
-                                            <input type="text" className="detail" placeholder="Roll no." />
+                                            <input type="text" className="detail" placeholder="Roll no." onChange={(e) => setRoll(e.target.value)} />
+                                            <input type="text" className="detail" placeholder="Department" onChange={(e) => setDepartment(e.target.value)} />
+                                            <input type="text" className="detail" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
                                         </div>
-                                        <button className="submit-btn">
+                                        <button className="submit-btn" onClick={onSubmit}>
                                             Confirm
                                         </button>
                                         {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
@@ -221,7 +223,7 @@ const UserProfile = () => {
                                             <input type="text" className="detail" placeholder="Department" onChange={(e) => setDepartment(e.target.value)} />
                                             <input type="text" className="detail" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
                                         </div>
-                                        <button className="submit-btn">
+                                        <button className="submit-btn" onClick={onSubmit}>
                                             Confirm
                                         </button>
                                     </div>

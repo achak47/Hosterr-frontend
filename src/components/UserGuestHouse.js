@@ -135,7 +135,7 @@ const UserGuestHouse = () => {
                         <div className="head not-mobile">
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
-                                <p>Dashboard > Home</p>
+                                <p>Dashboard  Home</p>
                                 <Link to="/user/dashboard/contact-admin" className="left-item">
                                 <button href="/user/dashboard/contact-admin">
                                     <ChatBubbleIcon className="icon" />
