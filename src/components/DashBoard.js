@@ -54,6 +54,14 @@ const DashBoard = () => {
       }).catch(err => alert(err))
     }
     useEffect(()=>{
+        axios.post("http://localhost:8000/roomchange/details",{
+            user: sessionStorage
+        }).then(res=>{
+          if(res.data) sessionStorage.setItem("roomchange",0) ;
+          else sessionStorage.setItem("roomchange",1)
+        }).catch(err => console.log(err))
+    })
+    useEffect(()=>{
       axios.post("http://localhost:8000/pay/detail",{
           user: sessionStorage
       }).then(res=>{
@@ -236,8 +244,8 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>{amount[1]}</h1><span>month(s)</span>
-                                           {amount[1]==0?( <p>Payments due over {amount[0]} INR.</p>):( <p>All payments up to date</p>)}
+                                            <h1>{amount[1]}</h1>
+                                           {amount[1]==0?( <p>Months payment due over {amount[0]} INR.</p>):( <p>All payments up to date</p>)}
                                         </div>
                                         <div className="desc">No last date for this semester but it suggested to pay as soon as possible.
                                             <a href="/payment-gateway"> Pay now</a></div>
@@ -261,7 +269,7 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>1</h1>
+                                            <h1>{sessionStorage.getItem("roomchange")?(<>{sessionStorage.getItem("roomchange")}</>):(<>1</>)}</h1>
                                             <p>Left for this semester</p>
                                         </div>
                                         <div className="desc">You can apply for the room change only once in this semester </div>
@@ -272,10 +280,10 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73%</h1>):(<h1>100%</h1>)}
+                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73</h1>):(<h1>100</h1>)}
                                             <p>Percentage of your profile is complete</p>
                                         </div>
-                                        <div className="desc">Pls complete your profile fully </div>
+                                        <div className="desc">You must complete your profile fully </div>
                                     </div>
                                     <div className="card">
                                         <div className="card-top">

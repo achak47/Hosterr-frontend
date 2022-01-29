@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
@@ -28,21 +28,21 @@ import Dashboard from '@material-ui/icons/Dashboard';
 const DashBoardRoomDetails = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [hosteldetails,setHostel] =  useState({}) ;
-    const [admin,setAdmin] = useState("") ;
-    const user = sessionStorage ;
-    let date = new Date() ;
+    const [hosteldetails, setHostel] = useState({});
+    const [admin, setAdmin] = useState("");
+    const user = sessionStorage;
+    let date = new Date();
     let day = date.getDate();
-    console.log(day) ;
-    useEffect(()=>{
-       axios.post("http://localhost:8000/hostel/getdetails",{
-          user
-       }).then(res=>{
-           console.log(res.data) ;
-           setHostel(res.data[0]) ;
-           setAdmin(res.data[1]) ;
-       }).catch(err => console.log(err)) ;
-    },[])
+    console.log(day);
+    useEffect(() => {
+        axios.post("http://localhost:8000/hostel/getdetails", {
+            user
+        }).then(res => {
+            console.log(res.data);
+            setHostel(res.data[0]);
+            setAdmin(res.data[1]);
+        }).catch(err => console.log(err));
+    }, [])
 
     return (
         <>
@@ -151,8 +151,8 @@ const DashBoardRoomDetails = () => {
                                     <p>Room Details</p>
                                     <MoreVertIcon className="icon" />
                                 </div>
-                                {Object.keys(hosteldetails).length>0?(
-                                        <div className="details">
+                                {Object.keys(hosteldetails).length > 0 ? (
+                                    <div className="details">
                                         <div className="detail">
                                             <p className="cat">1. Room No. :</p>
                                             <p className="res"> {hosteldetails.hostel.roomno}</p>
@@ -178,87 +178,107 @@ const DashBoardRoomDetails = () => {
                                             <p className="res">14 February, 2020</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">8. Due Payment : </p>
-                                            <p className="res">{!sessionStorage.getItem("amount")?(<span>0</span>):(<span>{sessionStorage.getItem("amount")}</span>)}</p>
+                                            <p className="cat">7. Due Payment : </p>
+                                            <p className="res">{!sessionStorage.getItem("amount") ? (<span>0</span>) : (<span>{sessionStorage.getItem("amount")}</span>)}</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">9. Total Room Services : </p>
-                                            <p className="res">{31-day} left out of 31</p>
+                                            <p className="cat">8. Total Room Services : </p>
+                                            <p className="res">{31 - day} left out of 31</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">10. Room Change: </p>
+                                            <p className="cat">9. Room Change: </p>
                                             <p className="res">Allowed</p>
                                         </div>
-    
-                                    </div>
-                                ):(
-                                    <div className="details">
-                                    <div className="detail">
-                                        <p className="cat">1. Room No. :</p>
-                                        <p className="res"> --</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">2. Room Type : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">3. Belongs to PWD student : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">4. Room owner(s) : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">5. Fees (PM) : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">6. Staying From : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">7. Due Payment : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">8. Total Room Services : </p>
-                                        <p className="res">--</p>
-                                    </div>
-                                    <div className="detail">
-                                        <p className="cat">9. Room Change: </p>
-                                        <p className="res">--</p>
-                                    </div>
 
-                                </div>
+                                    </div>
+                                ) : (
+                                    <div className="details">
+                                        <div className="detail">
+                                            <p className="cat">1. Room No. :</p>
+                                            <p className="res"> --</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">2. Room Type : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">3. Belongs to PWD student : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">4. Room owner(s) : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">5. Fees (PM) : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">6. Staying From : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">7. Due Payment : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">8. Total Room Services : </p>
+                                            <p className="res">--</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">9. Room Change: </p>
+                                            <p className="res">--</p>
+                                        </div>
+
+                                    </div>
                                 )}
                             </div>
-                            <div className="two-cards">
+                            <div className="multi-cards">
+                                {/* code */}
                                 <div className="card">
-                                    <div className="card-top">
-                                        <p>Due Payments</p>
-                                        <MoreVertIcon className="icon" />
+                                    <img src="https://www.just.edu.jo/Units_and_offices/Offices/IRO/PublishingImages/Pages/default/3-512.png" alt="" />
+                                    <div className="text">
+                                        <div className="top">Your Hostel</div>
+                                        <a href="/" className="link">View Address</a>
                                     </div>
-                                    <div className="card-mid">
-                                        <h1>3</h1>
-                                        <p>Payments due over 4600 INR.</p>
-                                    </div>
-                                    <div className="desc">No last date for this semester but it suggested to pay as soon as possible.
-                                        <a> Pay now</a></div>
                                 </div>
                                 <div className="card">
-                                        <div className="card-top">
-                                            <p>Contact Hostel Admin</p>
-                                            <MoreVertIcon className="icon" />
-                                        </div>
-                                        <div className="card-mid">
-                                            <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
-                                        </div>
-                                        <div className="desc">You can contact your Hostel admin anytime for any query
-                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
+                                    <img src="https://www.nicepng.com/png/full/352-3526091_vector-icon-of-an-airplane-gloucester-road-tube.png" alt="" />
+                                    <div className="text">
+                                        <div className="top">Find Airport</div>
+                                        <a href="/" className="link">View Nearest Airport</a>
                                     </div>
+                                </div>
+                                <div className="card">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqJ7CDsOepm3PNLGC2918je2zk9BZZtyVt6xDG4FA32__pKru5Lq3WSf0NRGTuHvj0SZY&usqp=CAU" alt="" />
+                                    <div className="text">
+                                        <div className="top">Find Railway Station</div>
+                                        <a href="/" className="link">View Nearest Railway Station</a>
+                                    </div>
+                                </div>
+                                <div className="card">
+                                    <img src="https://cdn0.iconfinder.com/data/icons/health-icons-rounded/110/Hospital-512.png" alt="" />
+                                    <div className="text">
+                                        <div className="top">Find Hospital</div>
+                                        <a href="/" className="link">View Nearest Hospital</a>
+                                    </div>
+                                </div>
+                                <div className="card">
+                                    <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/medicine-510-768425.png" alt="" />
+                                    <div className="text">
+                                        <div className="top">Find Pharmacy Store</div>
+                                        <a href="/" className="link">View Nearest Pharmacy Store</a>
+                                    </div>
+                                </div>
+                                <div className="card">
+                                    <img src="https://www.millastellan.com/assets/icons/others.png" alt="" />
+                                    <div className="text">
+                                        <div className="top">Find Stationary</div>
+                                        <a href="/" className="link">View Nearest Stationary</a>
+                                    </div>
+                                </div>
+                                
                             </div>
-
                         </div>
                     </Right>
                 </div>
@@ -711,63 +731,43 @@ const Right = styled.div`
             }
         }
 
-        .two-cards{
+        .multi-cards{
             height: 520px;
             width: 25%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             padding-right: 10px;
 
             .card{
                 width: 100%;
-                height: 250px;
+                height: 77px;
                 background-color: white;
                 box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
                 border-radius: 10px;
                 margin-bottom: 10px;
                 margin-right: 1%;
-                padding: 20px;
+                padding: 10px;
                 display: flex;
-                flex-direction: column;
                 justify-content: space-between;
+                align-items: center;
     
-                .card-top{
+                img{
+                    height: 90%;
+                }
+
+                .text{
+                    flex: 1;
+                    margin-left: 10px;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-    
-                    p{
-                        font-size: 1rem;
+                    flex-direction: column;
+                    justify-content: center;
+                    
+                    .top{
+                        font-size: 0.9rem;
                     }
-    
-                    .icon{
-                        cursor: pointer;
+                    .link{
+                        font-size: 0.7rem;
                     }
-    
-                }
-
-                .card-mid{
-                    text-align: center;
-                    h1{
-                        color: orange;
-                        font-size: 5rem;
-                        line-height: 5rem;
-                    }
-                    p{
-                        color: orange;
-                        font-size: 0.8rem;
-                    }
-
-                    img{
-                        height: 7rem;
-                    }
-                }
-
-                .desc{
-                    font-size: 0.7rem;
-                    color: grey;
-                    text-align: center;
                 }
             }
         }
@@ -879,64 +879,44 @@ const Right = styled.div`
             }
         }
 
-        .two-cards{
+        .multi-cards{
             height: auto;
             width: 100%;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 0;
+            padding-right: 0px;
 
             .card{
                 width: 100%;
-                height: 250px;
+                height: 80px;
                 background-color: white;
                 box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
                 border-radius: 10px;
-                margin-top: 10px;
-                margin-bottom: 0;
-                margin-right: 0;
-                padding: 20px;
+                margin-bottom: 10px;
+                margin-right: 1%;
+                padding: 10px;
                 display: flex;
-                flex-direction: column;
                 justify-content: space-between;
+                align-items: center;
     
-                .card-top{
+                img{
+                    height: 90%;
+                }
+
+                .text{
+                    flex: 1;
+                    margin-left: 10px;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-    
-                    p{
-                        font-size: 1rem;
+                    flex-direction: column;
+                    justify-content: center;
+                    
+                    .top{
+                        font-size: 0.9rem;
                     }
-    
-                    .icon{
-                        cursor: pointer;
+                    .link{
+                        font-size: 0.7rem;
                     }
-    
-                }
-
-                .card-mid{
-                    text-align: center;
-                    h1{
-                        color: orange;
-                        font-size: 5rem;
-                        line-height: 5rem;
-                    }
-                    p{
-                        color: orange;
-                        font-size: 0.8rem;
-                    }
-
-                    img{
-                        height: 7rem;
-                    }
-                }
-
-                .desc{
-                    font-size: 0.7rem;
-                    color: grey;
-                    text-align: center;
                 }
             }
         }

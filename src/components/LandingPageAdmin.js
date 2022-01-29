@@ -18,9 +18,7 @@ import axios from 'axios';
 
 
 const LandingPageAdmin = () => {
-    if(sessionStorage.getItem("id")){
-        window.location.href = "/admin/dashboard/new-admin"  ;   
-    }
+    const [document, setDocument] = useState("");
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
@@ -74,6 +72,10 @@ const LandingPageAdmin = () => {
             window.location.href = "/admin/dashboard/new-admin"  ;  
           }
         }).catch((err)=> alert(err))
+    }
+
+    const handleImage = (e) => {
+        setDocument(e.target.files[0].name.substring(0, 24));
     }
 
     return (
@@ -171,7 +173,24 @@ const LandingPageAdmin = () => {
                                             <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
                                             <input type="number" className="input" placeholder="Phone Number" onChange={(e)=>setPhone(e.target.value)} />
                                             <input type="text" className="input" placeholder="University Name" onChange={(e)=>setUniv(e.target.value)} />
-                                            <input type="file" className="input" placeholder="Validation doc" onChange={(e)=>setFile(e.target.files[0])}/>
+                                            <ImageUploadBox>
+                                                <img src="https://cdn.iconscout.com/icon/free/png-256/aadhaar-2085055-1747945.png" alt="" />
+                                                <section>
+                                                    <p>{document == "" ? "Add scanned adhaar card" : `${document} is selected`}</p>
+                                                    <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg" onChange={(e) => handleImage(e)}/>
+                                                    {/* <label htmlFor="file-input5">Click here to browse</label> */}
+                                                    {
+                                                        document == "" ? (
+                                                            <label htmlFor="file-input">Click here to browse</label>
+                                                        ) : (
+                                                            <button onClick={() => setDocument("")}>
+                                                                Remove
+                                                            </button>
+                                                        )
+                                                    }
+                                                </section>
+                                            </ImageUploadBox>
+                                            {/* code */}
                                             <p className="text not-mobile">
                                                 I also agree that Hosterr or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
                                             </p>
@@ -282,10 +301,10 @@ const LandingPageAdmin = () => {
                                     </div>
                                     <div className="how_it_works_item_right_right">
                                         <div className="rr_titie">
-                                            Create your object
+                                            Create your Document
                                         </div>
                                         <div className="rr_desc">
-                                            Set up the ad of your property intuitively and efficiently in your housy dashboard. If desired, the Housy service team will assist you in presenting your property perfectly – 100% free of charge.
+                                        Provide and Upload Relevant credentials to validate your University affiliation. Get verified, login and you are all set to manage all your Hostel administrative tasks with just one click !!!
                                         </div>
                                         <div className="rr_remark">
                                             No calls, no mails and no annoying mass inspections.
@@ -306,10 +325,10 @@ const LandingPageAdmin = () => {
                                     </div>
                                     <div className="how_it_works_item_right_right">
                                         <div className="rr_titie">
-                                            Connection to administrator
+                                            Connection with Students
                                         </div>
                                         <div className="rr_desc">
-                                            Save time using the most efficient preselection process in the business: In your inbox, you’ll find candidates exclusively fitting your defined target group. If they approve your object, too, you can chat and exchange information instantly.
+                                        You are provided a hassle free interface to make Hostels and their Rooms available to the students. Information of Canteen Services of the Institute can be made available for further convenience of the students.
                                         </div>
                                         <div className="rr_remark">
                                             {/* No calls, no mails and no annoying mass inspections. */}
@@ -330,10 +349,10 @@ const LandingPageAdmin = () => {
                                     </div>
                                     <div className="how_it_works_item_right_right">
                                         <div className="rr_titie">
-                                            Hostel Allotment
+                                            Hostel Management 
                                         </div>
                                         <div className="rr_desc">
-                                            Set up the ad of your property intuitively and efficiently in your housy dashboard. If desired, the Housy service team will assist you in presenting your property perfectly – 100% free of charge.
+                                        We also take a lot of responsibilities off your shoulders by providing away to keep track of all those students who have pending payments and also to various queries posted by Hostel residents.
                                         </div>
                                         <div className="rr_remark">
                                             No more paperwork during the tour. All documents digitally and collected in one place.
@@ -653,7 +672,6 @@ const LoginForm = styled.div`
         border: none;
         outline: none;
         margin-bottom: 15px;
-        border-radius: 5px;
     }
     .input-type-2-container{
         display: flex;
@@ -1446,38 +1464,58 @@ top: 1rem;
 right: 1rem;
 `
 
-/*
-_id
-:
-61e80ad33145ca313ccf317b
-name
-:
-"adfdsf"
-email
-:
-"rishikeshcrever@gmail.com"
-password
-:
-"$2a$10$g.K2yBte9ULxWjK9vxmrNeRnGGt/A9bEkb2hlsjXPubzZQZsD5Dn2"
-phone
-:
-"999999"
-college
-:
-"JU"
-verified
-:
-false
-createdAt
-:
-2022-01-19T12:57:55.487+00:00
-updatedAt
-:
-2022-01-19T14:49:30.987+00:00
-__v
-:
-0
-institute
-:
-61e824fad82c74bdd72e1c47
-*/
+const ImageUploadBox = styled.div`
+    margin-bottom: 1rem;
+    width: 100%;
+    height: 55px;
+    padding: 0 1rem;
+    background-color: #eeeeee;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img{
+        height: 80%;
+    }
+
+    input{
+        visibility: hidden;
+        height: 0;
+    }
+
+    section{
+        flex: 1;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.2rem 0;
+
+        p{
+            font-size: 0.7rem;
+            text-align: left;
+            margin-bottom: 0.1rem;
+            color: black;
+        }
+        label{
+            cursor: pointer;
+            font-size: 0.6rem;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+            color: cornflowerblue;
+            text-align: left;
+        }
+
+        button{
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25rem;
+            color: red;
+        }
+    }
+
+`

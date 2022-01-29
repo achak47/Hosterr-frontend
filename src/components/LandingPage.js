@@ -19,9 +19,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import logo from './logo.png'
 
 const LandingPage = () => {
-    if(sessionStorage.getItem("id")){
-        window.location.href = "/admin/dashboard/new-admin"  ;   
-    }
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
@@ -298,7 +295,7 @@ const LandingPage = () => {
                                             Create your object
                                         </div>
                                         <div className="rr_desc">
-                                            Set up the ad of your property intuitively and efficiently in your housy dashboard. If desired, the Housy service team will assist you in presenting your property perfectly – 100% free of charge.
+                                        Provide and Upload Relevant University details to register yourself to our website. Now you are all set to login and manage everything about your Hostel with just a click!!
                                         </div>
                                         <div className="rr_remark">
                                             No calls, no mails and no annoying mass inspections.
@@ -322,7 +319,7 @@ const LandingPage = () => {
                                             Connection to administrator
                                         </div>
                                         <div className="rr_desc">
-                                            Save time using the most efficient preselection process in the business: In your inbox, you’ll find candidates exclusively fitting your defined target group. If they approve your object, too, you can chat and exchange information instantly.
+                                        We dont't leave your hand just after you just Book you hostel, you can submit queries to be addressed by your Institute admin, you are provided essential places nearest to your hostel, a dedicated Chat Bot to your help and many such helping hands....
                                         </div>
                                         <div className="rr_remark">
                                             {/* No calls, no mails and no annoying mass inspections. */}
@@ -346,7 +343,7 @@ const LandingPage = () => {
                                             Hostel Allotment
                                         </div>
                                         <div className="rr_desc">
-                                            Set up the ad of your property intuitively and efficiently in your housy dashboard. If desired, the Housy service team will assist you in presenting your property perfectly – 100% free of charge.
+                                        One stop to manage everything about your Hostel. You can Book your hostel, Change your current hostel, Book a Guest House, Check status of canteens in your institute and many more ...
                                         </div>
                                         <div className="rr_remark">
                                             No more paperwork during the tour. All documents digitally and collected in one place.

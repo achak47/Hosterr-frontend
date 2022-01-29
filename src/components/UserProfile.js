@@ -27,30 +27,30 @@ import axios from 'axios';
 const UserProfile = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [year,setYear] = useState(null) ;
-    const [roll,setRoll] = useState("") ;
-    const [gender,setGender] = useState(null) ;
-    const [department,setDepartment] = useState("") ;
-    const [address,setAddress] = useState("") ;
-    const onSubmit = ()=>{
-        if(roll == "" || department == "" || year == null || gender == null || address == ""){
-            alert("Pls fill up the details first !!!") ;
-            return ;
+    const [year, setYear] = useState(null);
+    const [roll, setRoll] = useState("");
+    const [gender, setGender] = useState(null);
+    const [department, setDepartment] = useState("");
+    const [address, setAddress] = useState("");
+    const onSubmit = () => {
+        if (roll == "" || department == "" || year == null || gender == null || address == "") {
+            alert("Pls fill up the details first !!!");
+            return;
         }
-        axios.post('http://localhost:8000/update/user',{
+        axios.post('http://localhost:8000/update/user', {
             user: sessionStorage.getItem("id"),
-            roll: roll ,
-            department : department ,
-            gender : gender,
+            roll: roll,
+            department: department,
+            gender: gender,
             year: year,
-            address:address
-        }).then(res=>{
-            alert(res.data) ;
-            sessionStorage.setItem("gender",gender) ;
-            sessionStorage.setItem("iscomplete",true) ;
+            address: address
+        }).then(res => {
+            alert(res.data);
+            sessionStorage.setItem("gender", gender);
+            sessionStorage.setItem("iscomplete", true);
         })
     }
-    const onSignout =()=>{
+    const onSignout = () => {
         sessionStorage.clear();
         window.location.href = "/"
     }
@@ -159,105 +159,99 @@ const UserProfile = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="general">
 
-                            {sessionStorage.getItem("iscomplete")?(
-                                <div className="grand-card">
-                                <div className="card-top">
-                                <p>My Profile</p>
-                                <MoreVertIcon className="icon" />
-                            </div>
-                            <div className="details">
-                                
-                                <div className="ipt-title">Baisc Details</div>
-                                <div className="two-details">
-                                    <input type="text" className="detail" placeholder="Name"/>
-                                    <input type="text" className="detail" placeholder="University Name"/>
-                                </div>
-                                <div className="ipt-title">Change Mail or Password</div>
-                                <input type="email" className="detail" placeholder="New Email"/>
-                                <input type="text" className="detail" placeholder="Old Password"/>
-                                <input type="text" className="detail" placeholder="New Password"/>
-                                <div className="ipt-title">Documents Uploaded</div>
-                                <div className="ipt-imgs">
-                                </div>
-                            </div>
-                            <button className="submit-btn">
-                                Confirm Changes
-                            </button>
-                            <button className="submit-btn red" onClick={onSignout}>
-                                Sign Out
-                            </button>
-                        <div className="two-cards">
-                        <div className="card">
-                                <div className="card-top">
-                                    <p>Profile</p>
-                                    <MoreVertIcon className="icon"/>
-                                </div>
-                                <div className="card-mid">
-                                    <h1>6</h1>
-                                    <p>Fields Remain</p>
-                                </div>
-                                <div className="desc">You can add all the documents and fields, it is advised to fill asap.</div>
-                            </div>
-                            <div className="card">
-                                <div className="card-top">
-                                    <p>Share Link</p>
-                                    <MoreVertIcon className="icon" />
-                                </div>
-                                <div className="card-mid">
-                                    <img src="https://cdn1.iconfinder.com/data/icons/web-design-and-development-50/64/110-512.png" alt="" />
-                                </div>
-                                <div className="desc">Ask students to join their hostel with a flex in hand, faster and easier.
-                                    <a> Share</a></div>
-                            </div>
-                            </div>
-                            </div>
-                            ):(<div>
-                            <div className="card-top">
-                                    <p>Complete your profile</p>
-                                    <MoreVertIcon className="icon" />
-                                </div>
-                                <div className="details">
-                                    <div className="two-details">
-                                        <input type="text" className="detail" placeholder="Year of Study" onChange={(e)=>setYear(e.target.value)} />
-                                        <input type="text" className="detail" placeholder="Gender" onChange={(e)=>setGender(e.target.value)}/>
+                        {
+                            !sessionStorage.getItem("iscomplete")? (
+                                <div className="general">
+                                    <div className="grand-card">
+                                        <div className="card-top">
+                                            <p>Complete your profile</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="details">
+                                            <div className="two-details">
+                                                <input type="text" className="detail" placeholder="Year of Study" />
+                                                <input type="text" className="detail" placeholder="Gender" />
+                                            </div>
+                                            <input type="text" className="detail" placeholder="Roll no." />
+                                        </div>
+                                        <button className="submit-btn">
+                                            Confirm
+                                        </button>
+                                        {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
                                     </div>
-                                    <input type="text" className="detail" placeholder="Roll no." onChange={(e)=>setRoll(e.target.value)}/>
-                                    <input type="text" className="detail" placeholder="Department" onChange={(e)=>setDepartment(e.target.value)} />
-                                    <input type="text" className="detail" placeholder="Address" onChange={(e)=>setAddress(e.target.value)} />
-                                </div>
-                                <button className="submit-btn" onClick={onSubmit}>
-                                    Confirm
-                                </button>
-                                <div className="two-cards">
-                                <div className="card">
-                                    <div className="card-top">
-                                        <p>Profile Status</p>
-                                        <MoreVertIcon className="icon" />
+                                    <div className="two-cards">
+                                        <div className="card">
+                                            <div className="card-top">
+                                                <p>Profile Status</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                {sessionStorage.getItem("iscomplete") == "false" ? (<h1>73</h1>) : (<h1>100</h1>)}
+                                                <p>Percentage of your profile is complete</p>
+                                            </div>
+                                            <div className="desc">Pls complete your profile fully </div>
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-top">
+                                                <p>Contact Hostel Admin</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                            </div>
+                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                                <a> Contact Now</a></div>
+                                        </div>
                                     </div>
-                                    <div className="card-mid">
-                                        <h1>78</h1>
-                                        <p>Percentage of your profile is complete</p>
-                                    </div>
-                                    <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
                                 </div>
-                                <div className="card">
-                                    <div className="card-top">
-                                        <p>Contact Hostel Admin</p>
-                                        <MoreVertIcon className="icon" />
+                            ) : (
+                                <div className="general">
+                                    <div className="grand-card">
+                                        <div className="card-top">
+                                            <p>Complete your profile</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="details">
+                                            <div className="two-details">
+                                                <input type="text" className="detail" placeholder="Year of Study" onChange={(e) => setYear(e.target.value)} />
+                                                <input type="text" className="detail" placeholder="Gender" onChange={(e) => setGender(e.target.value)} />
+                                            </div>
+                                            <input type="text" className="detail" placeholder="Roll no." onChange={(e) => setRoll(e.target.value)} />
+                                            <input type="text" className="detail" placeholder="Department" onChange={(e) => setDepartment(e.target.value)} />
+                                            <input type="text" className="detail" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                                        </div>
+                                        <button className="submit-btn">
+                                            Confirm
+                                        </button>
                                     </div>
-                                    <div className="card-mid">
-                                        <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                    <div className="two-cards">
+                                        <div className="card">
+                                            <div className="card-top">
+                                                <p>Profile Status</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                {sessionStorage.getItem("iscomplete") == "false" ? (<h1>73</h1>) : (<h1>100</h1>)}
+                                                <p>Percentage of your profile is complete</p>
+                                            </div>
+                                            <div className="desc">Pls complete your profile fully </div>
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-top">
+                                                <p>Contact Hostel Admin</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                            </div>
+                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                                <a> Contact Now</a></div>
+                                        </div>
                                     </div>
-                                    <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                        <a> Contact Now</a></div>
                                 </div>
-                            <div/>
-                            </div>
-                                </div>
-                                )}
-                        </div>
+                            )
+                        }
                     </Right>
                 </div>
             </Container>
@@ -293,23 +287,19 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         flex: 1;
-
         @media only screen and (max-width: 600px){
             justify-content: flex-start;
             flex-direction: column;
         }
     }
-
     .together{
         display: flex;
         align-items: center;
     }
-
     a{
         color: cornflowerblue;
         cursor: pointer;
     }
-
     .mobile-only{
         visibility: hidden;
     }
@@ -345,13 +335,11 @@ const PageOneHeader = styled.div`
             font-weight: 700;
             text-decoration: none;
         }
-
         .icon-one{
             fill: white;
             font-size: 1.2rem;
             margin-right: 6px;
         }
-
         .lang{
             display: flex;
             align-items: center;
@@ -365,7 +353,6 @@ const PageOneHeader = styled.div`
             padding: 8px 15px;
             border-radius: 15px;
         }
-
         .lang:hover{
             background-color: #a1a6dd;
             transition-duration: 250ms;
@@ -379,10 +366,8 @@ const PageOneHeader = styled.div`
             cursor: pointer;
             border-radius: 20px;
             font-weight: 500;
-
             display: flex;
             align-items: center;
-
             .icon{
                 fill: #333;
                 margin-right: 5px;
@@ -390,8 +375,6 @@ const PageOneHeader = styled.div`
             }
         }
     }
-
-
     .two{
         height: 42px;
         background-color: #f3f5f7;
@@ -399,14 +382,11 @@ const PageOneHeader = styled.div`
         align-items: center;
         justify-content: center;
         font-size: 0.7rem;
-
         border-bottom: 1px solid #ebdfdf;
-
         .two-link{
             margin-left: 5px;
         }
     }
-
     @media only screen and (max-width: 600px) {
         .one{
             height: 54px;
@@ -418,7 +398,6 @@ const PageOneHeader = styled.div`
                 font-weight: 700;
                 text-decoration: none;
             }
-
             .admin{
                 font-size: 0.55rem;
                 margin-left: 5px;
@@ -430,19 +409,15 @@ const PageOneHeader = styled.div`
             .lang{
                 visibility: hidden;
             }
-
             .btn{
                 visibility: hidden;
                 
             }
-
             .m-icon{
                 fill: white;
                 font-size: 2rem;
             }
         }
-
-
         .two{
             height: 42px;
             background-color: #f3f5f7;
@@ -450,7 +425,6 @@ const PageOneHeader = styled.div`
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
-
             .two-link{
                 margin-left: 5px;
             }
@@ -464,7 +438,6 @@ const Left = styled.div`
     background-color: #333;
     display: flex;
     flex-direction: column;
-
     .left-header{
         width: 100%;
         display: flex;
@@ -477,7 +450,6 @@ const Left = styled.div`
         background-color: #585353;
         padding: 10px;
         margin-bottom: 25px;
-
         div{
             display: flex;
             align-items: center;
@@ -487,14 +459,12 @@ const Left = styled.div`
             text-transform: uppercase;
             letter-spacing: 0.15rem;
         }
-
         .left-icon{
             fill: white;
             margin-right: 10px;
             font-size: 2rem;
         }
     }
-
     .left-item{
         display: flex;
         align-items: center;
@@ -510,25 +480,21 @@ const Left = styled.div`
         letter-spacing: 0.1rem;
         color: grey;
         text-decoration: none;
-
         .left-icon{
             fill: grey;
             font-size: 1.25rem;
             margin: -4px 10px 0 0;
         }
     }
-
     
     .left-item:hover{
         background-color: #0000006b;
         transition-duration: 250ms;
         color: white;
-
         .left-icon{
             fill: white;
         }
     }
-
     .active{
         background-color: #b9aaaa69;
         color: white;
@@ -537,38 +503,30 @@ const Left = styled.div`
             fill: white;
         }
     }
-
     .active:hover{
         background-color: #b9aaaa69;
     }
-
-
-
     @media only screen and (max-width: 600px){
         width: 100%;
         background-color: #333;
         display: flex;
         flex-direction: column;
         
-
         .left-header{
             font-size: 1rem;
             padding: 10px;
             margin-bottom: 0;
             justify-content: space-between;
             background-color: #5c63a9;
-
             .left-icon{
                 fill: white;
                 margin-right: 10px;
                 font-size: 1.4rem;
             }
-
             .left-icon-mob{
                 fill: white;
                 font-size: 2rem;
             }
-
             div{
                 color: white;
                 display: flex;
@@ -576,22 +534,18 @@ const Left = styled.div`
                 font-size: 1rem;
             }
         }
-
         .left-item{
             display: none;
         }
-
         
         .left-item:hover{
             background-color: #0000006b;
             transition-duration: 250ms;
             color: white;
-
             .left-icon{
                 fill: white;
             }
         }
-
         .active{
             background-color: #b9aaaa69;
             color: white;
@@ -600,19 +554,15 @@ const Left = styled.div`
                 fill: white;
             }
         }
-
         .active:hover{
             background-color: #b9aaaa69;
         }
-
     }
-
 `
 
 const Right = styled.div`
     flex: 1;
     background-color: #edf1f5;
-
     .head{
         padding: 16px 24px;
         box-shadow: 1px 0 20px rgb(0 0 0 / 8%);
@@ -620,23 +570,19 @@ const Right = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         h2{
             font-weight: 400;
             font-size: 1.25rem;
         }
-
         .left-links{
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             p{
                 font-size: 0.8rem;
                 color: grey;
                 margin-right: 15px;
             }
-
             button{
                 display: flex;
                 align-items: center;
@@ -655,15 +601,12 @@ const Right = styled.div`
             }
         }
     }
-
     .general{
         padding: 1.2rem;
         padding-right: 0;
-
         display: flex;
         justify-content: space-between;
         /* align-items: center; */
-
         .grand-card{
     position: relative;
     height: 512px;
@@ -673,24 +616,19 @@ const Right = styled.div`
     border-radius: 10px;
     margin-right: 1%;
     padding: 1rem;
-
     .card-top{
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         p{
             font-size: 1rem;
         }
-
         .icon{
             cursor: pointer;
         }
     }
-
     .details{
         margin-top: 30px;
-
         .detail{
             border: none;
             background-color: rgb(238, 238, 238);
@@ -702,23 +640,18 @@ const Right = styled.div`
             margin-bottom: 5px;
             border-radius: 5px;
         }
-
         .two-details{
             display: flex;
             justify-content: space-between;
-
             .detail{
                 width: 49.5%;
             }
-
         }
-
         textarea{
             width: 100%;
             height: 200px;
         }
     }
-
     .submit-btn{
         border: none;
         background-color: cornflowerblue;
@@ -728,7 +661,6 @@ const Right = styled.div`
         border-radius: 5px;
         cursor: pointer;
     }
-
     .desc{
         font-size: 0.6rem;
         position: absolute;
@@ -736,7 +668,6 @@ const Right = styled.div`
         color: grey;
     }
 }
-
         .two-cards{
             height: 520px;
             width: 25%;
@@ -744,7 +675,6 @@ const Right = styled.div`
             flex-direction: column;
             justify-content: space-between;
             padding-right: 10px;
-
             .card{
                 width: 100%;
                 height: 250px;
@@ -772,7 +702,6 @@ const Right = styled.div`
                     }
     
                 }
-
                 .card-mid{
                     text-align: center;
                     h1{
@@ -784,12 +713,10 @@ const Right = styled.div`
                         color: orange;
                         font-size: 0.8rem;
                     }
-
                     img{
                         height: 7rem;
                     }
                 }
-
                 .desc{
                     font-size: 0.7rem;
                     color: grey;
@@ -797,16 +724,10 @@ const Right = styled.div`
                 }
             }
         }
-
-
         
     }
-
-
-
     @media only screen and (max-width: 600px){
         flex: 1;
-
         .head{
             padding: 16px 24px;
             box-shadow: 1px 0 20px rgb(0 0 0 / 8%);
@@ -814,23 +735,19 @@ const Right = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             h2{
                 font-weight: 400;
                 font-size: 1.25rem;
             }
-
             .left-links{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
                 p{
                     font-size: 0.8rem;
                     color: grey;
                     margin-right: 15px;
                 }
-
                 button{
                     display: flex;
                     align-items: center;
@@ -849,17 +766,13 @@ const Right = styled.div`
                 }
             }
         }
-
         .general{
         padding: 0.6rem 0.5rem;
-
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
-
         
-
         .grand-card{
     position: relative;
     height: auto;
@@ -870,24 +783,19 @@ const Right = styled.div`
     margin-right: 0;
     padding: 0.8rem;
     padding-bottom: 60px;
-
     .card-top{
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         p{
             font-size: 1rem;
         }
-
         .icon{
             cursor: pointer;
         }
     }
-
     .details{
         margin-top: 30px;
-
         .detail{
             border: none;
             background-color: rgb(238, 238, 238);
@@ -899,23 +807,18 @@ const Right = styled.div`
             margin-bottom: 5px;
             border-radius: 5px;
         }
-
         .two-details{
             display: flex;
             justify-content: space-between;
-
             .detail{
                 width: 49.5%;
             }
-
         }
-
         textarea{
             width: 100%;
             height: 200px;
         }
     }
-
     .submit-btn{
         border: none;
         background-color: cornflowerblue;
@@ -926,7 +829,6 @@ const Right = styled.div`
         cursor: pointer;
         width: 100%;
     }
-
     .desc{
         font-size: 0.6rem;
         position: absolute;
@@ -935,7 +837,6 @@ const Right = styled.div`
         max-width: 90vw;
     }
 }
-
         .two-cards{
             height: auto;
             width: 100%;
@@ -943,7 +844,6 @@ const Right = styled.div`
             flex-direction: column;
             justify-content: space-between;
             padding: 0;
-
             .card{
                 width: 100%;
                 height: 250px;
@@ -972,7 +872,6 @@ const Right = styled.div`
                     }
     
                 }
-
                 .card-mid{
                     text-align: center;
                     h1{
@@ -984,12 +883,10 @@ const Right = styled.div`
                         color: orange;
                         font-size: 0.8rem;
                     }
-
                     img{
                         height: 7rem;
                     }
                 }
-
                 .desc{
                     font-size: 0.7rem;
                     color: grey;
@@ -998,7 +895,6 @@ const Right = styled.div`
             }
         }
     }
-
     }
 `
 
@@ -1008,13 +904,11 @@ const CustomModal = styled.div`
     position: fixed;
     top: 0;
     z-index: 100;
-
     .touch-outside{
         height: 100vh;
         width: 100vw;
         background-color: #00000087;
     }    
-
     .container{
         height: auto;
         width: 50vw;
@@ -1024,7 +918,6 @@ const CustomModal = styled.div`
         top: 35vh;
         left: 25vw;
         padding: 1rem;
-
         .desc{
             font-size: 0.9rem;
             color: grey;
@@ -1035,7 +928,6 @@ const CustomModal = styled.div`
             width: 70%;
         }
     }
-
     .modalHeader{
         width: 100%;
         display: flex;
@@ -1056,7 +948,6 @@ const SbComponentOne = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
         a{
             text-decoration: none;
             color: white;

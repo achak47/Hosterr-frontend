@@ -174,7 +174,7 @@ const UserCanteen = () => {
                                         <div className="card-mid">
                                             <img src="https://abskitchen.co.in/onlineorder/img/defLogo.png?1537453188" alt="" />
                                         </div>
-                                        <div className="status">Currently Open</div>
+                                        <div className="status">Closed Currently</div>
                                         <div className="desc">This canteen can provide to with food anyday, in specific hours - <b>{item.start}hrs to {item.end} hrs</b>.
                                           <br />  Contact : <a> {item.phone}</a></div>
                                     </div>

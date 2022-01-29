@@ -178,10 +178,10 @@ const UserGuestHouse = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>78</h1>
+                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73</h1>):(<h1>100</h1>)}
                                             <p>Percentage of your profile is complete</p>
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
+                                        <div className="desc">You must complete your profile fully </div>
                                     </div>
                                     <div className="card">
                                         <div className="card-top">

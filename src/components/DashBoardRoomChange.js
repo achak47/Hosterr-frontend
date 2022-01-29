@@ -22,7 +22,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
 import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
 import axios from 'axios' ;
-
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 
 
 const DashBoardRoomChange = () => {
@@ -165,17 +165,17 @@ const DashBoardRoomChange = () => {
                                 <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div>
                             </div>
                             <div className="two-cards">
-                                <div className="card">
-                                    <div className="card-top">
-                                        <p>Room Change</p>
-                                        <MoreVertIcon className="icon"/>
+                            <div className="card">
+                                        <div className="card-top">
+                                            <p>Room Change</p>
+                                            <MoreVertIcon className="icon" />
+                                        </div>
+                                        <div className="card-mid">
+                                            <h1>{sessionStorage.getItem("roomchange")?(<>{sessionStorage.getItem("roomchange")}</>):(<>1</>)}</h1>
+                                            <p>Left for this semester</p>
+                                        </div>
+                                        <div className="desc">You can apply for the room change only once in this semester </div>
                                     </div>
-                                    <div className="card-mid">
-                                        <h1>1</h1>
-                                        <p>Left for this semester</p>
-                                    </div>
-                                    <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.</div>
-                                </div>
                                 <div className="card">
                                         <div className="card-top">
                                             <p>Contact Hostel Admin</p>

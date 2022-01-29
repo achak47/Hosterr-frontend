@@ -237,7 +237,6 @@ const Inbox = () => {
                                     </div>
                                     <div className="desc">These are the number of queries you have not addressed!</div>
                                 </div>
-                                {/*
                                 <div className="card">
                                     <div className="card-top">
                                         <p>Fees Pending</p>
@@ -249,7 +248,6 @@ const Inbox = () => {
                                     </div>
                                     <div className="desc">This is the count of students who has not deposited the fees till date.</div>
                                 </div>
-                                   */}
                             </div>
                         </div>
 
@@ -681,7 +679,6 @@ const Right = styled.div`
             .resident{
                 width: 20%;
                 display: flex;
-                border-right: 1px solid #d1b9b9;
                 justify-content: center;
                 align-items: center;
 
@@ -718,7 +715,6 @@ const Right = styled.div`
                 color: white;
             }
             .resident{
-                border-right: 1px solid #977777;
                 color: white;
             }
         }

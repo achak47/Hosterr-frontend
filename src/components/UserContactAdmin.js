@@ -164,7 +164,7 @@ const UserContactAdmin = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73%</h1>):(<h1>100%</h1>)}
+                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73</h1>):(<h1>100</h1>)}
                                             <p>Percentage of your profile is complete</p>
                                         </div>
                                         <div className="desc">Pls complete your profile fully </div>

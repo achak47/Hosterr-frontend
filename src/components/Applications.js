@@ -307,7 +307,17 @@ const Applications = () => {
                                     </div>
                                     <div className="desc">These are the number of applications you have not addressed!</div>
                                 </div>
-                          
+                                <div className="card">
+                                    <div className="card-top">
+                                        <p>Share Link</p>
+                                        <MoreVertIcon className="icon" />
+                                    </div>
+                                    <div className="card-mid">
+                                        <img src="https://cdn1.iconfinder.com/data/icons/web-design-and-development-50/64/110-512.png" alt="" />
+                                    </div>
+                                    <div className="desc">Ask students to join their hostel with a flex in hand, faster and easier.
+                                        <a> Share</a></div>
+                                </div>
                             </div>
                         </div>
 
