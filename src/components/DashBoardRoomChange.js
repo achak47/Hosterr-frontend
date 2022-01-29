@@ -134,10 +134,12 @@ const DashBoardRoomChange = () => {
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
                                 <p>Dashboard > Room Change</p>
-                                <button>
-                                    <AddCircleIcon className="icon" />
-                                    Create New
+                                <Link to="/user/dashboard/contact-admin" className="left-item">
+                                <button href="/user/dashboard/contact-admin">
+                                    <ChatBubbleIcon className="icon" />
+                                    Talk to Admin
                                 </button>
+                                </Link>
                             </div>
                         </div>
                         <div className="general">
