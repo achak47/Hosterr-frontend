@@ -258,11 +258,12 @@ const AccessLogs = () => {
                                         <MoreVertIcon className="icon"/>
                                     </div>
                                     <div className="card-mid">
-                                        <h1>97</h1>
+                                        <h1>{applications.length}</h1>
                                         <p>students accommodated</p>
                                     </div>
                                     <div className="desc">This is basically the count of students who have hostel rooms.</div>
                                 </div>
+                                {/*
                                 <div className="card">
                                     <div className="card-top">
                                         <p>Fees Pending</p>
@@ -274,6 +275,7 @@ const AccessLogs = () => {
                                     </div>
                                     <div className="desc">This is the count of students who has not deposited the fees till date.</div>
                                 </div>
+                                */}
                             </div>
                         </div>
                                 

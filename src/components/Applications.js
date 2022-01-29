@@ -157,7 +157,6 @@ const Applications = () => {
                             <div className="left-links">
                                 <p>Dashboard > Applications</p>
                                 <button>
-                                    <ChatBubbleIcon className="icon" />
                                     View Inbox
                                 </button>
                             </div>
@@ -308,17 +307,7 @@ const Applications = () => {
                                     </div>
                                     <div className="desc">These are the number of applications you have not addressed!</div>
                                 </div>
-                                <div className="card">
-                                    <div className="card-top">
-                                        <p>Fees Pending</p>
-                                        <MoreVertIcon className="icon" />
-                                    </div>
-                                    <div className="card-mid">
-                                        <h1>8</h1>
-                                        <p>students with pending fees</p>
-                                    </div>
-                                    <div className="desc">This is the count of students who has not deposited the fees till date.</div>
-                                </div>
+                          
                             </div>
                         </div>
 

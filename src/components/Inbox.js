@@ -220,11 +220,12 @@ const Inbox = () => {
                                         <MoreVertIcon className="icon" />
                                     </div>
                                     <div className="card-mid">
-                                        <h1>3</h1>
+                                        <h1>{queries.length}</h1>
                                         <p>queries Pending</p>
                                     </div>
                                     <div className="desc">These are the number of queries you have not addressed!</div>
                                 </div>
+                                {/*
                                 <div className="card">
                                     <div className="card-top">
                                         <p>Fees Pending</p>
@@ -236,6 +237,7 @@ const Inbox = () => {
                                     </div>
                                     <div className="desc">This is the count of students who has not deposited the fees till date.</div>
                                 </div>
+                                   */}
                             </div>
                         </div>
 

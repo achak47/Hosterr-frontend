@@ -23,7 +23,10 @@ import ClearIcon from '@material-ui/icons/Clear';
 const AdminDBnew = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-
+    const onSignout = ()=>{
+        sessionStorage.clear() ;
+        window.location.href = "/"
+    }
 
     return (
         <>
@@ -128,9 +131,8 @@ const AdminDBnew = () => {
                             <h2>Admin Dashboard</h2>
                             <div className="left-links">
                                 <p>Dashboard > Home</p>
-                                <button>
-                                    <ChatBubbleIcon className="icon"/>
-                                    View Inbox
+                                <button onClick={onSignout}>
+                                    Sign Out
                                 </button>
                             </div>
                         </div>
@@ -138,7 +140,7 @@ const AdminDBnew = () => {
                         {
 
                             // Change to admin hostel length
-                            false ? (
+                            true ? (
                                 <div className="general">
                                     <div className="card">
                                         <div className="card-top">
@@ -161,7 +163,7 @@ const AdminDBnew = () => {
                                             <h1>37</h1>
                                             <p>Rooms both genders combined</p>
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                        <div className="desc">This data can change with adding of more rooms
                                         <a> Show Detailed</a></div>
                                     </div>
                                     <div className="card">
@@ -174,8 +176,7 @@ const AdminDBnew = () => {
                                             <p>Queries sent by students</p>
                                         </div>
                                         <div className="desc">
-                                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                            <a> Open Inbox</a>
+                                            <a href=""> Open Inbox</a>
                                         </div>
                                     </div>
                                     <div className="card">
@@ -188,8 +189,7 @@ const AdminDBnew = () => {
                                             <p>Hostel Room related applications</p>
                                         </div>
                                         <div className="desc">
-                                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
-                                            <a> Open Applications</a>
+                                            <a href="/admin/dashboard/applications"> Open Applications</a>
                                         </div>
                                     </div>
                                     <div className="card">
@@ -200,7 +200,7 @@ const AdminDBnew = () => {
                                         <div className="card-mid">
                                             <img src="http://iess.pk//assets/images/hostle.png" alt="" />
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque. 
+                                        <div className="desc">Add a hostel or a room to your Institute
                                         <a> Append Now</a></div>
                                     </div>
                                     <div className="card">
@@ -211,7 +211,7 @@ const AdminDBnew = () => {
                                         <div className="card-mid">
                                             <img src="https://icon-library.com/images/list-icon-png/list-icon-png-27.jpg" alt="" />
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque. 
+                                        <div className="desc">
                                         <a> Contact Now</a></div>
                                     </div>
                                 </div>
@@ -225,8 +225,8 @@ const AdminDBnew = () => {
                                         <div className="card-mid">
                                             <img src="http://iess.pk//assets/images/hostle.png" alt="" />
                                         </div>
-                                        <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque. 
-                                        <a href="/admin/dashboard/hostel/add"> Build now</a></div>
+                                        <div className="desc">You can add a new room here 
+                                        <a href="/admin/dashboard/hostel/add"> Add now</a></div>
                                     </div>
                                     <div className="card">
                                         <div className="card-top">
