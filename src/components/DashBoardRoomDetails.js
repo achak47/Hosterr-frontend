@@ -39,6 +39,7 @@ const DashBoardRoomDetails = () => {
             user
         }).then(res => {
             console.log(res.data);
+            console.log(res.data) ;
             setHostel(res.data[0]);
             setAdmin(res.data[1]);
         }).catch(err => console.log(err));
@@ -151,7 +152,7 @@ const DashBoardRoomDetails = () => {
                                     <p>Room Details</p>
                                     <MoreVertIcon className="icon" />
                                 </div>
-                                {Object.keys(hosteldetails).length > 0 ? (
+                                {hosteldetails.hostel ? (
                                     <div className="details">
                                          <div className="detail">
                                             <p className="cat">College :</p>
@@ -197,6 +198,10 @@ const DashBoardRoomDetails = () => {
                                     </div>
                                 ) : (
                                     <div className="details">
+                                        <div className="detail">
+                                            <p className="cat">College :</p>
+                                            <p className="res"> <b>Jadavpur University</b></p>
+                                        </div>
                                         <div className="detail">
                                             <p className="cat">1. Room No. :</p>
                                             <p className="res"> --</p>

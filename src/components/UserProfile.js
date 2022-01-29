@@ -226,6 +226,9 @@ const UserProfile = () => {
                                         <button className="submit-btn" onClick={onSubmit}>
                                             Confirm
                                         </button>
+                                        <button className="submit-btn" onClick={onSignout}>
+                                            Sign Out
+                                        </button>
                                     </div>
                                     <div className="two-cards">
                                         <div className="card">
