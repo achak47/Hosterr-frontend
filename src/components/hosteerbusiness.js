@@ -68,6 +68,7 @@ const ConnectBusiness = () => {
         formData.append("rooms",rooms) ;
         formData.append("food",food) ;
         const file = [file1,file2,file3] ;
+        console.log(file) ;
         formData.append("files[]",file) ;
         axios.post("http://localhost:8000/connect/pgbusiness",formData)
         .then(res=> console.log(res.data)).then(err => console.log(err)) ;
