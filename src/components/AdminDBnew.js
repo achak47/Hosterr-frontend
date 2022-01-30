@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
@@ -18,11 +18,50 @@ import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
+import axios from 'axios';
 
 
 const AdminDBnew = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
+    const [rooms , setRooms] = useState(0) ;
+    const [freerooms , setFreerooms] = useState(0) ;
+    const [queries , setQueries] = useState(0) ;
+    const [applications , setApplications] = useState(0) ;
+    const user = sessionStorage ;
+    useEffect(()=>{
+      axios.post("http://localhost:8000/admin/rooms/all",{
+          user 
+      }).then(res=>{
+          console.log(res.data) ;
+          setRooms(res.data) ;
+        })
+      .catch(err => console.log(err)) ;
+    },[])
+    useEffect(()=>{
+        axios.post("http://localhost:8000/admin/rooms/free",{
+         user
+        }).then(res =>{
+          console.log(res.data) ;
+          setFreerooms(res.data) ;
+        }).catch(err => console.log(err)) ;
+    },[])
+    useEffect(()=>{
+        axios.post("http://localhost:8000/admin/querieslength",{
+         user
+        }).then(res =>{
+          console.log(res.data) ;
+          setQueries(res.data) ;
+        }).catch(err => console.log(err)) ;
+    },[])
+    useEffect(()=>{
+        axios.post("http://localhost:8000/admin/findApplicationslength",{
+         user
+        }).then(res =>{
+          console.log(res.data) ;
+          setApplications(res.data) ;
+        }).catch(err => console.log(err)) ;
+    },[])
     const onSignout = ()=>{
         sessionStorage.clear() ;
         window.location.href = "/"
@@ -148,11 +187,11 @@ const AdminDBnew = () => {
                                             <MoreVertIcon className="icon"/>
                                         </div>
                                         <div className="card-mid">
-                                            <h1>92</h1>
+                                            <h1>{rooms}</h1>
                                             <p>Rooms both genders combined</p>
                                         </div>
                                         <div className="desc">This data can be changed when new hostels are built.
-                                        <a> Show Room Details</a></div>
+                                        <Link to="/admin/dashboard/accesslogs"> Show Room Details</Link></div>
                                     </div>
                                     <div className="card">
                                         <div className="card-top">
@@ -160,11 +199,11 @@ const AdminDBnew = () => {
                                             <MoreVertIcon className="icon"/>
                                         </div>
                                         <div className="card-mid">
-                                            <h1>37</h1>
+                                            <h1>{freerooms}</h1>
                                             <p>Rooms both genders combined</p>
                                         </div>
                                         <div className="desc">This data can change with adding of more rooms
-                                        <a> Show Detailed</a></div>
+                                        <Link to="/admin/dashboard/accesslogs"> Show Detailed</Link></div>
                                     </div>
                                     <div className="card">
                                         <div className="card-top">
@@ -172,11 +211,11 @@ const AdminDBnew = () => {
                                             <MoreVertIcon className="icon"/>
                                         </div>
                                         <div className="card-mid">
-                                            <h1>9</h1>
+                                            <h1>{queries}</h1>
                                             <p>Queries sent by students</p>
                                         </div>
                                         <div className="desc">
-                                            <a href=""> Open Inbox</a>
+                                        <Link to="/admin/dashboard/inbox"> Open Inbox</Link>
                                         </div>
                                     </div>
                                     <div className="card">
@@ -185,7 +224,7 @@ const AdminDBnew = () => {
                                             <MoreVertIcon className="icon"/>
                                         </div>
                                         <div className="card-mid">
-                                            <h1>12</h1>
+                                            <h1>{applications}</h1>
                                             <p>Hostel Room related applications</p>
                                         </div>
                                         <div className="desc">

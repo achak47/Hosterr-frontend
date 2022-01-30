@@ -28,6 +28,7 @@ const AddRooms = () => {
     const [fees,setFees] = useState(null) ;
     const [roomType,setRoomtype] = useState(1) ;
     const [hostels,setHostels] = useState(null) ;
+    const [rooms,setRooms] = useState(0) ;
     const user = sessionStorage ;
     useEffect(()=>{
       axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
@@ -35,6 +36,15 @@ const AddRooms = () => {
           setHostels(res.data)  ;
       })
     },[])
+    useEffect(()=>{
+        axios.post("http://localhost:8000/admin/rooms/all",{
+            user 
+        }).then(res=>{
+            console.log(res.data) ;
+            setRooms(res.data) ;
+          })
+        .catch(err => console.log(err)) ;
+      },[])
     const onaddroom = ()=>{
         console.log(hostelname,roomno,fees,roomType) ; 
         axios.post("http://localhost:8000/admin/add/room",{
@@ -205,7 +215,7 @@ const AddRooms = () => {
                                         <MoreVertIcon className="icon"/>
                                     </div>
                                     <div className="card-mid">
-                                        <h1>0</h1>
+                                        <h1>{rooms}</h1>
                                         <p>Rooms both genders combined</p>
                                     </div>
                                     <div className="desc">This data can be changed when new hostels are built.

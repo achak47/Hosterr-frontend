@@ -1,3 +1,4 @@
+
 import React from 'react'
 import styled from 'styled-components'
 import { useState } from 'react';
@@ -170,8 +171,23 @@ const UserProfile = () => {
                                         </div>
                                         <div className="details">
                                             <div className="two-details">
-                                                <input type="text" className="detail" placeholder="Year of Study" onChange={(e) => setYear(e.target.value)}/>
-                                                <input type="text" className="detail" placeholder="Gender" onChange={(e) => setGender(e.target.value)}/>
+                                                <div className="custom-select">
+                                                    <select>
+                                                        <option value="">Current Year</option>
+                                                        <option value="1">UG1</option>
+                                                        <option value="2">UG2</option>
+                                                        <option value="3">UG3</option>
+                                                        <option value="4">UG4</option>
+                                                        <option value="5">Above</option>
+                                                    </select>
+                                                </div><div className="custom-select">
+                                                    <select>
+                                                        <option value="">Gender</option>
+                                                        <option value="Boys">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Boys">Others</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <input type="text" className="detail" placeholder="Roll no." onChange={(e) => setRoll(e.target.value)} />
                                             <input type="text" className="detail" placeholder="Department" onChange={(e) => setDepartment(e.target.value)} />
@@ -179,6 +195,9 @@ const UserProfile = () => {
                                         </div>
                                         <button className="submit-btn" onClick={onSubmit}>
                                             Confirm
+                                        </button>
+                                        <button className="submit-btn red-btn" onClick={onSignout}>
+                                            Sign Out
                                         </button>
                                         {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
                                     </div>
@@ -202,7 +221,7 @@ const UserProfile = () => {
                                             <div className="card-mid">
                                                 <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
                                             </div>
-                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                            <div className="desc">You can contact your admin here 
                                                 <a> Contact Now</a></div>
                                         </div>
                                     </div>
@@ -216,8 +235,23 @@ const UserProfile = () => {
                                         </div>
                                         <div className="details">
                                             <div className="two-details">
-                                                <input type="text" className="detail" placeholder="Year of Study" onChange={(e) => setYear(e.target.value)} />
-                                                <input type="text" className="detail" placeholder="Gender" onChange={(e) => setGender(e.target.value)} />
+                                                <div className="custom-select">
+                                                    <select>
+                                                        <option value="">Current Year</option>
+                                                        <option value="1">UG1</option>
+                                                        <option value="2">UG2</option>
+                                                        <option value="3">UG3</option>
+                                                        <option value="4">UG4</option>
+                                                        <option value="5">Above</option>
+                                                    </select>
+                                                </div><div className="custom-select">
+                                                    <select>
+                                                        <option value="">Gender</option>
+                                                        <option value="Boys">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Boys">Others</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <input type="text" className="detail" placeholder="Roll no." onChange={(e) => setRoll(e.target.value)} />
                                             <input type="text" className="detail" placeholder="Department" onChange={(e) => setDepartment(e.target.value)} />
@@ -226,7 +260,7 @@ const UserProfile = () => {
                                         <button className="submit-btn" onClick={onSubmit}>
                                             Confirm
                                         </button>
-                                        <button className="submit-btn" onClick={onSignout}>
+                                        <button className="submit-btn red-btn" onClick={onSignout}>
                                             Sign Out
                                         </button>
                                     </div>
@@ -250,7 +284,7 @@ const UserProfile = () => {
                                             <div className="card-mid">
                                                 <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
                                             </div>
-                                            <div className="desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, atque.
+                                            <div className="desc">You can anonymously post any qury to the admin
                                                 <a> Contact Now</a></div>
                                         </div>
                                     </div>
@@ -648,15 +682,38 @@ const Right = styled.div`
         .two-details{
             display: flex;
             justify-content: space-between;
+
             .detail{
                 width: 49.5%;
             }
+
         }
+
+        .custom-select{
+                width: 49.5%;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                background-color: rgb(238, 238, 238);
+                display: grid;
+                place-items: center;
+                padding: 10px;
+                select{
+                    border: none;
+                    background-color: rgb(238, 238, 238);
+                    width: 100%;
+                    font-size: 0.8rem;
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+            }
         textarea{
             width: 100%;
             height: 200px;
         }
     }
+
     .submit-btn{
         border: none;
         background-color: cornflowerblue;
@@ -666,6 +723,18 @@ const Right = styled.div`
         border-radius: 5px;
         cursor: pointer;
     }
+
+    .red-btn{
+        background-color: #cf6d6d;
+        margin-left: 5px;
+        color: white;
+        border: none;
+        font-size: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
     .desc{
         font-size: 0.6rem;
         position: absolute;
@@ -815,10 +884,32 @@ const Right = styled.div`
         .two-details{
             display: flex;
             justify-content: space-between;
+
             .detail{
                 width: 49.5%;
             }
+
         }
+
+        .custom-select{
+                width: 49.5%;
+                margin-bottom: 5px;
+                border-radius: 5px;
+                background-color: rgb(238, 238, 238);
+                display: grid;
+                place-items: center;
+                padding: 10px;
+                select{
+                    border: none;
+                    background-color: rgb(238, 238, 238);
+                    width: 100%;
+                    font-size: 0.8rem;
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+            }
         textarea{
             width: 100%;
             height: 200px;
