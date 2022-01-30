@@ -57,6 +57,7 @@ const ConnectBusiness = () => {
             .catch(err => console.log(err));
     }, [])
     const onSubmit = ()=>{
+        //comment
         console.log(name,email,address,phone,univ,rooms,food,file1,file2,file3)
         const formData = new FormData();
         formData.append("name", name);
