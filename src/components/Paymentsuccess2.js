@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-const PaymentSuccess = () => {
+const PaymentSuccess2 = () => {
     return (
         <Container>
             <PageOneHeader>
@@ -14,7 +14,7 @@ const PaymentSuccess = () => {
                     <img src="https://www.cntraveller.in/wp-content/themes/cntraveller/images/check-circle.gif" alt="" />
                     <h1>Payment Successful</h1>
                 </div>
-                <h3 className="amt-paid">Thank you! Your payment of Rs.{sessionStorage.getItem("amount")} has been recieved.</h3>
+                <h3 className="amt-paid">Thank you! Your payment of Rs.{sessionStorage.getItem("guesthouseamount")} has been recieved.</h3>
                 <div className="id"></div>
                 <div className="redirected">Please wait! You are being redirected.</div>
                 <div className="desc">Please contact us at 9306197822 or to hosteer177@gmail.com for any query.</div>
@@ -25,7 +25,7 @@ const PaymentSuccess = () => {
     )
 }
 
-export default PaymentSuccess
+export default PaymentSuccess2
 
 const Container = styled.div`
     

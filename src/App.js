@@ -24,6 +24,7 @@ import UserGuestHouse from './components/UserGuestHouse'
 import UserContactAdmin from './components/UserContactAdmin'
 import PaymentGateway from './components/PaymentGateway'
 import PaymentSuccess from './components/PaymentSuccess'
+import PaymentSuccess2 from './components/Paymentsuccess2'
 import GetProfile from './components/GetProfile'
 import GuesthousePaymentGateway from './components/Guesthousepayment' ;
 import ConnectBusiness from './components/hosteerbusiness'
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/user/dashboard/profile" element={<UserProfile/>} />
           <Route path="/payment-gateway" element={<PaymentGateway/>} />
           <Route path="/payment-gateway/success" element={<PaymentSuccess/>} />
+          <Route path="/payment-gateway/success2" element={<PaymentSuccess2/>} />
           <Route path="/get-profile" element={<GetProfile/>} />
           <Route path="/guesthouse/payment" element={<GuesthousePaymentGateway/>} />
            </Routes>

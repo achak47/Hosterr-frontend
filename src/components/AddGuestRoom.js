@@ -34,7 +34,7 @@ const AddGuestRoom = () => {
      } 
      const user = sessionStorage ;
      console.log(user) ;
-     axios.post("http://localhost:8000/admin/add/guesthouse",{
+     axios.post("https://hosterr.herokuapp.com/admin/add/guesthouse",{
          user:user,
          name: houseName ,
          address: address ,

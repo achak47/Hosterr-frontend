@@ -67,10 +67,13 @@ const ConnectBusiness = () => {
         formData.append("institute",univ) ;
         formData.append("rooms",rooms) ;
         formData.append("food",food) ;
-        const file = [file1,file2,file3] ;
-        console.log(file) ;
-        formData.append("files[]",file) ;
-        axios.post("http://localhost:8000/connect/pgbusiness",formData)
+        const files = [file1,file2,file3] ;
+        
+        files.forEach (file => {
+            formData.append ('files', file);
+        })
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+        axios.post("https://hosterr.herokuapp.com/connect/pgbusiness",formData, config)
         .then(res=> console.log(res.data)).then(err => console.log(err)) ;
     }
     return (

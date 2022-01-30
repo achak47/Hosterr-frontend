@@ -30,7 +30,7 @@ const AdminDBnew = () => {
     const [applications , setApplications] = useState(0) ;
     const user = sessionStorage ;
     useEffect(()=>{
-      axios.post("http://localhost:8000/admin/rooms/all",{
+      axios.post("https://hosterr.herokuapp.com/admin/rooms/all",{
           user 
       }).then(res=>{
           console.log(res.data) ;
@@ -39,7 +39,7 @@ const AdminDBnew = () => {
       .catch(err => console.log(err)) ;
     },[])
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/rooms/free",{
+        axios.post("https://hosterr.herokuapp.com/admin/rooms/free",{
          user
         }).then(res =>{
           console.log(res.data) ;
@@ -47,7 +47,7 @@ const AdminDBnew = () => {
         }).catch(err => console.log(err)) ;
     },[])
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/querieslength",{
+        axios.post("https://hosterr.herokuapp.com/admin/querieslength",{
          user
         }).then(res =>{
           console.log(res.data) ;
@@ -55,7 +55,7 @@ const AdminDBnew = () => {
         }).catch(err => console.log(err)) ;
     },[])
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/findApplicationslength",{
+        axios.post("https://hosterr.herokuapp.com/admin/findApplicationslength",{
          user
         }).then(res =>{
           console.log(res.data) ;

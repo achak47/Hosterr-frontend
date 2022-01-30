@@ -22,56 +22,58 @@ import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
-import axios from 'axios' ;
+import axios from 'axios';
 
 const DashBoard = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [amount,setAmount] = useState([0,0]) ;
+    const [amount, setAmount] = useState([0, 0]);
     let date = new Date();
     let day = date.getDate();
-    useEffect(()=>{
-      axios.post("http://localhost:8000/application/status/user",{
-          "email": sessionStorage.getItem("email") ,
-          "user": sessionStorage.getItem("id")
-      }).then(res=>{
-          sessionStorage.setItem("Application",res.data.status) ;
-      }).catch(err => console.log(err)) ;
-    },[])
-    const onsubmit = ()=>{
-        console.log(sessionStorage.getItem("iscomplete")) ;
-      if(sessionStorage.getItem("iscomplete") == "false"){
-          alert('Complete your profile first !!!') ;
-          window.location.href = "/user/dashboard/profile"  ;  
-          return ;
-      }
-      axios.post("http://localhost:8000/application",{
-        user:sessionStorage.getItem("id"),
-        disability_status : false ,
-        email: sessionStorage.getItem("email"),
-        gender: sessionStorage.getItem("gender")
-      }).then(res =>{
-       alert(res.data.message) ;
-       window.location.href = "/user/dashboard/home"  ; 
-      }).catch(err => alert(err))
+    const [count, setCount] = useState(0);
+    const [count1,setCount1] = useState(0);
+    useEffect(() => {
+        axios.post("https://hosterr.herokuapp.com/application/status/user", {
+            "email": sessionStorage.getItem("email"),
+            "user": sessionStorage.getItem("id")
+        }).then(res => {
+            sessionStorage.setItem("Application", res.data.status);
+        }).catch(err => console.log(err));
+    }, [])
+    const onsubmit = () => {
+        console.log(sessionStorage.getItem("iscomplete"));
+        if (sessionStorage.getItem("iscomplete") == "false") {
+            alert('Complete your profile first !!!');
+            window.location.href = "/user/dashboard/profile";
+            return;
+        }
+        axios.post("https://hosterr.herokuapp.com/application", {
+            user: sessionStorage.getItem("id"),
+            disability_status: false,
+            email: sessionStorage.getItem("email"),
+            gender: sessionStorage.getItem("gender")
+        }).then(res => {
+            alert(res.data.message);
+            window.location.href = "/user/dashboard/home";
+        }).catch(err => alert(err))
     }
-    useEffect(()=>{
-        axios.post("http://localhost:8000/roomchange/details",{
+    useEffect(() => {
+        axios.post("https://hosterr.herokuapp.com/roomchange/details", {
             user: sessionStorage
-        }).then(res=>{
-          if(res.data) sessionStorage.setItem("roomchange",0) ;
-          else sessionStorage.setItem("roomchange",1)
+        }).then(res => {
+            if (res.data) sessionStorage.setItem("roomchange", 0);
+            else sessionStorage.setItem("roomchange", 1)
         }).catch(err => console.log(err))
     })
-    useEffect(()=>{
-      axios.post("http://localhost:8000/pay/detail",{
-          user: sessionStorage
-      }).then(res=>{
-         console.log(res.data) ;
-         setAmount(res.data) ;
-         sessionStorage.setItem("amount",res.data[0]) ;
-      }).catch(err=> console.log(err.message))
-    },[])
+    useEffect(() => {
+        axios.post("https://hosterr.herokuapp.com/pay/detail", {
+            user: sessionStorage
+        }).then(res => {
+            console.log(res.data);
+            setAmount(res.data);
+            sessionStorage.setItem("amount", res.data[0]);
+        }).catch(err => console.log(err.message))
+    }, [])
     return (
         <>
             {
@@ -178,65 +180,97 @@ const DashBoard = () => {
                             <div className="left-links">
                                 <p>Dashboard > Home</p>
                                 <Link to="/user/dashboard/contact-admin" className="left-item">
-                                <button href="/user/dashboard/contact-admin">
-                                    <ChatBubbleIcon className="icon" />
-                                    Talk to Admin
-                                </button>
+                                    <button href="/user/dashboard/contact-admin">
+                                        <ChatBubbleIcon className="icon" />
+                                        Talk to Admin
+                                    </button>
                                 </Link>
                             </div>
                         </div>
                         {
                             sessionStorage.getItem("Application") == "Not Applied" ? (
                                 <div className="general2">
-                                    <div className="grand-card">
-                                        <div className="card-top">
-                                            <p>Apply for Hostel</p>
-                                            <MoreVertIcon className="icon" />
+                                    {count1==1?(
+                                         <div className="grand-card">
+                                             <div className="card-top">
+                                                 <p>Apply for Hostel</p>
+                                                 <MoreVertIcon className="icon" />
+                                             </div>
+                                             <div className="details">
+                                                 <div className="two-details">
+                                                     <input type="text" className="detail" placeholder="Your Name" />
+                                                     <div className="custom-select">
+                                                         <select>
+                                                             <option value="">Year of passout</option>
+                                                             <option value="21">2021</option>
+                                                             <option value="22">2022</option>
+                                                         </select>
+                                                     </div>
+                                                 </div>
+                                                 <input type="text" className="detail" placeholder="Gender" />
+                                                 <input type="text" className="detail" placeholder="Your local address" />
+                                                 <input type="text" className="detail" placeholder="Are you a physically challenged candidate ?" />
+                                             </div>
+                                             <button className="submit-btn" onClick={onsubmit}>
+                                                 Submit Request
+                                             </button>
+                                             <div className="desc">*you will get a mail and also an alert on the site on updates regarding your room, within 7 days.</div>
+                                         </div>
+                                    ):(
+                                        <div className="local-grand-card">
+                                        <h1 className="local-h1">Verify vaccination status, to book your hostel</h1>
+                                        <div className="local-desc">
+                                            It is important for us to know about your vaccination status first to ensure
+                                            that our hostel room is free from all kind of viruses and following our ultimate 
+                                            goal, to ensure student safety.
                                         </div>
-                                        <div className="details">
-                                            <div className="two-details">
-                                                <input type="text" className="detail" placeholder="Your Name" />
-                                                <div className="custom-select">
-                                                    <select>
-                                                        <option value="">Year of passout</option>
-                                                        <option value="21">2021</option>
-                                                        <option value="22">2022</option>
-                                                    </select>
+                                        {
+                                            count == 0 ? (
+                                                <div className="local-together">
+                                                    <p className="local-p">Cowin Registered Mobile Number </p>
+                                                    <input type="text" className="local-input" placeholder="" />
                                                 </div>
-                                            </div>
-                                            <input type="text" className="detail" placeholder="Gender" />
-                                            <input type="text" className="detail" placeholder="Your local address" />
-                                            <input type="text" className="detail" placeholder="Are you a physically challenged candidate ?" />
-                                        </div>
-                                        <button className="submit-btn" onClick={onsubmit}>
-                                            Submit Request
-                                        </button>
-                                        <div className="desc">*you will get a mail and also an alert on the site on updates regarding your room, within 7 days.</div>
+                                            ):(
+                                                count == 1 ? (
+                                                    <div className="local-together">
+                                                        <p className="local-p">One Time Password OTP </p>
+                                                        <input type="text" className="local-input" placeholder="" />
+                                                    </div>
+                                                ):( 
+                                                    <div className="local-together">
+                                                        <p className="local-p">Your Beneficiary ID </p>
+                                                        <input type="text" className="local-input" placeholder="" />
+                                                    </div>
+                                                )
+                                            )
+                                        }
+                                        {
+                                            count<2 ? (
+                                                    <button className="local-btn" onClick={() => setCount(count+1)}>
+                                                        Continue
+                                                    </button>
+                                                ):(
+                                                    <button className="local-btn local-submit"  onClick={() => setCount1(count1+1)} >
+                                                        Submit
+                                                    </button>
+                                                )
+                                        }
                                     </div>
-                                    <div className="two-cards">
-                                    <div className="card">
-                                        <div className="card-top">
-                                            <p>Profile Status</p>
-                                            <MoreVertIcon className="icon" />
-                                        </div>
-                                        <div className="card-mid">
-                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73%</h1>):(<h1>100%</h1>)}
-                                            <p>Percentage of your profile is complete</p>
-                                        </div>
-                                        <div className="desc">Pls complete your profile fully </div>
-                                    </div>
+                                    )}
+                                    <div className="two-cards-2">
                                         <div className="card">
-                                        <div className="card-top">
-                                            <p>Contact Hostel Admin</p>
-                                            <MoreVertIcon className="icon" />
+                                            <div className="card-top">
+                                                <p>Contact Hostel Admin</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
+                                            </div>
+                                            <div className="desc">You can contact your Hostel admin anytime for any query
+                                                <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
                                         </div>
-                                        <div className="card-mid">
-                                            <img src="https://icon-library.com/images/gmail-logo-icon/gmail-logo-icon-8.jpg" alt="" />
-                                        </div>
-                                        <div className="desc">You can contact your Hostel admin anytime for any query
-                                            <a herf="/user/dashboard/contact-admin"> Contact Now</a></div>
                                     </div>
-                                    </div>
+                                    
                                 </div>
                             ) : (
                                 <div className="general">
@@ -247,7 +281,7 @@ const DashBoard = () => {
                                         </div>
                                         <div className="card-mid">
                                             <h1>{amount[1]}</h1>
-                                           {amount[1]==0?( <p>Months payment due over {amount[0]} INR.</p>):( <p>All payments up to date</p>)}
+                                            {amount[1] == 0 ? (<p>Months payment due over {amount[0]} INR.</p>) : (<p>All payments up to date</p>)}
                                         </div>
                                         <div className="desc">No last date for this semester but it suggested to pay as soon as possible.
                                             <a href="/payment-gateway"> Pay now</a></div>
@@ -258,11 +292,11 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>{31-day}</h1>
+                                            <h1>{31 - day}</h1>
                                             <p>Left for this semester</p>
                                         </div>
                                         <div className="desc">
-                                            Service available daily once 
+                                            Service available daily once
                                             <a href="/user/dashboard/contact-admin"> Request Increase</a></div>
                                     </div>
                                     <div className="card">
@@ -271,7 +305,7 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>{sessionStorage.getItem("roomchange")?(<>{sessionStorage.getItem("roomchange")}</>):(<>1</>)}</h1>
+                                            <h1>{sessionStorage.getItem("roomchange") ? (<>{sessionStorage.getItem("roomchange")}</>) : (<>1</>)}</h1>
                                             <p>Left for this semester</p>
                                         </div>
                                         <div className="desc">You can apply for the room change only once in this semester </div>
@@ -282,7 +316,7 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            {sessionStorage.getItem("iscomplete")=="false"?(<h1>73</h1>):(<h1>100</h1>)}
+                                            {sessionStorage.getItem("iscomplete") == "false" ? (<h1>73</h1>) : (<h1>100</h1>)}
                                             <p>Percentage of your profile is complete</p>
                                         </div>
                                         <div className="desc">You must complete your profile fully </div>
@@ -335,6 +369,78 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    .local-grand-card{
+        position: relative;
+        height: auto;
+        width: 74%;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+        border-radius: 10px;
+        margin-right: 1%;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .local-h1{
+        font-size: 1.4rem;
+    }
+
+    .local-desc{
+        font-size: 0.7rem;
+        font-weight: 200;
+        width: 70%;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .local-together{
+        display: flex;
+        align-items: center;
+        margin: 3rem 0;
+    }
+
+
+    
+
+
+    .local-p{
+        font-size: 0.9rem;
+        font-weight: 200;
+        display: inline;
+    }
+
+    .local-input{
+        font-size: 0.8rem;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid black;
+        width: 120px;
+        margin-left: 10px;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 0.1rem;
+        padding-bottom: 3px;
+    }
+
+    .local-btn{
+        display: block;
+        border: none;
+        padding: 5px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .local-submit{
+        background-color: cornflowerblue;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.07rem;
+        font-size: 0.8rem;
+        padding: 0.5rem 2rem;
+    }
     
     .main{
         display: flex;
@@ -669,7 +775,8 @@ const Right = styled.div`
         align-items: center;
 
         h2{
-            font-weight: 400;
+            font-weight: 600;
+            letter-spacing: 0.07rem;
             font-size: 1.25rem;
         }
 
@@ -795,6 +902,7 @@ const Right = styled.div`
             cursor: pointer;
         }
     }
+
 
     .details{
         margin-top: 30px;
@@ -926,9 +1034,70 @@ const Right = styled.div`
             }
         }
 
+        .two-cards-2{
+            height: auto;
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-right: 10px;
+
+            .card{
+                width: 100%;
+                height: 260px;
+                background-color: white;
+                box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+                border-radius: 10px;
+                margin-right: 1%;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+    
+                .card-top{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+    
+                    p{
+                        font-size: 1rem;
+                    }
+    
+                    .icon{
+                        cursor: pointer;
+                    }
+    
+                }
+
+                .card-mid{
+                    text-align: center;
+                    h1{
+                        color: orange;
+                        font-size: 5rem;
+                        line-height: 5rem;
+                    }
+                    p{
+                        color: orange;
+                        font-size: 0.8rem;
+                    }
+
+                    img{
+                        height: 7rem;
+                    }
+                }
+
+                .desc{
+                    font-size: 0.7rem;
+                    color: grey;
+                    text-align: center;
+                }
+            }
+        }
+
 
         
     }
+
 
 
 

@@ -30,7 +30,7 @@ const Inbox = () => {
     const [reply,setReply] = useState("") ;
     const user = sessionStorage ;
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/findQueries",{
+        axios.post("https://hosterr.herokuapp.com/admin/findQueries",{
             user
         }).then(res =>{ 
             console.log(res.data)
@@ -40,7 +40,7 @@ const Inbox = () => {
     },[])
     const onSend = ()=>{
         console.log(reply) ;
-        axios.post("http://localhost:8000/admin/query/",{
+        axios.post("https://hosterr.herokuapp.com/admin/query/",{
             user:sessionStorage ,
             content: reply ,
             query_id : student._id

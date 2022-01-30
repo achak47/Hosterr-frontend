@@ -31,7 +31,7 @@ const LandingPage = () => {
     const [showChat, setShowChat] = useState(false);
     const [college,setColleges] = useState([]) ;
     useEffect(() => {
-        axios.get("http://localhost:8000/getall/institutes").then(res => {
+        axios.get("https://hosterr.herokuapp.com/getall/institutes").then(res => {
             setColleges(res.data);
             console.log(res.data)
         })
@@ -54,7 +54,7 @@ const LandingPage = () => {
             .catch((err) => alert(err));
     }
     const onlogin = () => {
-        axios.post("http://localhost:8000/login", { "email": email, "password": password }).then(res => {
+        axios.post("https://hosterr.herokuapp.com/login", { "email": email, "password": password }).then(res => {
             if (res.status == 200) {
                 const { id, name, email, institute, iscomplete } = res.data;
                 sessionStorage.setItem("id", id);
@@ -62,7 +62,7 @@ const LandingPage = () => {
                 sessionStorage.setItem("email", email);
                 sessionStorage.setItem("institute", institute);
                 sessionStorage.setItem("iscomplete", iscomplete);
-                axios.post("http://localhost:8000/application/status/user", {
+                axios.post("https://hosterr.herokuapp.com/application/status/user", {
                     "email": sessionStorage.getItem("email"),
                     "user": sessionStorage.getItem("id")
                 }).then(res => {

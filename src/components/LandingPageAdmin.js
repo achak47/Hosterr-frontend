@@ -63,7 +63,7 @@ const LandingPageAdmin = () => {
             */
     }
     const onlogin = ()=>{
-        axios.post("http://localhost:8000/admin/login",{"email":email,"password":password}).then(res =>{
+        axios.post("https://hosterr.herokuapp.com/admin/login",{"email":email,"password":password}).then(res =>{
           if(res.status == 200){
             const {id, name, email, college,institute} = res.data ;
             console.log(res.data) ;

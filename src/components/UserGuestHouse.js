@@ -33,7 +33,7 @@ const UserGuestHouse = () => {
     const user = sessionStorage ;
     const onSubmit = ()=>{
       console.log(arrival_date) ;
-      axios.post("http://localhost:8000/getGuestHouse",{
+      axios.post("https://hosterr.herokuapp.com/getGuestHouse",{
           user,
           arrival_date ,
           departure_date
@@ -139,7 +139,7 @@ const UserGuestHouse = () => {
                         <div className="head not-mobile">
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
-                                <p>Dashboard > Home</p>
+                                <p>Dashboard  Home</p>
                                 <Link to="/user/dashboard/contact-admin" className="left-item">
                                 <button href="/user/dashboard/contact-admin">
                                     <ChatBubbleIcon className="icon" />

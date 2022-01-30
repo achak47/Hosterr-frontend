@@ -29,7 +29,7 @@ const AccessLogs = () => {
     const [student,setStudent] = useState({}) ;
     const user = sessionStorage ;
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/occupied/rooms/details",{
+        axios.post("https://hosterr.herokuapp.com/admin/occupied/rooms/details",{
             user
         }).then(res =>{ 
             console.log(res.data)

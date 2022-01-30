@@ -33,7 +33,7 @@ const UserContactAdmin = () => {
     const [message,setMessage] = useState("") ;
 
     const onSend = ()=>{
-       axios.post("http://localhost:8000/query",{
+       axios.post("https://hosterr.herokuapp.com/query",{
            email: sessionStorage.getItem("email"),
            subject ,
            message ,

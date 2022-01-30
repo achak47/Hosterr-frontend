@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react';
 import Fade from 'react-reveal/Fade';
@@ -28,17 +28,21 @@ import axios from 'axios';
 const UserProfile = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [year, setYear] = useState(null);
+    const [year, setYear] = useState(0);
     const [roll, setRoll] = useState("");
-    const [gender, setGender] = useState(null);
+    const [gender, setGender] = useState("Not Selected");
     const [department, setDepartment] = useState("");
     const [address, setAddress] = useState("");
+    useEffect(()=>{
+       console.log(year) ;
+    },[year])
     const onSubmit = () => {
-        if (roll == "" || department == "" || year == null || gender == null || address == "") {
+        console.log(year,roll,gender,department,address) ;
+        if (roll == "" || department == "" || year == 0 || gender == "Not Selected" || address == "") {
             alert("Pls fill up the details first !!!");
             return;
         }
-        axios.post('http://localhost:8000/update/user', {
+        axios.post('https://hosterr.herokuapp.com/update/user', {
             user: sessionStorage.getItem("id"),
             roll: roll,
             department: department,
@@ -153,7 +157,7 @@ const UserProfile = () => {
                         <div className="head not-mobile">
                             <h2>Student Dashboard</h2>
                             <div className="left-links">
-                                <p>Dashboard > Room Change</p>
+                                <p>Dashboard Room Change</p>
                                 <button>
                                     <AddCircleIcon className="icon" />
                                     Create New
@@ -172,19 +176,20 @@ const UserProfile = () => {
                                         <div className="details">
                                             <div className="two-details">
                                                 <div className="custom-select">
-                                                    <select>
-                                                        <option value="">Current Year</option>
+                                                    <select onChange={(e) =>setYear(e.target.value)}>
+                                                        <option  value="none" selected disabled hidden>Current Year</option>
                                                         <option value="1">UG1</option>
                                                         <option value="2">UG2</option>
                                                         <option value="3">UG3</option>
                                                         <option value="4">UG4</option>
                                                         <option value="5">Above</option>
                                                     </select>
-                                                </div><div className="custom-select">
-                                                    <select>
-                                                        <option value="">Gender</option>
+                                                </div>
+                                                <div className="custom-select">
+                                                    <select  onChange={(e) => setGender(e.target.value)}>
+                                                        <option  value="none" selected disabled hidden>Gender</option>
                                                         <option value="Boys">Male</option>
-                                                        <option value="Female">Female</option>
+                                                        <option value="Girls">Female</option>
                                                         <option value="Boys">Others</option>
                                                     </select>
                                                 </div>
@@ -230,13 +235,13 @@ const UserProfile = () => {
                                 <div className="general">
                                     <div className="grand-card">
                                         <div className="card-top">
-                                            <p>Complete your profile</p>
+                                            <p>Update your profile</p>
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="details">
                                             <div className="two-details">
                                                 <div className="custom-select">
-                                                    <select>
+                                                    <select onChange={(e) =>setYear(e.target.value)}>
                                                         <option value="">Current Year</option>
                                                         <option value="1">UG1</option>
                                                         <option value="2">UG2</option>
@@ -244,7 +249,7 @@ const UserProfile = () => {
                                                         <option value="4">UG4</option>
                                                         <option value="5">Above</option>
                                                     </select>
-                                                </div><div className="custom-select">
+                                                </div><div className="custom-select" onChange={(e) => setGender(e.target.value)}>
                                                     <select>
                                                         <option value="">Gender</option>
                                                         <option value="Boys">Male</option>

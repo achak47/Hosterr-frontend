@@ -1,71 +1,78 @@
-import React from 'react'
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import axios from "axios"
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import StripeContainer2 from './stripeContainer2' ;
 
-const GuesthousePaymentGateway = () => {
-    const amount = sessionStorage.getItem("amount") ;
-    return (
-        <Container>
-            <PageOneHeader>
-                <h1>Hosterr </h1>    
-                <p>Payment </p>
-            </PageOneHeader>
-            <Main>
-                <div className="pay">
-                    <div className="txt">pay</div>
-                    <div className="amt">{sessionStorage.getItem("guesthouseamount")} INR</div>
-                </div>
-                <div className="detail">Payee Details</div>
-                <input type="text" className="input" placeholder="Name"/>
-                <input type="text" className="input" placeholder="Phone Number"/>
-                <input type="text" className="input" placeholder="Email ID"/>
-
-                <div className="detail">Card Details</div>
-                <StripeContainer2/>
-                {/*
-                <input type="text" className="input" placeholder="Card Number"/>
-                <input type="text" className="three-input" placeholder="Expiry Date MM/YY"/>
-                <input type="text" className="one-input" placeholder="CVV"/>
-                */}
-
-
-                <div className="desc">By clicking continue, i am agree with <a>Terms & Policy</a> </div>
-
-                <img src="https://www.downloadclipart.net/large/major-credit-card-logo-png-image.png" alt="" className="end-logo-left" />
-                <img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Stripe_logo%2C_revised_2016.png" alt="" className="end-logo" />
-            </Main>
-            
-        </Container>
-    )
+const CARD_OPTIONS = {
+    iconStyle: "solid",
+    style: {
+        base: {
+            iconColor: "#c4f0ff",
+            color: "#333",
+            fontWeight: 500,
+            fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+            fontSize: "16px",
+            fontSmoothing: "antialiased",
+            ":-webkit-autofill": { color: "#fce883" },
+            "::placeholder": { color: "#87bbfd" }
+        },
+        invalid: {
+            iconColor: "#ffc7ee",
+            color: "#c4f0ff"
+        }
+    }
 }
 
-export default GuesthousePaymentGateway
+export default function PaymentForm2() {
+    const [success, setSuccess] = useState(false)
+    const stripe = useStripe()
+    const elements = useElements()
 
-const Container = styled.div`
-    
-    
-`
-const PageOneHeader = styled.div`
-    height: 60px;
-    display: flex;
-    background-color: cornflowerblue;
-    align-items: center;
-    justify-content: center;
 
-    h1{
-        color: white;
-    }
-    p{
-        color: white;
-        font-size: 0.8rem;
-        margin-top: 5px;
-        margin-left: 5px;
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: "card",
+            card: elements.getElement(CardElement)
+        })
+
+        const card = elements.getElement(CardElement);
+        const result = await stripe.createToken(card);
+        if (result.error) {
+            console.log(result.error.message);
+        } else {
+            console.log(result.token);
+            axios.post("https://hosterr.herokuapp.com/pay",{
+                user:sessionStorage ,
+                amount: sessionStorage.getItem("guesthouseamount"),
+                stripeToken: result.token.id
+            }).then(res=>{
+                console.log(res.data) ;
+                window.location.href = "/payment-gateway/success"
+            }).catch(err => console.log(err)) ;
+        }
     }
 
-    img{
-        height: 80%;
-    }
-`
+    return (
+        <>
+            {!success ?
+                <form onSubmit={handleSubmit}>
+                    <fieldset className="FormGroup">
+                        <div className="FormRow">
+                            <CardElement options={CARD_OPTIONS} />
+                        </div>
+                    </fieldset>
+                    <button className="btn">Proceed to Pay</button>
+                </form>
+                :
+                <div>
+                    <h2>You just bought a sweet spatula congrats this is the best decision of you're life</h2>
+                </div>
+            }
+
+        </>
+    )
+}
 
 const Main = styled.div`
     position: relative;

@@ -31,13 +31,13 @@ const AddRooms = () => {
     const [rooms,setRooms] = useState(0) ;
     const user = sessionStorage ;
     useEffect(()=>{
-      axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
+      axios.post("https://hosterr.herokuapp.com/admin/hostels/all",{user}).then(res=>{
           console.log(res.data) ;
           setHostels(res.data)  ;
       })
     },[])
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/rooms/all",{
+        axios.post("https://hosterr.herokuapp.com/admin/rooms/all",{
             user 
         }).then(res=>{
             console.log(res.data) ;
@@ -47,7 +47,7 @@ const AddRooms = () => {
       },[])
     const onaddroom = ()=>{
         console.log(hostelname,roomno,fees,roomType) ; 
-        axios.post("http://localhost:8000/admin/add/room",{
+        axios.post("https://hosterr.herokuapp.com/admin/add/room",{
             user,
             roomType,
             fees,

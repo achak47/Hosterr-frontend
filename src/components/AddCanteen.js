@@ -31,7 +31,7 @@ const AddCanteen = () => {
     const user = sessionStorage ;
     const onadd = ()=>{
         console.log(typeof(start)) ;
-        axios.post("http://localhost:8000/admin/add/canteen",{
+        axios.post("https://hosterr.herokuapp.com/admin/add/canteen",{
             user,
             name,
             start,

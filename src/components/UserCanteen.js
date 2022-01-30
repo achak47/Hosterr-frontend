@@ -31,7 +31,7 @@ const UserCanteen = () => {
     const [closedcanteen, setCanteenclose] = useState([])
     const user = sessionStorage;
     useEffect(() => {
-        axios.post("http://localhost:8000/canteens", {
+        axios.post("https://hosterr.herokuapp.com/canteens", {
             user
         }).then(res => {
             console.log(res.data);

@@ -36,7 +36,7 @@ const DashBoardRoomDetails = () => {
     let day = date.getDate();
     console.log(day);
     useEffect(() => {
-        axios.post("http://localhost:8000/hostel/getdetails", {
+        axios.post("https://hosterr.herokuapp.com/hostel/getdetails", {
             user
         }).then(res => {
             console.log(res.data);
@@ -208,7 +208,7 @@ const DashBoardRoomDetails = () => {
                                         </div>
                                         <div className="detail">
                                             <p className="cat">10. Room Change: </p>
-                                            <p className="res">Allowed</p>
+                                            <p className="res">{localStorage.getItem("roomchange")=='0'?(<>Applied</>):(<>Allowed</>)}</p>
                                         </div>
                                         <button className="leave-room-btn">
                                             Leave Room

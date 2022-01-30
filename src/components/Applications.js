@@ -29,16 +29,16 @@ const Applications = () => {
     const [student,setStudent] = useState({}) ;
     const user = sessionStorage ;
     useEffect(()=>{
-        axios.post("http://localhost:8000/admin/findApplications",{
+        axios.post("https://hosterr.herokuapp.com/admin/findApplications",{
             user
         }).then(res =>{ 
-            console.log(res.data)
+            console.log(res.data.msg)
             setApplications(res.data) ;
         })
         .then(err => console.log(err)) ;
     },[])
     const onAllotroom = ()=>{
-       axios.post("http://localhost:8000/admin/application/accept",{
+       axios.post("https://hosterr.herokuapp.com/admin/application/accept",{
            application_id:student._id
        }).then(res =>{
               alert(res.data) ;
@@ -46,7 +46,7 @@ const Applications = () => {
        }).catch(err => console.log(err))
     }
     const onRejectroom = ()=>{
-        axios.post("http://localhost:8000/admin/application/reject",{
+        axios.post("https://hosterr.herokuapp.com/admin/application/reject",{
             application_id : student._id
         }).then(res =>{
                alert(res.data) ;
@@ -191,7 +191,7 @@ const Applications = () => {
                                             </div>
                                             <div className="detail">
                                                 <p className="cat">4. Year Of Study : </p>
-                                                <p className="res">{student.student_id.year}</p>
+                                                <p className="res">UG 1</p>
                                             </div>
                                             <div className="detail">
                                                 <p className="cat">5. Contact Number : </p>
@@ -228,8 +228,8 @@ const Applications = () => {
                                                 <div className="fees">Mark</div>
                                                 <div className="resident">View</div>
                                             </div>
-                                            {applications.map(item=><div className="detail">
-                                                <div className="room-no">1</div>
+                                            {applications.map((item,idx) =><div className="detail">
+                                                <div className="room-no">{idx+1}</div>
                                                 <div className="hostel-name">{item.status == null ?(<span>New Room Allocate</span>):(<span>Room Change</span>)}</div>
                                                 <div className="gender">{item.student_id.gender == "Boys" ?(<span>Male</span>):(<span>Female</span>)}</div>
                                                 <div className="fees">{item.status == "RJ"?(<span>Rejected</span>):(<span>-</span>)}</div>

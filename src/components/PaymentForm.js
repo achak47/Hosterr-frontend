@@ -42,13 +42,13 @@ export default function PaymentForm() {
             console.log(result.error.message);
         } else {
             console.log(result.token);
-            axios.post("http://localhost:8000/pay",{
+            axios.post("https://hosterr.herokuapp.com/pay",{
                 user:sessionStorage ,
                 amount: sessionStorage.getItem("amount"),
                 stripeToken: result.token.id
             }).then(res=>{
                 console.log(res.data) ;
-                //window.location.href = "/payment-gateway/success"
+                window.location.href = "/payment-gateway/success"
             }).catch(err => console.log(err)) ;
         }
     }

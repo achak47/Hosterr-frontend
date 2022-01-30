@@ -30,7 +30,7 @@ const AddHostel = () => {
     const [hostels,setHostels] = useState([]) ;
     const user = sessionStorage ;
     useEffect(()=>{
-      axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
+      axios.post("https://hosterr.herokuapp.com/admin/hostels/all",{user}).then(res=>{
           console.log(res.data) ;
           setHostels(res.data)  ;
       })
@@ -42,7 +42,7 @@ const AddHostel = () => {
         }
        const user = sessionStorage ;
        console.log(name,address,gender) ; 
-       axios.post('http://localhost:8000/admin/add/hostel',{
+       axios.post('https://hosterr.herokuapp.com/admin/add/hostel',{
         user ,
         gender,
         name,
