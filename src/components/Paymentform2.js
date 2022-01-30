@@ -48,7 +48,7 @@ export default function PaymentForm2() {
                 stripeToken: result.token.id
             }).then(res=>{
                 console.log(res.data) ;
-                window.location.href = "/payment-gateway/success"
+                window.location.href = "/payment-gateway/success2"
             }).catch(err => console.log(err)) ;
         }
     }

@@ -180,7 +180,7 @@ const AccessLogs = () => {
                                                 <a href="/" className="res">Candidate1, Candidate2, Candidate3</a>
                                             </div>
                                             <div className="detail">
-                                                <p className="cat">6. Fees Pending : </p>
+                                                <p className="cat">5. Fees Pending : </p>
                                                 <p className="res">Yes</p>
                                             </div>
                                             <div className="detail">
