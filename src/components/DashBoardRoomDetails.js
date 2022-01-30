@@ -30,6 +30,7 @@ const DashBoardRoomDetails = () => {
     const [sideBar, setSideBar] = useState(false);
     const [hosteldetails, setHostel] = useState({});
     const [admin, setAdmin] = useState("");
+    const [address,setAddress] = useState(""); 
     const user = sessionStorage;
     let date = new Date();
     let day = date.getDate();
@@ -42,6 +43,17 @@ const DashBoardRoomDetails = () => {
             console.log(res.data) ;
             setHostel(res.data[0]);
             setAdmin(res.data[1]);
+            var add ;
+            if(res.data[0].hostel)
+            {
+                 add = res.data[0].hostel.hostelId.address ;
+            }
+            else add = res.data[0].address ;
+            add = add.replaceAll(',','') ;
+            add = add.replaceAll('  ',' ') ;
+            add = add.replaceAll(' ','+') ;
+            console.log(add) ;
+            setAddress(add) ;
         }).catch(err => console.log(err));
     }, [])
 
@@ -156,45 +168,55 @@ const DashBoardRoomDetails = () => {
                                     <div className="details">
                                          <div className="detail">
                                             <p className="cat">College :</p>
-                                            <p className="res"> <b>Jadavpur University</b></p>
+                                            <p className="res"> <b>{hosteldetails.hostel.hostelId.college}</b></p>
                                         </div>
                                         <div className="detail">
                                             <p className="cat">1. Room No. :</p>
                                             <p className="res"> {hosteldetails.hostel.roomno}</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">2. Room Type : </p>
+                                            <p className="cat">2. Hostel Name :</p>
+                                            <p className="res"> {hosteldetails.hostel.hostelId.name}</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">3. Room Type : </p>
                                             <p className="res">Normal</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">3. Belongs to PWD student : </p>
+                                            <p className="cat">4. Belongs to PWD student : </p>
                                             <p className="res">No</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">4. Room owner(s) : </p>
+                                            <p className="cat">5. Room owner(s) : </p>
                                             <p className="res">{admin}</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">5. Fees (PM) : </p>
+                                            <p className="cat">6. Fees (PM) : </p>
                                             <p className="res">{hosteldetails.hostel.fees}</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">6. Staying From : </p>
+                                            <p className="cat">7. Staying From : </p>
                                             <p className="res">14 February, 2020</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">7. Due Payment : </p>
+                                            <p className="cat">8. Due Payment : </p>
                                             <p className="res">{!sessionStorage.getItem("amount") ? (<span>0</span>) : (<span>{sessionStorage.getItem("amount")}</span>)}</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">8. Total Room Services : </p>
+                                            <p className="cat">9. Total Room Services : </p>
                                             <p className="res">{31 - day} left out of 31</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">9. Room Change: </p>
+                                            <p className="cat">10. Room Change: </p>
                                             <p className="res">Allowed</p>
                                         </div>
-
+                                        <button className="leave-room-btn">
+                                            Leave Room
+                                        </button>
+                                        <div className="room-images">
+                                            <img src="https://bizimages.withfloats.com/tile/5e4b9c8fce486d0001593c52.jpg" alt="" />
+                                            <img src="https://m.media-amazon.com/images/I/71DXmXYIXFL._SL1133_.jpg" alt="" />
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="details">
@@ -207,38 +229,41 @@ const DashBoardRoomDetails = () => {
                                             <p className="res"> --</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">2. Room Type : </p>
+                                            <p className="cat">2. Hostel Name :</p>
+                                            <p className="res"> Not allocated yet</p>
+                                        </div>
+                                        <div className="detail">
+                                            <p className="cat">3. Room Type : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">3. Belongs to PWD student : </p>
+                                            <p className="cat">4. Belongs to PWD student : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">4. Room owner(s) : </p>
+                                            <p className="cat">5. Room owner(s) : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">5. Fees (PM) : </p>
+                                            <p className="cat">6. Fees (PM) : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">6. Staying From : </p>
+                                            <p className="cat">7. Staying From : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">7. Due Payment : </p>
+                                            <p className="cat">8. Due Payment : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">8. Total Room Services : </p>
+                                            <p className="cat">9. Total Room Services : </p>
                                             <p className="res">--</p>
                                         </div>
                                         <div className="detail">
-                                            <p className="cat">9. Room Change: </p>
+                                            <p className="cat">10. Room Change: </p>
                                             <p className="res">--</p>
                                         </div>
-
                                     </div>
                                 )}
                             </div>
@@ -248,43 +273,42 @@ const DashBoardRoomDetails = () => {
                                     <img src="https://www.just.edu.jo/Units_and_offices/Offices/IRO/PublishingImages/Pages/default/3-512.png" alt="" />
                                     <div className="text">
                                         <div className="top">Your Hostel</div>
-                                        <a href="/" className="link">View Address</a>
+                                        <a target="_blank" href={`https://www.google.co.in/maps/search/${address}`} className="link">View Address</a>
                                     </div>
                                 </div>
                                 <div className="card">
                                     <img src="https://www.nicepng.com/png/full/352-3526091_vector-icon-of-an-airplane-gloucester-road-tube.png" alt="" />
                                     <div className="text">
                                         <div className="top">Find Airport</div>
-                                        <a href="/" className="link">View Nearest Airport</a>
+                                        <a target="_blank" href={`https://www.google.co.in/maps/search/airport+near+${address}`} className="link">View Nearest Airport</a>
                                     </div>
                                 </div>
                                 <div className="card">
                                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqJ7CDsOepm3PNLGC2918je2zk9BZZtyVt6xDG4FA32__pKru5Lq3WSf0NRGTuHvj0SZY&usqp=CAU" alt="" />
                                     <div className="text">
                                         <div className="top">Find Railway Station</div>
-                                        <a href="/" className="link">View Nearest Railway Station</a>
+                                        <a target="_blank" href={`https://www.google.co.in/maps/search/railwaystation+near+${address}`} className="link">View Nearest Railway Station</a>
                                     </div>
                                 </div>
                                 <div className="card">
                                     <img src="https://cdn0.iconfinder.com/data/icons/health-icons-rounded/110/Hospital-512.png" alt="" />
                                     <div className="text">
                                         <div className="top">Find Hospital</div>
-                                        <a target="_blank" href="https://www.google.com/search?sxsrf=APq-WBu4Sv9DQWdFOuamXAkgHF93Inw2hg:1643470281884&q=hospitals+near+jadavpur+university&npsic=0&rflfq=1&rldoc=1&rllag=22492365,88372589,248&tbm=lcl&sxsrf=APq-WBu4Sv9DQWdFOuamXAkgHF93Inw2hg:1643470281884&sa=X&ved=2ahUKEwj50ebyo9f1AhViUWwGHRZXBMIQtgN6BAgDEFk&biw=1280&bih=609&dpr=1.5#rlfi=hd:;si:;mv:[[22.5106710890496,88.40387816453921],[22.47458893433815,88.33006377244936],null,[22.49263118777861,88.36697096849429],14]
-" className="link" >View Nearest Hospital</a>
+                                        <a target="_blank" href={`https://www.google.co.in/maps/search/hospitals+near+${address}`} className="link" >View Nearest Hospital</a>
                                     </div>
                                 </div>
                                 <div className="card">
                                     <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/medicine-510-768425.png" alt="" />
                                     <div className="text">
                                         <div className="top">Find Pharmacy Store</div>
-                                        <a href="/" className="link">View Nearest Pharmacy Store</a>
+                                        <a target="_blank" href={`https://www.google.co.in/maps/search/pharmacy+near+${address}`} className="link">View Nearest Pharmacy Store</a>
                                     </div>
                                 </div>
                                 <div className="card">
                                     <img src="https://www.millastellan.com/assets/icons/others.png" alt="" />
                                     <div className="text">
                                         <div className="top">Find Stationary</div>
-                                        <a href="/" className="link">View Nearest Stationary</a>
+                                        <a target="_blank" href={`https://www.google.co.in/maps/search/stationery+near+${address}`} className="link">View Nearest Stationary</a>
                                     </div>
                                 </div>
                                 
@@ -697,7 +721,7 @@ const Right = styled.div`
         /* align-items: center; */
 
         .grand-card{
-            height: 512px;
+            min-height: 512px;
             width: 74%;
             background-color: white;
             box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
@@ -736,6 +760,26 @@ const Right = styled.div`
                         font-weight: 200;
                         margin-left: 10px;
                         font-size: 0.85rem;
+                    }
+                }
+
+                .leave-room-btn{
+                    font-size: 0.9rem;
+                    border: none;
+                    background-color: #d56060;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+
+                .room-images{
+                    display: flex;
+                    margin-top: 30px;
+
+                    img{
+                        height: 140px;
+                        border-radius: 10px;
+                        margin-right: 5px;
                     }
                 }
             }

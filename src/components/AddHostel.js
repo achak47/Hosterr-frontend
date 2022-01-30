@@ -1,6 +1,7 @@
+
 import React from 'react'
 import styled from 'styled-components'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import TranslateIcon from '@material-ui/icons/Translate';
@@ -26,6 +27,14 @@ const AddHostel = () => {
     const [name,setName] = useState(null) ;
     const [address,setAddress] = useState(null) ;
     const [gender,setGender] = useState(null) ;
+    const [hostels,setHostels] = useState([]) ;
+    const user = sessionStorage ;
+    useEffect(()=>{
+      axios.post("http://localhost:8000/admin/hostels/all",{user}).then(res=>{
+          console.log(res.data) ;
+          setHostels(res.data)  ;
+      })
+    },[])
     const onadd = ()=>{
         if(gender == ""){
             alert("Please select a Hostel Type !") ;
@@ -188,30 +197,30 @@ const AddHostel = () => {
                                 </button>
                                 {/* <div className="desc">*It might happen that at the time you apply for change the rooms aren't free so your request will be added to waiting list and you will get updates on hosterr dashboard regarding it's updates </div> */}
                             </div>
-                            <div className="two-cards">
-                            <div className="card">
-                                    <div className="card-top">
-                                        <p>Total Rooms</p>
-                                        <MoreVertIcon className="icon"/>
+                            <div className="multi-cards">
+                                <h3 className="heading">Existing Hostels</h3>
+                                {/* code */}
+                                {
+                                    hostels.length?(
+                                        hostels.map((item,idx) => 
+                                            <div className="card">
+                                    <div className="text">
+                                        <div className="top">{idx+1}. {item.name} ({item.gender}) </div>
+                                        <a href="/" className="link">View Detailed</a>
                                     </div>
-                                    <div className="card-mid">
-                                        <h1>0</h1>
-                                        <p>Rooms both genders combined</p>
-                                    </div>
-                                    <div className="desc">This data can be changed when new hostels are built.
-                                    <a> Show Room Details</a></div>
                                 </div>
+                                            )
+
+                                    ):(<>No hostels</>)
+                                }
+                                {/* 
                                 <div className="card">
-                                    <div className="card-top">
-                                        <p>Share Link</p>
-                                        <MoreVertIcon className="icon" />
+                                    <div className="text">
+                                        <div className="top">Jadavpur University - Hostel 1 </div>
+                                        <a href="/" className="link">View Detailed</a>
                                     </div>
-                                    <div className="card-mid">
-                                        <img src="https://cdn1.iconfinder.com/data/icons/web-design-and-development-50/64/110-512.png" alt="" />
-                                    </div>
-                                    <div className="desc">Ask students to join their hostel with a flex in hand, faster and easier.
-                                        <a> Share</a></div>
                                 </div>
+                                */}
                             </div>
                         </div>
                                 
@@ -653,59 +662,59 @@ const Right = styled.div`
         color: grey;
     }
 }
-        .two-cards{
+        .multi-cards{
             height: 520px;
             width: 25%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             padding-right: 10px;
+
+            .heading{
+                background-color: cornflowerblue;
+                color: white;
+                margin: 10px 2px;
+                margin-top: 0;
+                box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+                padding: 5px 10px;
+                border-radius: 10px;
+                width: 100%;
+                font-size: 1rem;
+                text-transform: uppercase;
+                font-weight: 600;
+                letter-spacing: 0.075rem;
+            }
+
             .card{
                 width: 100%;
-                height: 250px;
+                height: 77px;
                 background-color: white;
                 box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
                 border-radius: 10px;
                 margin-bottom: 10px;
                 margin-right: 1%;
-                padding: 20px;
+                padding: 10px;
                 display: flex;
-                flex-direction: column;
                 justify-content: space-between;
+                align-items: center;
     
-                .card-top{
+                img{
+                    height: 90%;
+                }
+
+                .text{
+                    flex: 1;
+                    margin-left: 10px;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-    
-                    p{
-                        font-size: 1rem;
+                    flex-direction: column;
+                    justify-content: center;
+                    
+                    .top{
+                        font-size: 0.9rem;
+                        font-weight: 600;
                     }
-    
-                    .icon{
-                        cursor: pointer;
+                    .link{
+                        font-size: 0.7rem;
                     }
-    
-                }
-                .card-mid{
-                    text-align: center;
-                    h1{
-                        color: orange;
-                        font-size: 5rem;
-                        line-height: 5rem;
-                    }
-                    p{
-                        color: orange;
-                        font-size: 0.8rem;
-                    }
-                    img{
-                        height: 7rem;
-                    }
-                }
-                .desc{
-                    font-size: 0.7rem;
-                    color: grey;
-                    text-align: center;
                 }
             }
         }
@@ -842,60 +851,44 @@ const Right = styled.div`
         max-width: 90vw;
     }
 }
-        .two-cards{
+.multi-cards{
             height: auto;
             width: 100%;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 0;
+            padding-right: 0px;
+
             .card{
                 width: 100%;
-                height: 250px;
+                height: 80px;
                 background-color: white;
                 box-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
                 border-radius: 10px;
-                margin-top: 10px;
-                margin-bottom: 0;
-                margin-right: 0;
-                padding: 20px;
+                margin-bottom: 10px;
+                margin-right: 1%;
+                padding: 10px;
                 display: flex;
-                flex-direction: column;
                 justify-content: space-between;
+                align-items: center;
     
-                .card-top{
+                img{
+                    height: 90%;
+                }
+
+                .text{
+                    flex: 1;
+                    margin-left: 10px;
                     display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-    
-                    p{
-                        font-size: 1rem;
+                    flex-direction: column;
+                    justify-content: center;
+                    
+                    .top{
+                        font-size: 0.9rem;
                     }
-    
-                    .icon{
-                        cursor: pointer;
+                    .link{
+                        font-size: 0.7rem;
                     }
-    
-                }
-                .card-mid{
-                    text-align: center;
-                    h1{
-                        color: orange;
-                        font-size: 5rem;
-                        line-height: 5rem;
-                    }
-                    p{
-                        color: orange;
-                        font-size: 0.8rem;
-                    }
-                    img{
-                        height: 7rem;
-                    }
-                }
-                .desc{
-                    font-size: 0.7rem;
-                    color: grey;
-                    text-align: center;
                 }
             }
         }

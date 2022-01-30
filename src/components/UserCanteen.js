@@ -22,24 +22,24 @@ import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ClearIcon from '@material-ui/icons/Clear';
 import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
-import axios from 'axios' ;
+import axios from 'axios';
 
 const UserCanteen = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
-    const [opencanteen,setCanteenopen] = useState([])
-    const [closedcanteen,setCanteenclose] = useState([])
-    const user = sessionStorage ;
-    useEffect(()=>{
-       axios.post("http://localhost:8000/canteens",{
-        user
-       }).then(res=>{
-           console.log(res.data);
-           setCanteenopen(res.data.canteens_open)
-           setCanteenclose(res.data.canteens_closed)
+    const [opencanteen, setCanteenopen] = useState([])
+    const [closedcanteen, setCanteenclose] = useState([])
+    const user = sessionStorage;
+    useEffect(() => {
+        axios.post("http://localhost:8000/canteens", {
+            user
+        }).then(res => {
+            console.log(res.data);
+            setCanteenopen(res.data.canteens_open)
+            setCanteenclose(res.data.canteens_closed)
         })
-       .catch(err=> console.log(err)) ;
-    },[])
+            .catch(err => console.log(err));
+    }, [])
 
     return (
         <>
@@ -137,36 +137,17 @@ const UserCanteen = () => {
                             <div className="left-links">
                                 <p>Dashboard > Canteen</p>
                                 <Link to="/user/dashboard/contact-admin" className="left-item">
-                                <button href="/user/dashboard/contact-admin">
-                                    <ChatBubbleIcon className="icon" />
-                                    Talk to Admin
-                                </button>
+                                    <button href="/user/dashboard/contact-admin">
+                                        <ChatBubbleIcon className="icon" />
+                                        Talk to Admin
+                                    </button>
                                 </Link>
                             </div>
                         </div>
                         <div className="general">
-                            { opencanteen.length>0?(
-                                opencanteen.map(item=>
+                            { opencanteen.length > 0 ? (
+                                opencanteen.map(item =>
                                     <div className="card">
-                                    <div className="card-top">
-                                        <p>{item.name}</p>
-                                        <MoreVertIcon className="icon" />
-                                    </div>
-                                    <div className="card-mid">
-                                        <img src="https://abskitchen.co.in/onlineorder/img/defLogo.png?1537453188" alt="" />
-                                    </div>
-                                    <div className="status">Currently Open</div>
-                                    <div className="desc">This canteen can provide to with food anyday, in specific hours - <b>{item.start}hrs to {item.end} hrs</b>.
-                                      <br />  Contact : <a> {item.phone}</a></div>
-                                </div>
-                                    )
-                            ):(<div>No canteens open now </div>)
-                            }
-                            <div>
-                            {
-                                closedcanteen.length>0?(
-                                    closedcanteen.map(item=>
-                                        <div className="card rjt-card">
                                         <div className="card-top">
                                             <p>{item.name}</p>
                                             <MoreVertIcon className="icon" />
@@ -174,14 +155,40 @@ const UserCanteen = () => {
                                         <div className="card-mid">
                                             <img src="https://abskitchen.co.in/onlineorder/img/defLogo.png?1537453188" alt="" />
                                         </div>
-                                        <div className="status">Closed Currently</div>
+                                        <div className="status">Currently Open</div>
                                         <div className="desc">This canteen can provide to with food anyday, in specific hours - <b>{item.start}hrs to {item.end} hrs</b>.
-                                          <br />  Contact : <a> {item.phone}</a></div>
+                                            <br />  Contact : <a> {item.phone}</a></div>
                                     </div>
-                                        )
-                                ):(<div></div>)
+                                )
+                            ) : (<></>)
                             }
-                            </div>
+                            {
+                                closedcanteen.length > 0 ? (
+                                    closedcanteen.map(item =>
+                                        <div className="card rjt-card">
+                                            <div className="card-top">
+                                                <p>{item.name}</p>
+                                                <MoreVertIcon className="icon" />
+                                            </div>
+                                            <div className="card-mid">
+                                                <img src="https://abskitchen.co.in/onlineorder/img/defLogo.png?1537453188" alt="" />
+                                            </div>
+                                            <div className="status">Closed Currently</div>
+                                            <div className="desc">This canteen can provide to with food anyday, in specific hours - <b>{item.start}hrs to {item.end} hrs</b>.
+                                                <br />  Contact : <a> {item.phone}</a></div>
+                                        </div>
+                                    )
+                                ) : (<></>)
+                            }
+                            {
+                                closedcanteen.length + opencanteen.length == 0 ? (
+                                    <h3>You don't have any canteen!</h3>
+                                ):(
+                                    <></>
+                                )
+                            }
+
+
                             {/* code */}
                         </div>
                     </Right>

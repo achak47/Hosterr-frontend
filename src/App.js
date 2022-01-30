@@ -26,6 +26,7 @@ import PaymentGateway from './components/PaymentGateway'
 import PaymentSuccess from './components/PaymentSuccess'
 import GetProfile from './components/GetProfile'
 import GuesthousePaymentGateway from './components/Guesthousepayment' ;
+import ConnectBusiness from './components/hosteerbusiness'
 const App = () => {
   return (
     <div>
@@ -79,6 +80,7 @@ const App = () => {
           <Route path="/payment-gateway" element={<LandingPage/>} />
           <Route path="/payment-gateway/success" element={<LandingPage/>} />
           <Route path="/get-profile" element={<LandingPage/>} />
+          <Route path="/connect/business" element={<ConnectBusiness />} />
         </Routes>}
       {/* <LandingPage/> */}
       {/* <LandingPageAdmin/> */}

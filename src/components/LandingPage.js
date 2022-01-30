@@ -8,7 +8,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import EmailIcon from '@material-ui/icons/Email';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Fade from 'react-reveal/Fade';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -22,52 +22,62 @@ const LandingPage = () => {
     const [constFooter, setConstFooter] = useState(true);
     const [open, setOpen] = useState(false);
     const [signUp, setSignUp] = useState(true);
-    const[firstname,setFirstname] = useState("") ;
-    const[lastname,setLastname] = useState("") ;
-    const[email,setEmail] = useState("") ;
-    const[password,setPassword] = useState("") ;
-    const[phone,setPhone] = useState("") ;
-    const[univ,setUniv] = useState("JU") ;
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+    const [univ, setUniv] = useState("JU");
     const [showChat, setShowChat] = useState(false);
-    const onSignin = ()=>{
-        console.log(firstname,lastname,email,password,phone,univ) ;
-        axios.post("http://localhost:8000/register",{
-            "name": firstname + lastname ,
-            "email":email ,
-            "password":password ,
-            "phone":phone ,
-            "college":univ
-        }).then(res =>{
-            if(res.status == 200){
-                alert(res.data) ;
+    const [college,setColleges] = useState([]) ;
+    useEffect(() => {
+        axios.get("http://localhost:8000/getall/institutes").then(res => {
+            setColleges(res.data);
+            console.log(res.data)
+        })
+            .catch(err => console.log(err));
+    }, [])
+    const onSignin = () => {
+        console.log(firstname, lastname, email, password, phone, univ);
+        axios.post("http://localhost:8000/register", {
+            "name": firstname + lastname,
+            "email": email,
+            "password": password,
+            "phone": phone,
+            "college": univ
+        }).then(res => {
+            if (res.status == 200) {
+                alert(res.data);
                 setSignUp(false)
             }
         })
-        .catch((err) => alert(err));
+            .catch((err) => alert(err));
     }
-    const onlogin = ()=>{
-        axios.post("http://localhost:8000/login",{"email":email,"password":password}).then(res =>{
-          if(res.status == 200){
-            const {id, name, email, institute, iscomplete} = res.data ;
-            sessionStorage.setItem("id", id);
-            sessionStorage.setItem("name", name);
-            sessionStorage.setItem("email", email);
-            sessionStorage.setItem("institute", institute);
-            sessionStorage.setItem("iscomplete",iscomplete) ;
-            axios.post("http://localhost:8000/application/status/user",{
-                "email": sessionStorage.getItem("email") ,
-                "user": sessionStorage.getItem("id")
-            }).then(res=>{
-                sessionStorage.setItem("Application",res.data.status) ;
-                window.location.href = "/user/dashboard/home"  ;  
-            })
-          }
-        }).catch((err)=> alert(err))
+    const onlogin = () => {
+        axios.post("http://localhost:8000/login", { "email": email, "password": password }).then(res => {
+            if (res.status == 200) {
+                const { id, name, email, institute, iscomplete } = res.data;
+                sessionStorage.setItem("id", id);
+                sessionStorage.setItem("name", name);
+                sessionStorage.setItem("email", email);
+                sessionStorage.setItem("institute", institute);
+                sessionStorage.setItem("iscomplete", iscomplete);
+                axios.post("http://localhost:8000/application/status/user", {
+                    "email": sessionStorage.getItem("email"),
+                    "user": sessionStorage.getItem("id")
+                }).then(res => {
+                    sessionStorage.setItem("Application", res.data.status);
+                    window.location.href = "/user/dashboard/home";
+                })
+            }
+        }).catch((err) => alert(err))
     }
     return (
         <>
+
             {
                 open ? (
+
                     <CustomModal>
                         <div className="touch-outside" onClick={() => setOpen(false)}>
 
@@ -87,31 +97,35 @@ const LandingPage = () => {
                     <></>
                 )
             }
-             {
-                showChat ? (
-                    <ChatContainer>
-                        <div className="top">
-                            <div className="tgher">
-                                <img src={logo} alt="" />
-                                <h1>Hosterr</h1>
-                            </div>
-                            <ClearIcon className="icon" onClick={() => setShowChat(false)}/>
+            <BaapContainer>
+                {
+                    showChat ? (
+                        <div className="dark-bg-effect" onClick={() => setShowChat(false)}>
+                            <ChatContainer>
+                                <div className="top">
+                                    <div className="tgher">
+                                        <img src={logo} alt="" />
+                                        <h1>Hosterr</h1>
+                                    </div>
+                                    <ClearIcon className="icon" onClick={() => setShowChat(false)} />
+                                </div>
+                                <div className="powered-by">
+                                    Hosterr Services, powered by Dialogflow.
+                                </div>
+                                <iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/96b4e058-f359-41ce-b76c-d7e50eeb442b"></iframe>
+                            </ChatContainer>
                         </div>
-                        <div className="powered-by">
-                            Hosterr Services, powered by Dialogflow.
-                        </div>
-                        <iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/96b4e058-f359-41ce-b76c-d7e50eeb442b"></iframe>
-                    </ChatContainer>
-                ):(
-                    <ChatInitaiter onClick={() => setShowChat(true)}>
+                    ) : (
+                        <ChatInitaiter onClick={() => setShowChat(true)}>
                             <img src="https://www.jing.fm/clipimg/full/120-1205146_chat-icon-png-image-circle.png" alt="" />
-                    </ChatInitaiter>
-                )
-            }
+                        </ChatInitaiter>
+                    )
+                }
+            </BaapContainer>
             <Container>
 
                 <PageOne>
-                <PageOneHeader>
+                    <PageOneHeader>
                         <div className="one">
                             <a href="/" className="title">
                                 Hosterr
@@ -167,19 +181,27 @@ const LandingPage = () => {
                                     <Fade>
                                         <div className="container">
                                             <div className="input-type-2-container">
-                                                <input type="text" className="input input-type-2" placeholder="First Name" onChange={(e)=>setFirstname(e.target.value)} />
-                                                <input type="text" className="input input-type-2" placeholder="Last Name" onChange={(e)=>setLastname(e.target.value)}/>
+                                                <input type="text" className="input input-type-2" placeholder="First Name" onChange={(e) => setFirstname(e.target.value)} />
+                                                <input type="text" className="input input-type-2" placeholder="Last Name" onChange={(e) => setLastname(e.target.value)} />
                                             </div>
-                                            <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
-                                            <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
-                                            <input type="number" className="input" placeholder="Phone Number" onChange={(e)=>setPhone(e.target.value)} />
-                                            <div className="input dropdown-clone" onChange={(e)=>setUniv(e.target.value)} >
+                                            <input type="email" className="input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                            <input type="password" className="input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                                            <input type="number" className="input" placeholder="Phone Number" onChange={(e) => setPhone(e.target.value)} />
+                                            {/* <div className="input dropdown-clone" onChange={(e) => setUniv(e.target.value)} >
                                                 <>
                                                     Jadavpur University
                                                 </>
                                                 <ArrowDropDownIcon />
-                                            </div>
-
+                                            </div> */}
+                                            {college?(
+                                            <select onChange={(e)=>setUniv(e.target.value)}>
+                                                <option value="none" selected disabled hidden>Select your University</option>
+                                                {
+                                                college.map(item => <option value={item.name}>{item.name} </option>)
+                                                }
+                                            </select>)
+                                            :<select onChange={(e)=>setUniv(e.target.value)}></select>
+                                            }
                                             <p className="text not-mobile">
                                                 I also agree that Uber or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
                                             </p>
@@ -212,8 +234,8 @@ const LandingPage = () => {
 
                                     <Fade>
                                         <div className="container">
-                                            <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
-                                            <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
+                                            <input type="email" className="input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                            <input type="password" className="input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                                             <div className="input dropdown-clone">
                                                 <>
                                                     Jadavpur University
@@ -228,7 +250,7 @@ const LandingPage = () => {
                                             <p className="text mobile-only">
                                                 By proceeding, I agree to Uber's Terms of Use and acknowledge that I have read the Privacy Policy.
                                             </p>
-                                            <div className="login-opt mobile-only" style={{margin: "0px"}}>
+                                            <div className="login-opt mobile-only" style={{ margin: "0px" }}>
                                                 But incase you don't have an account?
                                                 <a onClick={() => setSignUp(true)} className="login-opt-link">Login</a>
                                             </div>
@@ -295,7 +317,7 @@ const LandingPage = () => {
                                             Create your object
                                         </div>
                                         <div className="rr_desc">
-                                        Provide and Upload Relevant University details to register yourself to our website. Now you are all set to login and manage everything about your Hostel with just a click!!
+                                            Provide and Upload Relevant University details to register yourself to our website. Now you are all set to login and manage everything about your Hostel with just a click!!
                                         </div>
                                         <div className="rr_remark">
                                             No calls, no mails and no annoying mass inspections.
@@ -319,7 +341,7 @@ const LandingPage = () => {
                                             Connection to administrator
                                         </div>
                                         <div className="rr_desc">
-                                        We dont't leave your hand just after you just Book you hostel, you can submit queries to be addressed by your Institute admin, you are provided essential places nearest to your hostel, a dedicated Chat Bot to your help and many such helping hands....
+                                            We dont't leave your hand just after you just Book you hostel, you can submit queries to be addressed by your Institute admin, you are provided essential places nearest to your hostel, a dedicated Chat Bot to your help and many such helping hands....
                                         </div>
                                         <div className="rr_remark">
                                             {/* No calls, no mails and no annoying mass inspections. */}
@@ -343,7 +365,7 @@ const LandingPage = () => {
                                             Hostel Allotment
                                         </div>
                                         <div className="rr_desc">
-                                        One stop to manage everything about your Hostel. You can Book your hostel, Change your current hostel, Book a Guest House, Check status of canteens in your institute and many more ...
+                                            One stop to manage everything about your Hostel. You can Book your hostel, Change your current hostel, Book a Guest House, Check status of canteens in your institute and many more ...
                                         </div>
                                         <div className="rr_remark">
                                             No more paperwork during the tour. All documents digitally and collected in one place.
@@ -384,8 +406,27 @@ const LandingPage = () => {
                             <img src="https://a0.muscache.com/im/pictures/11e10d64-867e-4dba-b0b4-896026a4f0e0.jpg?im_w=2560&im_q=highq" alt="" />
                         </div>
                     </div>
-
                 </PageThree>
+
+                <PageFour>
+                    <div className="pg3container">
+                        <div>
+                            <Fade bottom>
+                                <h1>Have a House for Rent?</h1>
+                            </Fade>
+                            <Fade bottom>
+                                <p>Hosterr provides you with a platform to connect your PGs with college hostels, and to take payments without any time waste!
+                                </p>
+                            </Fade>
+                            <Fade bottom>
+                                <a href="/connect/business">Explore Hosterr Business</a>
+                            </Fade>
+                        </div>
+                        <img src="https://media.istockphoto.com/photos/locator-mark-of-map-and-location-pin-or-navigation-icon-sign-on-blue-picture-id1304677392?b=1&k=20&m=1304677392&s=170667a&w=0&h=jmwbIQpYtweHd7or5cN44ysUV6fGYIeGH9m3Vn1A32w=" alt="" />
+                    </div>
+                </PageFour>
+                {/* code */}
+
 
                 <PageThreeFooter>
                     <div className="top">
@@ -473,6 +514,24 @@ const LandingPage = () => {
 
 export default LandingPage
 
+
+
+const BaapContainer = styled.div`
+    @media only screen and (max-width: 600px){
+        .dark-bg-effect{
+            height: 100vh;
+            width: 100vw;
+            background-color: #00000075;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
+        }
+    }
+`
+
 const Container = styled.div`
     min-height: 100vh;
     width: 100vw;
@@ -482,6 +541,8 @@ const Container = styled.div`
         display: flex;
         align-items: center;
     }
+
+    
 
     a{
         color: cornflowerblue;
@@ -710,6 +771,17 @@ const LoginForm = styled.div`
         font-size: 1.35rem;
         font-weight: 500;
         margin-bottom: 1rem;
+    }
+
+    select{
+        width: 100%;
+        display: block;
+        background-color: #eeeeee;
+        padding: 1rem;
+        font-size: 0.8rem;
+        border: none;
+        outline: none;
+        margin-bottom: 10px;
     }
 
     .input{
@@ -1212,7 +1284,7 @@ const PageThree = styled.div`
     width: 100vw;
     display: grid;
     place-items: center;
-    padding: 20px 0;
+    padding: 20px 0 0 0;
 
     .pg3container{
         height: 90%;
@@ -1268,7 +1340,7 @@ const PageThree = styled.div`
 
 
     @media only screen and (max-width: 600px){
-        /* min-height: 100vh; */
+        min-height: 100vh;
         /* width: 100vw; */
         /* display: grid; */
         /* place-items: center; */
@@ -1279,7 +1351,7 @@ const PageThree = styled.div`
             /* width: 90%; */
             /* border-radius: 20px; */
             /* background-color: #f7f7f7; */
-            /* display: flex; */
+            display: flex;
             flex-direction: column;
             /* overflow: hidden; */
             align-items: center;
@@ -1331,6 +1403,108 @@ const PageThree = styled.div`
 
 `
 
+const PageFour = styled.div`
+    height: 30vh;
+    min-height: 300px;
+    width: 100vw;
+    display: grid;
+    place-items: center;
+    padding: 20px 0;
+    margin-bottom: 10vh;
+
+    /* codes */
+
+    .pg3container{
+        height: 90%;
+        width: 90%;
+        border-radius: 20px;
+        background-color: #f7f7f7;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+
+        img{
+            border-radius: 20px;
+            margin: 10px;
+        }
+
+        
+        div{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* align-items: center; */
+            width: 100%;
+            padding: 0 20px;
+
+            h1{
+                font-size: 3rem;
+                color: #b36c6c;
+            }
+
+            p{
+                font-weight: 200;
+                max-width: 90%;
+                margin-bottom: 10px;
+                font-size: 0.9rem;
+                /* text-align: center; */
+            }
+        }
+
+        
+    }
+
+
+    @media only screen and (max-width: 600px){
+        min-height: 70vh;
+        /* width: 100vw; */
+        /* display: grid; */
+        /* place-items: center; */
+        /* padding: 20px 0; */
+
+        .pg3container{
+            height: 100%;
+            width: 90%;
+            border-radius: 20px;
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+
+            img{
+                border-radius: 20px;
+                margin: 10px;
+                flex: 1;
+                margin-top: 20px;
+            }
+
+            
+            div{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                /* align-items: center; */
+                width: 100%;
+                padding: 0 20px;
+
+                h1{
+                    font-size: 2rem;
+                    color: #b36c6c;
+                }
+
+                p{
+                    font-weight: 200;
+                    max-width: 90%;
+                    margin-bottom: 10px;
+                    font-size: 0.9rem;
+                    /* text-align: center; */
+                }
+            }
+            }
+    }
+
+`
 
 
 const PageThreeFooter = styled.div`
@@ -1647,6 +1821,18 @@ const ChatContainer = styled.div`
         padding: calc(15px - 0.35rem);
         color: grey;
     }
+
+
+    @media only screen and (max-width: 600px){
+        bottom: 20px;
+        right: 5%;
+        width: 90%;
+        background-color: white;
+        border: 1px solid #ddcccc;
+        border-radius: 20px;
+        z-index: 10;
+        overflow: hidden;
+    }
 `
 
 const ChatInitaiter = styled.div`
@@ -1667,6 +1853,10 @@ const ChatInitaiter = styled.div`
     img{
         height: 50%;
         cursor: pointer;
+    }
+
+    @media only screen and (max-width: 600px){
+        bottom: 25px;
     }
 `
 {/*

@@ -28,6 +28,8 @@ const DashBoard = () => {
     const [open, setOpen] = useState(false);
     const [sideBar, setSideBar] = useState(false);
     const [amount,setAmount] = useState([0,0]) ;
+    let date = new Date();
+    let day = date.getDate();
     useEffect(()=>{
       axios.post("http://localhost:8000/application/status/user",{
           "email": sessionStorage.getItem("email") ,
@@ -256,7 +258,7 @@ const DashBoard = () => {
                                             <MoreVertIcon className="icon" />
                                         </div>
                                         <div className="card-mid">
-                                            <h1>7</h1>
+                                            <h1>{31-day}</h1>
                                             <p>Left for this semester</p>
                                         </div>
                                         <div className="desc">
