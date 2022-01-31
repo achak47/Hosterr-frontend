@@ -31,12 +31,12 @@ const UserCanteen = () => {
     const [closedcanteen, setCanteenclose] = useState([])
     const user = sessionStorage;
     useEffect(() => {
-        axios.post("https://hosterr.herokuapp.com/canteens", {
+        axios.post("http://localhost:8000/canteens", {
             user
         }).then(res => {
             console.log(res.data);
-            setCanteenopen(res.data.canteens_open)
-            setCanteenclose(res.data.canteens_closed)
+            setCanteenopen(res.data.open)
+            setCanteenclose(res.data.closed)
         })
             .catch(err => console.log(err));
     }, [])
@@ -145,7 +145,7 @@ const UserCanteen = () => {
                             </div>
                         </div>
                         <div className="general">
-                            { opencanteen.length > 0 ? (
+                            { 
                                 opencanteen.map(item =>
                                     <div className="card">
                                         <div className="card-top">
@@ -160,10 +160,9 @@ const UserCanteen = () => {
                                             <br />  Contact : <a> {item.phone}</a></div>
                                     </div>
                                 )
-                            ) : (<></>)
                             }
+                            {console.log(closedcanteen,"Hi") }
                             {
-                                closedcanteen.length > 0 ? (
                                     closedcanteen.map(item =>
                                         <div className="card rjt-card">
                                             <div className="card-top">
@@ -178,11 +177,10 @@ const UserCanteen = () => {
                                                 <br />  Contact : <a> {item.phone}</a></div>
                                         </div>
                                     )
-                                ) : (<></>)
                             }
                             {
                                 closedcanteen.length + opencanteen.length == 0 ? (
-                                    <h3>You don't have any canteen!</h3>
+                                    <h3>You don't have any canteen in your institute!</h3>
                                 ):(
                                     <></>
                                 )
