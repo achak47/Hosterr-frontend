@@ -39,19 +39,23 @@ const LandingPage = () => {
     }, [])
     const onSignin = () => {
         console.log(firstname, lastname, email, password, phone, univ);
-        axios.post("http://localhost:8000/register", {
+        axios.post("https://hosterr.herokuapp.com/register", {
             "name": firstname + lastname,
             "email": email,
             "password": password,
             "phone": phone,
             "college": univ
         }).then(res => {
+            if(res.data == "User with same mail already exists !"){
+                alert(res.data) ;
+                return ;
+            }
             if (res.status == 200) {
                 alert(res.data);
                 setSignUp(false)
             }
         })
-            .catch((err) => alert(err));
+        .catch((err) => alert("Error in sending the mail"));
     }
     const onlogin = () => {
         axios.post("https://hosterr.herokuapp.com/login", { "email": email, "password": password }).then(res => {
@@ -70,7 +74,7 @@ const LandingPage = () => {
                     window.location.href = "/user/dashboard/home";
                 })
             }
-        }).catch((err) => alert(err))
+        }).catch((err) => alert("wrong password or invalid mail id"))
     }
     return (
         <>
@@ -203,7 +207,7 @@ const LandingPage = () => {
                                             :<select onChange={(e)=>setUniv(e.target.value)}></select>
                                             }
                                             <p className="text not-mobile">
-                                                I also agree that Uber or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
+                                                I also agree that Hosterr or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
                                             </p>
 
                                             <div className="login-opt mobile-only">
@@ -236,12 +240,7 @@ const LandingPage = () => {
                                         <div className="container">
                                             <input type="email" className="input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                                             <input type="password" className="input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                                            <div className="input dropdown-clone">
-                                                <>
-                                                    Jadavpur University
-                                                </>
-                                                <ArrowDropDownIcon />
-                                            </div>
+
 
                                             <p className="text not-mobile">
                                                 By proceeding, I agree to Uber's Terms of Use and acknowledge that I have read the Privacy Policy.

@@ -45,12 +45,15 @@ const LandingPageAdmin = () => {
         formData.append("file",file) ;
 
         axios.post("https://hosterr.herokuapp.com/admin/register", formData).then(res =>{
-            if(res.status == 200){
+        if(res.data == "Admin with same mail already exists !"){
+            alert(res.data) ;
+        } 
+        if(res.status == 200){
                 alert(res.data) ;
                 window.location.href = "/admin/dashboard/new-admin"  ;
             }
         })
-        .catch((err) => alert(err));
+        .catch((err) => alert("Invalid documents/credentials"));
         /*
         fetch('http://localhost:8000/admin/register', {
             method: 'post',
@@ -75,7 +78,7 @@ const LandingPageAdmin = () => {
             console.log(sessionStorage.getItem("id")) ;
             window.location.href = "/admin/dashboard/new-admin"  ;  
           }
-        }).catch((err)=> alert(err))
+        }).catch((err)=> alert("Wrong password or invalid email"))
     }
 
     const handleImage = (e) => {
@@ -228,13 +231,6 @@ const LandingPageAdmin = () => {
                                         <div className="container">
                                             <input type="email" className="input" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} />
                                             <input type="password" className="input" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
-                                            <div className="input dropdown-clone">
-                                                <>
-                                                    Jadavpur University
-                                                </>
-                                                <ArrowDropDownIcon />
-                                            </div>
-
                                             <p className="text not-mobile">
                                                 By proceeding, I agree to Hosterr's Terms of Use and acknowledge that I have read the Privacy Policy.
                                                 I also agree that Hosterr or its representatives may contact me by email, phone, or SMS (including by automated means) at the email address or number I provide, including for marketing purposes.
