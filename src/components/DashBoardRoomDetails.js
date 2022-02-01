@@ -56,6 +56,13 @@ const DashBoardRoomDetails = () => {
             setAddress(add) ;
         }).catch(err => console.log(err));
     }, [])
+    const onLeave = ()=>{
+        axios.post("https://hosterr.herokuapp.com/leave/hostel",{
+            user: user.id
+        }).then(res=>{
+            alert("Succesfully Left Hostel !!!") ;
+        }).catch(err => console.log(err)) ;
+    }
 
     return (
         <>
@@ -210,7 +217,7 @@ const DashBoardRoomDetails = () => {
                                             <p className="cat">10. Room Change: </p>
                                             <p className="res">{localStorage.getItem("roomchange")=='0'?(<>Applied</>):(<>Allowed</>)}</p>
                                         </div>
-                                        <button className="leave-room-btn">
+                                        <button className="leave-room-btn" onClick={onLeave}>
                                             Leave Room
                                         </button>
                                         <div className="room-images">

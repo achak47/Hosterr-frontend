@@ -32,6 +32,10 @@ const DashBoard = () => {
     let day = date.getDate();
     const [count, setCount] = useState(0);
     const [count1,setCount1] = useState(0);
+    const [mobile,setMobile] = useState("") ;
+    const [id,setID] = useState("");
+    const [otp,setOTP] = useState("");
+    const [data , setData] = useState("");
     useEffect(() => {
         axios.post("https://hosterr.herokuapp.com/application/status/user", {
             "email": sessionStorage.getItem("email"),
@@ -74,6 +78,39 @@ const DashBoard = () => {
             sessionStorage.setItem("amount", res.data[0]);
         }).catch(err => console.log(err.message))
     }, [])
+    const onmobile = ()=>{
+        if(count == 0){
+            console.log(mobile) ;
+            axios.post("https://hosterr.herokuapp.com/mobile",{
+                mobile
+            }).then(res => {
+               setData(res.data) ;
+            })
+        }
+        if(count == 1){
+            console.log(otp) ;
+            axios.post("https://hosterr.herokuapp.com/otp",{
+                otp,
+                data
+            }).then(res => {
+               setData(res.data) ;
+            })
+        }
+    }
+    const onVerification = ()=>{
+       console.log(id) ;
+       axios.post("http://localhost:8000/beneficiary",{
+                id,
+                data
+            }).then(res => {
+               if(res.status == 200)
+               {
+                alert("Good ! Looks like you are vaccinated , now you are allowed to book your hostel")
+                sessionStorage.setItem("vaccinated",true) ;
+                setCount1(count1+1) ;
+               }
+            })
+    }
     return (
         <>
             {
@@ -188,9 +225,9 @@ const DashBoard = () => {
                             </div>
                         </div>
                         {
-                            sessionStorage.getItem("Application") == "Not Applied" ? (
+                            sessionStorage.getItem("Application") == "Not Applied"  ? (
                                 <div className="general2">
-                                    {count1==1?(
+                                    {count1==1||sessionStorage.getItem("vaccinated")?(
                                          <div className="grand-card">
                                              <div className="card-top">
                                                  <p>Apply for Hostel</p>
@@ -228,29 +265,30 @@ const DashBoard = () => {
                                             count == 0 ? (
                                                 <div className="local-together">
                                                     <p className="local-p">Cowin Registered Mobile Number </p>
-                                                    <input type="text" className="local-input" placeholder="" />
+                                                    <input type="text" className="local-input" placeholder="" onChange={(e)=>setMobile(e.target.value)}/>
                                                 </div>
                                             ):(
                                                 count == 1 ? (
                                                     <div className="local-together">
                                                         <p className="local-p">One Time Password OTP </p>
-                                                        <input type="text" className="local-input" placeholder="" />
+                                                        <input type="text" className="local-input" placeholder=""  onChange={(e)=>setOTP(e.target.value)}/>
                                                     </div>
                                                 ):( 
                                                     <div className="local-together">
                                                         <p className="local-p">Your Beneficiary ID </p>
-                                                        <input type="text" className="local-input" placeholder="" />
+                                                        <input type="text" className="local-input" placeholder=""  onChange={(e)=>setID(e.target.value)} />
                                                     </div>
                                                 )
                                             )
                                         }
                                         {
                                             count<2 ? (
-                                                    <button className="local-btn" onClick={() => setCount(count+1)}>
+                                                    <button className="local-btn" onClick={() =>{ onmobile() ;
+                                                                                                  setCount(count+1);}}>
                                                         Continue
                                                     </button>
                                                 ):(
-                                                    <button className="local-btn local-submit"  onClick={() => setCount1(count1+1)} >
+                                                    <button className="local-btn local-submit"  onClick={() =>onVerification() } >
                                                         Submit
                                                     </button>
                                                 )
